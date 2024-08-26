@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Input from "../common/Input";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -40,46 +41,35 @@ const Register: React.FC = () => {
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="fullName" className="label">
                   Full Name
                 </label>
-                <input
+                <Input
                   type="text"
                   id="fullName"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   placeholder="Enter your full name"
                 />
               </div>
 
               <div className="flex space-x-4">
                 <div className="flex-1">
-                  <label
-                    htmlFor="dateOfBirth"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
+                  <label htmlFor="dateOfBirth" className="label">
                     Date of Birth
                   </label>
-                  <input
+                  <Input
                     type="date"
                     id="dateOfBirth"
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
                     onChange={handleChange}
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   />
                 </div>
 
                 <div className=" flex-1">
-                  <label
-                    htmlFor="gender"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
+                  <label htmlFor="gender" className="label">
                     Gender
                   </label>
                   <div className="flex justify-between mt-2">
@@ -112,91 +102,71 @@ const Register: React.FC = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="phoneNumber" className="label">
                   Phone Number
                 </label>
-                <input
+                <Input
                   type="text"
                   id="phoneNumber"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   placeholder="Enter your phone number"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="email" className="label">
                   Email
                 </label>
-                <input
+                <Input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   placeholder="Enter your email"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="password" className="label">
                   Password
                 </label>
-                <input
+                <Input
                   type="password"
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   placeholder="Enter your password"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="confirmPassword" className="label">
                   Confirm Password
                 </label>
-                <input
+                <Input
                   type="password"
                   id="confirmPassword"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   placeholder="Confirm your password"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="passportNumber"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="passportNumber" className="label">
                   Passport Number
                 </label>
-                <input
+                <Input
                   type="text"
                   id="passportNumber"
                   name="passportNumber"
                   value={formData.passportNumber}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500"
                   placeholder="Enter your passport number"
                 />
               </div>
