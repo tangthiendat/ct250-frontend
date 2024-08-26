@@ -10,3 +10,9 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
 }
+
+@layer components {
+  .label {
+    @apply block text-sm font-medium leading-6 text-gray-900;
+  }
+}
