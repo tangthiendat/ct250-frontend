@@ -4,7 +4,7 @@
 
 @layer components {
   .label {
-    @apply block text-sm font-medium leading-6 text-gray-900 mb-0.5;
+    @apply mb-0.5 block text-sm font-medium leading-6 text-gray-900;
   }
 
   * {
@@ -14,7 +14,7 @@
   }
 
   .text {
-    @apply xl:text-xl lg:text-lg md:text-base;
+    @apply md:text-base lg:text-lg xl:text-xl;
   }
 
   html {
