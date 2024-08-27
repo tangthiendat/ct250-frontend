@@ -1,5 +1,4 @@
 import MenuDrop from "./MenuDrop";
-import NavItems from "./NavItems";
 import { Dispatch, SetStateAction } from "react";
 
 interface LanguageMenuProps {

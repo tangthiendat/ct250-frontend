@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { IoClose, IoMenu } from "react-icons/io5";
 import NavItems from "./NavItems";
 import { ComponentPropsWithRef } from "react";
 import { Language } from "./LanguageMenu";

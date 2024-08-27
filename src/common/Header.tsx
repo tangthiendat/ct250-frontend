@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { IoMenu } from "react-icons/io5";
 import NavItems from "./NavItems";
 import Menu from "./Menu";
 import LanguageMenu from "./LanguageMenu";
-import MenuDrop from "./MenuDrop";
 
 const Header: React.FC = () => {
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
