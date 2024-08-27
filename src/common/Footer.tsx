@@ -10,30 +10,14 @@ const Footer: React.FC = () => {
         <div className="text-sm text-gray-600">
           Payment methods
           <div className="flex items-center space-x-4">
-            <img
-              src="../../public/paypal_logo.png"
-              alt="Paypal"
-              className="h-8"
-            />
-            <img
-              src="../../public/vnpayQR_logo.png"
-              alt="VNPay"
-              className="h-8"
-            />
+            <img src="paypal_logo.png" alt="Paypal" className="h-8" />
+            <img src="vnpayQR_logo.png" alt="VNPay" className="h-8" />
           </div>
         </div>
 
         <div className="flex items-center space-x-4">
-          <img
-            src="../../public/dmca_logo.png"
-            alt="DMCA Protected"
-            className="h-8"
-          />
-          <img
-            src="../../public/bocongthuong_logo.png"
-            alt="Bộ Công Thương"
-            className="h-12"
-          />
+          <img src="dmca_logo.png" alt="DMCA Protected" className="h-8" />
+          <img src="bocongthuong_logo.png" alt="Bộ Công Thương" className="h-12" />
         </div>
       </footer>
     </div>
