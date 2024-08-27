@@ -18,7 +18,7 @@ const Input: React.FC<InputProps> = ({ label, name, ...otherProps }) => {
       )}
       <input
         id={name}
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight hover:border-blue-300 focus:outline-none focus:shadow-gray-500 placeholder:text-sm"
+        className="w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow placeholder:text-sm hover:border-blue-300 focus:shadow-gray-500 focus:outline-none"
         {...otherProps}
         {...register(name)}
       />
