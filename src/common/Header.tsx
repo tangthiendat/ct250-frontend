@@ -18,7 +18,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="bg-white shadow-md">
+    <header className="rounded-3xl bg-white shadow-xl">
       <div className="m-3 flex justify-between">
         <img
           src="/logo512.png"
@@ -49,7 +49,7 @@ const Header: React.FC = () => {
             {isLoggedin ? "Đăng xuất" : "Đăng nhập"}
           </NavItems>
         </div>
-        <div className="my-auto flex min-[900px]:hidden">
+        <div className="my-auto flex min-[901px]:hidden">
           <LanguageMenu
             isLanguageMenuOpen={isLanguageMenuOpen}
             setIsLanguageMenuOpen={setIsLanguageMenuOpen}
