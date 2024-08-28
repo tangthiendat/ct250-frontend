@@ -5,9 +5,11 @@ import { Language } from "./LanguageMenu";
 
 interface NavbarMenuProps extends ComponentPropsWithRef<"nav"> {
   el?: "navbar";
-  items: { id: string; title: string; href: string }[]; // Change the type of 'id' property to string
+  items: { id: number; title: string; href: string }[];
   isNavBarMenuOpen: boolean;
   setIsNavBarMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedin: boolean;
+  setIsLoggedin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface LanguageMenuProps extends ComponentPropsWithRef<"nav"> {
@@ -61,45 +63,45 @@ const itemVariants = {
 const MenuDrop: React.FC<NavbarMenuProps | LanguageMenuProps> = (props) => {
   if (isMenuNavbarProps(props)) {
     return (
-      <motion.nav
-        animate={props.isNavBarMenuOpen ? "open" : "closed"}
-        className="absolute left-0 right-0 top-0 bg-white shadow-md"
-      >
+      <motion.div animate={props.isNavBarMenuOpen ? "open" : "closed"}>
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
-          className="flex flex-col items-center space-y-2 p-4"
+          style={{ originY: "top", translateX: "-50%" }}
+          className="absolute right-[-280%] top-[185%] z-10 flex flex-col rounded-xl bg-white shadow-2xl"
         >
           {props.items.map((item) => (
-            <motion.li key={item.id} variants={itemVariants}>
-              <NavItems href={item.href} el="a">
+            <motion.li
+              variants={itemVariants}
+              key={item.id}
+              onClick={() => props.setIsNavBarMenuOpen(false)}
+              className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md p-2 text-base text-slate-700 transition-colors hover:bg-blue-100 hover:text-blue-500"
+            >
+              <NavItems href={item.href} el="a" className="">
                 {item.title}
               </NavItems>
             </motion.li>
           ))}
+          <motion.li
+            variants={itemVariants}
+            onClick={() => props.setIsNavBarMenuOpen(false)}
+            className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md p-2 text-base text-slate-700 transition-colors hover:bg-blue-100 hover:text-blue-500"
+          >
+            <NavItems
+              el="button"
+              onClick={() => props.setIsLoggedin(!props.isLoggedin)}
+              className="text mx-auto w-[80%] rounded-lg bg-black py-1 text-white hover:bg-blue-500 hover:text-white"
+            >
+              {props.isLoggedin ? "Đăng xuất" : "Đăng nhập"}
+            </NavItems>
+          </motion.li>
         </motion.ul>
-      </motion.nav>
+      </motion.div>
     );
   }
 
   return (
-    // <motion.nav
-    //   animate={props.isLanguageMenuOpen ? "open" : "closed"}
-    //   className="right-100 top-100 absolute bg-white shadow-md"
-    // >
-    //   <motion.ul
-    //     variants={wrapperVariants}
-    //     className="flex flex-col items-center space-y-2 p-4"
-    //   >
-    //     <motion.li variants={itemVariants}>
-    //       <Language language={props.language} />
-    //     </motion.li>
-    //   </motion.ul>
-    // </motion.nav>
-    <motion.div
-      animate={props.isLanguageMenuOpen ? "open" : "closed"}
-      // className=""
-    >
+    <motion.div animate={props.isLanguageMenuOpen ? "open" : "closed"}>
       <motion.ul
         initial={wrapperVariants.closed}
         variants={wrapperVariants}
