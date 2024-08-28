@@ -14,11 +14,6 @@ const LanguageMenu: React.FC<LanguageMenuProps> = ({
   currentLanguage: currentLanguage,
   setCurrentLanguage: setCurrentLanguage,
 }) => {
-  // const handleLanguageChange = (language: string) => {
-  //   setLanguage(language);
-  //   setIsLanguageMenuOpen(false);
-  // };
-
   return (
     <div className="relative flex">
       <button
@@ -38,32 +33,6 @@ const LanguageMenu: React.FC<LanguageMenuProps> = ({
         currentLanguage={currentLanguage}
         setCurrentLanguage={setCurrentLanguage}
       />
-
-      {/* {isLanguageMenuOpen && (
-        <div className="absolute right-0 mt-2 w-32 rounded border border-gray-200 bg-white shadow-lg">
-          <div className="flex items-center pl-1">
-            <img src="/vietnam_flag.png" alt="Vietnam" className="h-4" />
-            <NavItems
-              el="button"
-              className="block w-full py-2 pl-2 text-left text-gray-700 hover:bg-gray-100"
-              onClick={() => handleLanguageChange("Vie")}
-            >
-              Viet Nam
-            </NavItems>
-          </div>
-
-          <div className="flex items-center pl-1">
-            <img src="/uk_flag.png" alt="English" className="h-4" />
-            <NavItems
-              el="button"
-              className="block w-full py-2 pl-2 text-left text-gray-700 hover:bg-gray-100"
-              onClick={() => handleLanguageChange("Eng")}
-            >
-              English
-            </NavItems>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
