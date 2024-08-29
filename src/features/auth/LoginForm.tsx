@@ -3,7 +3,10 @@ import { IAuthRequest } from "../../interfaces";
 import Input from "../../common/Input";
 
 const LoginForm: React.FC = () => {
-  const methods = useForm<IAuthRequest>();
+  const methods = useForm<IAuthRequest>({
+    mode: "onChange",
+  });
+  const { formState } = methods;
 
   function onLogin(data: IAuthRequest): void {
     console.log(data);
@@ -18,6 +21,9 @@ const LoginForm: React.FC = () => {
             name="email"
             label="Email"
             placeholder="Nhập email của bạn"
+            validation={{
+              required: "Email không được để trống",
+            }}
           />
         </div>
 
@@ -27,13 +33,17 @@ const LoginForm: React.FC = () => {
             name="password"
             label="Mật khẩu"
             placeholder="Nhập mật khẩu của bạn"
+            validation={{
+              required: "Mật khẩu không được để trống",
+            }}
           />
         </div>
 
         <div>
           <button
             type="submit"
-            className="focus:shadow-outline w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
+            className={`focus:shadow-outline mt-2 w-full rounded py-2 font-bold text-white focus:outline-none ${!formState.isValid ? "bg-blue-300" : "bg-blue-700 hover:bg-blue-900"}`}
+            disabled={!formState.isValid}
           >
             Đăng nhập
           </button>
@@ -41,7 +51,7 @@ const LoginForm: React.FC = () => {
         <div className="text-center text-xs">
           <a
             href="#"
-            className="text-sm font-semibold text-black hover:text-blue-900"
+            className="text-sm font-semibold text-blue-700 hover:text-blue-900"
           >
             Quên mật khẩu?
           </a>
@@ -50,7 +60,7 @@ const LoginForm: React.FC = () => {
           <span className="text-sm text-gray-900">Chưa có tài khoản? </span>
           <a
             href="../register"
-            className="text-sm font-semibold text-black hover:text-blue-900"
+            className="text-sm font-semibold text-blue-700 hover:text-blue-900"
           >
             Đăng ký ngay
           </a>
