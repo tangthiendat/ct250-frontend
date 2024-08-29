@@ -31,14 +31,14 @@ const wrapperVariants = {
     scaleY: 1,
     transition: {
       when: "beforeChildren",
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,
     },
   },
   closed: {
     scaleY: 0,
     transition: {
       when: "afterChildren",
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,
     },
   },
 };
@@ -46,14 +46,14 @@ const wrapperVariants = {
 const itemVariants = {
   open: {
     opacity: 1,
-    y: 0,
+    x: 0,
     transition: {
       when: "beforeChildren",
     },
   },
   closed: {
     opacity: 0,
-    y: -15,
+    x: 50,
     transition: {
       when: "afterChildren",
     },
@@ -106,7 +106,7 @@ const MenuDrop: React.FC<NavbarMenuProps | LanguageMenuProps> = (props) => {
         initial={wrapperVariants.closed}
         variants={wrapperVariants}
         style={{ originY: "top", translateX: "-50%" }}
-        className="absolute right-[-100%] top-[150%] flex flex-col rounded-xl bg-white drop-shadow"
+        className="absolute left-[20%] top-[185%] flex flex-col rounded-xl bg-white drop-shadow min-[900px]:top-[220%] min-[1024px]:top-[238%] min-[1280px]:top-[266%]"
       >
         <motion.li
           variants={itemVariants}
