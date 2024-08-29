@@ -49,19 +49,6 @@ const RegisterForm: React.FC = () => {
               <Radio name="gender" options={genderOptions} />
             </div>
           </div>
-
-          {/* <div className="flex-1">
-            <label htmlFor="country" className="label">
-              Quốc gia
-            </label>
-            <select name="country" className="select">
-              <option value="vietnam">Việt Nam</option>
-              <option value="japan">Nhật Bản</option>
-              <option value="korea">Hàn Quốc</option>
-              <option value="usa">Mỹ</option>
-              <option value="other">Khác</option>
-            </select>
-          </div> */}
         </div>
 
         <div className="max-lg:space-y-6 lg:flex lg:gap-10">
@@ -87,18 +74,6 @@ const RegisterForm: React.FC = () => {
               <option value="usa">Mỹ</option>
               <option value="other">Khác</option>
             </select>
-            {/* <div>
-          <label htmlFor="country" className="label">
-            Quốc gia
-          </label>
-          <select name="country" className="select">
-            <option value="vietnam">Việt Nam</option>
-            <option value="japan">Nhật Bản</option>
-            <option value="korea">Hàn Quốc</option>
-            <option value="usa">Mỹ</option>
-            <option value="other">Khác</option>
-          </select>
-        </div> */}
           </div>
         </div>
 
