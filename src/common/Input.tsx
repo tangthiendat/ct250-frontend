@@ -12,13 +12,13 @@ const Input: React.FC<InputProps> = ({ label, name, ...otherProps }) => {
   return (
     <>
       {label && (
-        <label htmlFor={name} className="label">
+        <label htmlFor={name} className="text label">
           {label}
         </label>
       )}
       <input
         id={name}
-        className="w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow placeholder:text-sm hover:border-blue-300 focus:shadow-gray-500 focus:outline-none"
+        className="text w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow placeholder:text-sm hover:border-blue-300 focus:shadow-gray-500 focus:outline-none"
         {...otherProps}
         {...register(name)}
       />
