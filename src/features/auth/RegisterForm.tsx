@@ -2,13 +2,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { IUser } from "../../interfaces";
 import Input from "../../common/Input";
 import Radio from "../../common/Radio";
+import Select from "../../common/Select";
 
 const RegisterForm: React.FC = () => {
-  const methods = useForm<IUser>();
-  const genderOptions = [
-    { value: "male", label: "Nam" },
-    { value: "female", label: "Nữ" },
-  ];
+  const methods = useForm<IUser>({
+    mode: "onChange",
+  });
+  // const { formState } = methods;
 
   function onSubmit(data: IUser): void {
     console.log(data);
@@ -24,6 +24,19 @@ const RegisterForm: React.FC = () => {
               name="lastName"
               label="Họ"
               placeholder="Họ, ví dụ PHAM"
+              style={{ textTransform: "uppercase" }}
+              validation={{
+                required: "Vui lòng nhập họ",
+                pattern: {
+                  value:
+                    /^[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđA-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÍÌỈĨỊÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ\s]+$/,
+                  message: "Họ không chứa ký tự đặc biệt",
+                },
+                maxLength: {
+                  value: 30,
+                  message: 'Chú ý nhập "Họ" đúng với thông tin trên CCCD',
+                },
+              }}
             />
           </div>
           <div className="flex-1">
@@ -32,22 +45,42 @@ const RegisterForm: React.FC = () => {
               name="firstName"
               label="Tên đệm & tên"
               placeholder="Tên đệm & tên, ví dụ VAN A"
+              style={{ textTransform: "uppercase" }}
+              validation={{
+                required: "Vui lòng nhập tên",
+                pattern: {
+                  value:
+                    /^[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđA-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÍÌỈĨỊÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ\s]+$/,
+                  message: "Tên không chứa ký tự đặc biệt",
+                },
+                maxLength: {
+                  value: 30,
+                  message:
+                    'Chú ý nhập "Tên đệm & tên " đúng với thông tin trên CCCD',
+                },
+              }}
             />
           </div>
         </div>
 
         <div className="flex gap-10">
           <div className="flex-1">
-            <Input type="date" name="dob" label="Ngày sinh" />
+            <Input
+              type="date"
+              name="dob"
+              label="Ngày sinh"
+              validation={{
+                required: "Vui lòng nhập ngày sinh",
+                max: {
+                  value: new Date().toISOString().split("T")[0],
+                  message: "Ngày sinh không hợp lệ",
+                },
+              }}
+            />
           </div>
 
           <div className="flex-1">
-            <label htmlFor="gender" className="label">
-              Giới tính
-            </label>
-            <div className="mt-3 flex gap-4">
-              <Radio name="gender" options={genderOptions} />
-            </div>
+            <Radio name="gender" />
           </div>
         </div>
 
@@ -58,55 +91,78 @@ const RegisterForm: React.FC = () => {
               name="phoneNumber"
               label="Số điện thoại"
               placeholder="Số điện thoại"
+              validation={{
+                required: "Vui lòng nhập số điện thoại",
+                pattern: {
+                  value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+                  message: "Số điện thoại không hợp lệ",
+                },
+              }}
             />
           </div>
           <div className="flex-1">
-            <label htmlFor="country" className="label">
-              Quốc gia
-            </label>
-            <select
-              name="country"
-              className="w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow placeholder:text-sm hover:border-blue-300 focus:shadow-gray-500 focus:outline-none"
-            >
-              <option value="vietnam">Việt Nam</option>
-              <option value="japan">Nhật Bản</option>
-              <option value="korea">Hàn Quốc</option>
-              <option value="usa">Mỹ</option>
-              <option value="other">Khác</option>
-            </select>
+            <Select name="country" label="Quốc gia" />
           </div>
         </div>
 
         <div>
-          <label htmlFor="passportNumber" className="label">
-            Hộ chiếu/CCCD
-          </label>
           <Input
             type="text"
             name="passportNumber"
+            label="Hộ chiếu/CCCD"
             placeholder="Hộ chiếu/CCCD"
+            validation={{
+              required: "Vui lòng nhập số hộ chiếu/CCCD",
+              pattern: {
+                value: /^[0-9]{9,12}$/,
+                message: "Số hộ chiếu/CCCD không hợp lệ",
+              },
+            }}
           />
         </div>
 
-        <div className="flex-auto">
-          <Input type="email" name="email" label="Email" placeholder="Email" />
+        <div>
+          <Input
+            type="email"
+            name="email"
+            label="Email"
+            placeholder="Email"
+            validation={{
+              required: "Vui lòng nhập email",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Email không hợp lệ",
+              },
+            }}
+          />
         </div>
 
         <div className="max-lg:space-y-6 lg:flex lg:gap-10">
           <div className="flex-1">
             <Input
-              type="password"
               name="password"
               label="Mật khẩu"
               placeholder="Mật khẩu"
+              validation={{
+                required: "Vui lòng nhập mật khẩu",
+                minLength: {
+                  value: 6,
+                  message: "Mật khẩu phải chứa ít nhất 6 ký tự",
+                },
+              }}
             />
           </div>
           <div className="flex-1">
             <Input
-              type="password"
               name="confirmPassword"
-              label="Nhập lại mật khẩu"
-              placeholder="Nhập lại mật khẩu"
+              label="Xác nhận mật khẩu"
+              placeholder="Xác nhận mật khẩu"
+              validation={{
+                required: "Vui lòng xác nhận mật khẩu",
+                validate: (value: string) =>
+                  value === methods.getValues("password") ||
+                  "Mật khẩu không trùng khớp",
+              }}
             />
           </div>
         </div>
@@ -114,10 +170,24 @@ const RegisterForm: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
+            // className={`focus:shadow-outline mt-2 w-full rounded py-2 font-bold text-white focus:outline-none ${!formState.isValid ? "bg-blue-300" : "bg-blue-700 hover:bg-blue-900"}`}
+            // disabled={!formState.isValid}
           >
             Đăng ký
           </button>
+        </div>
+
+        <div className="text-center text-xs">
+          <span className="text-sm text-gray-900">
+            Bạn đã có tài khoản? Quay lại{" "}
+          </span>
+          <a
+            href="../login"
+            className="text-sm font-semibold text-blue-700 hover:text-blue-900"
+          >
+            đăng nhập
+          </a>
         </div>
       </form>
     </FormProvider>
