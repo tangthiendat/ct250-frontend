@@ -29,7 +29,6 @@ const LoginForm: React.FC = () => {
 
         <div>
           <Input
-            type="password"
             name="password"
             label="Mật khẩu"
             placeholder="Nhập mật khẩu của bạn"
