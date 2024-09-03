@@ -4,6 +4,19 @@ import Input from "../../common/Input";
 import Radio from "../../common/Radio";
 import Select from "../../common/Select";
 
+const countryOptions = [
+  { value: "vietnam", label: "Việt Nam" },
+  { value: "japan", label: "Nhật Bản" },
+  { value: "korea", label: "Hàn Quốc" },
+  { value: "usa", label: "Mỹ" },
+  { value: "other", label: "Khác" },
+];
+
+const genderOptions = [
+  { value: "male", label: "Nam" },
+  { value: "female", label: "Nữ" },
+];
+
 const RegisterForm: React.FC = () => {
   const methods = useForm<IUser>({
     mode: "onChange",
@@ -80,7 +93,7 @@ const RegisterForm: React.FC = () => {
           </div>
 
           <div className="flex-1">
-            <Radio name="gender" />
+            <Radio options={genderOptions} name="gender" />
           </div>
         </div>
 
@@ -101,7 +114,7 @@ const RegisterForm: React.FC = () => {
             />
           </div>
           <div className="flex-1">
-            <Select name="country" label="Quốc gia" />
+            <Select options={countryOptions} name="country" label="Quốc gia" />
           </div>
         </div>
 

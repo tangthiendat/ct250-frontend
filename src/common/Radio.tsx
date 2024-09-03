@@ -3,17 +3,14 @@ import { useFormContext } from "react-hook-form";
 
 interface RadioProps extends ComponentPropsWithoutRef<"input"> {
   name: string;
+  options: { value: string; label: string }[];
 }
 
-const Radio: React.FC<RadioProps> = ({ name, ...otherProps }) => {
+const Radio: React.FC<RadioProps> = ({ name, options, ...otherProps }) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const genderOptions = [
-    { value: "male", label: "Nam" },
-    { value: "female", label: "Nữ" },
-  ];
 
   return (
     <>
@@ -21,7 +18,7 @@ const Radio: React.FC<RadioProps> = ({ name, ...otherProps }) => {
         Giới tính
       </label>
       <div className="mt-3 flex justify-between gap-1 lg:justify-between lg:px-4">
-        {genderOptions.map((option) => (
+        {options.map((option) => (
           <label key={option.value} className="inline-flex items-center">
             <input
               type="radio"

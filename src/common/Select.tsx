@@ -4,18 +4,16 @@ import { useFormContext } from "react-hook-form";
 interface SelectProps extends ComponentPropsWithoutRef<"select"> {
   name: string;
   label?: string;
+  options: { value: string; label: string }[];
 }
 
-const Select: React.FC<SelectProps> = ({ name, label, ...otherProps }) => {
+const Select: React.FC<SelectProps> = ({
+  name,
+  label,
+  options,
+  ...otherProps
+}) => {
   const { register } = useFormContext();
-
-  const options = [
-    { value: "vietnam", label: "Việt Nam" },
-    { value: "japan", label: "Nhật Bản" },
-    { value: "korea", label: "Hàn Quốc" },
-    { value: "usa", label: "Mỹ" },
-    { value: "other", label: "Khác" },
-  ];
 
   return (
     <>
