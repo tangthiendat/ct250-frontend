@@ -43,10 +43,6 @@ const Input: React.FC<InputProps> = ({
           {...register(name, validation)}
         />
 
-        {errors[name] && (
-          <IoWarning className="absolute left-[-18px] text-red-500" />
-        )}
-
         {(name === "password" || name === "confirmPassword") && (
           <div
             className="absolute right-2 cursor-pointer text-gray-500"
@@ -59,7 +55,10 @@ const Input: React.FC<InputProps> = ({
 
       {errors[name] && (
         <p className="pt-1 text-sm text-red-500">
-          {String(errors[name].message)}
+          <div className="inline-flex items-center">
+            <IoWarning className="text-red-500" />
+            {String(errors[name].message)}
+          </div>
         </p>
       )}
     </>

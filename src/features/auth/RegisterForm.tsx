@@ -93,7 +93,14 @@ const RegisterForm: React.FC = () => {
           </div>
 
           <div className="flex-1">
-            <Radio options={genderOptions} name="gender" />
+            <Radio
+              label="Giới tính"
+              options={genderOptions}
+              name="gender"
+              validation={{
+                required: "Vui lòng chọn giới tính",
+              }}
+            />
           </div>
         </div>
 
