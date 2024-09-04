@@ -3,10 +3,16 @@ import { useFormContext } from "react-hook-form";
 
 interface RadioProps extends ComponentPropsWithoutRef<"input"> {
   name: string;
+  label?: string;
   options: { value: string; label: string }[];
 }
 
-const Radio: React.FC<RadioProps> = ({ name, options, ...otherProps }) => {
+const Radio: React.FC<RadioProps> = ({
+  name,
+  label,
+  options,
+  ...otherProps
+}) => {
   const {
     register,
     formState: { errors },
@@ -14,9 +20,12 @@ const Radio: React.FC<RadioProps> = ({ name, options, ...otherProps }) => {
 
   return (
     <>
-      <label htmlFor={name} className="text label">
-        Giới tính
-      </label>
+      {label && (
+        <label htmlFor={name} className="text label">
+          {label}
+        </label>
+      )}
+
       <div className="mt-3 flex justify-between gap-1 lg:justify-between lg:px-4">
         {options.map((option) => (
           <label key={option.value} className="inline-flex items-center">
