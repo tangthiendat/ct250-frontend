@@ -92,7 +92,9 @@ const MenuDrop: React.FC<NavbarMenuProps | LanguageMenuProps> = (props) => {
               onClick={() => props.setIsLoggedin(!props.isLoggedin)}
               className="text mx-auto w-[80%] rounded-lg bg-black py-1 text-white hover:bg-blue-500 hover:text-white"
             >
-              {props.isLoggedin ? "Đăng xuất" : "Đăng nhập"}
+              <a href="../login">
+                {props.isLoggedin ? "Đăng xuất" : "Đăng nhập"}
+              </a>
             </NavItems>
           </motion.li>
         </motion.ul>
