@@ -4,7 +4,7 @@ import Header from "../common/Header";
 
 const AuthLayout: React.FC = () => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col min-h-screen">
       <Header />
       <div className="flex-grow">
         <Outlet />

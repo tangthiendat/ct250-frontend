@@ -20,13 +20,11 @@ const Header: React.FC = () => {
   return (
     <header className="rounded-3xl bg-white shadow-xl">
       <div className="m-3 flex justify-between">
-        <a href="../">
-          <img
-            src="/logo512.png"
-            alt="DaViKa Airways"
-            className="h-14 md:h-14 lg:h-20 xl:h-24"
-          />
-        </a>
+        <img
+          src="/logo512.png"
+          alt="DaViKa Airways"
+          className="h-14 md:h-14 lg:h-20 xl:h-24"
+        />
         <div className="flex items-center space-x-4 text-sm text-gray-700 max-[900px]:hidden">
           <nav className="flex space-x-3">
             {navitems.map((item) => (
