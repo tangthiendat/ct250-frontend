@@ -106,7 +106,7 @@ const MenuDrop: React.FC<NavbarMenuProps | LanguageMenuProps> = (props) => {
         initial={wrapperVariants.closed}
         variants={wrapperVariants}
         style={{ originY: "top", translateX: "-50%" }}
-        className="absolute left-[20%] top-[185%] flex flex-col rounded-xl bg-white drop-shadow min-[900px]:top-[220%] min-[1024px]:top-[238%] min-[1280px]:top-[266%]"
+        className="absolute left-[20%] top-[185%] z-10 flex flex-col rounded-xl bg-white drop-shadow min-[900px]:top-[220%] min-[1024px]:top-[238%] min-[1280px]:top-[266%]"
       >
         <motion.li
           variants={itemVariants}
