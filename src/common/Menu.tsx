@@ -1,46 +1,52 @@
-import { motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
-import { IoClose, IoMenu } from "react-icons/io5";
-import MenuDrop from "./MenuDrop";
+import React from "react";
+import type { MenuProps } from "antd";
+import { Dropdown, Space } from "antd";
+import { IoMenu } from "react-icons/io5";
 
-type MenuProps = {
-  navitems: { id: number; title: string; href: string }[];
-  isMenuOpen: boolean;
-  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
-  isLoggedin: boolean;
-  setIsLoggedin: Dispatch<SetStateAction<boolean>>;
-};
+const items: MenuProps["items"] = [
+  {
+    label: <a href="#0">Khám phá</a>,
+    key: "0",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: <a href="#1">Chuyến bay của tôi</a>,
+    key: "1",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: <a href="#2">Dịch vụ bổ sung</a>,
+    key: "2",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: <a href="#3">Góp ý</a>,
+    key: "3",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: <a href="#4">Hỗ trợ</a>,
+    key: "4",
+  },
+];
 
-const Menu: React.FC<MenuProps> = ({
-  navitems,
-  isMenuOpen,
-  setIsMenuOpen,
-  isLoggedin,
-  setIsLoggedin,
-}) => {
+const Menu: React.FC = () => {
   return (
-    <motion.div animate={isMenuOpen ? "open" : "closed"} className="relative">
-      {!isMenuOpen ? (
-        <IoMenu
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-3xl text-gray-700"
-        />
-      ) : (
-        <IoClose
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-3xl text-gray-700"
-        />
-      )}
-
-      <MenuDrop
-        el="navbar"
-        items={navitems}
-        isNavBarMenuOpen={isMenuOpen}
-        setIsNavBarMenuOpen={setIsMenuOpen}
-        isLoggedin={isLoggedin}
-        setIsLoggedin={setIsLoggedin}
-      />
-    </motion.div>
+    <Dropdown menu={{ items }} trigger={["click"]}>
+      <a onClick={(e) => e.preventDefault()}>
+        <Space>
+          <IoMenu className="m-2 size-8" />
+        </Space>
+      </a>
+    </Dropdown>
   );
 };
 

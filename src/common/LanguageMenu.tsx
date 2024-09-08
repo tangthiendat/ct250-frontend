@@ -1,66 +1,42 @@
-import MenuDrop from "./MenuDrop";
-import { Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
+import type { MenuProps } from "antd";
+import { Dropdown, Space } from "antd";
+import Language from "./Language";
 
-interface LanguageMenuProps {
-  isLanguageMenuOpen: boolean;
-  setIsLanguageMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  currentLanguage: string;
-  setCurrentLanguage: React.Dispatch<React.SetStateAction<string>>;
-}
+const items: MenuProps["items"] = [
+  {
+    label: <Language language="Viet Nam" />,
+    key: "vi-language",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: <Language language="English" />,
+    key: "en-language",
+  },
+];
 
-const LanguageMenu: React.FC<LanguageMenuProps> = ({
-  isLanguageMenuOpen,
-  setIsLanguageMenuOpen,
-  currentLanguage: currentLanguage,
-  setCurrentLanguage: setCurrentLanguage,
-}) => {
+const LanguageMenu: React.FC = () => {
+  const [currentLanguage, setCurrentLanguage] = useState("Viet Nam");
+
+  const handleMenuClick: MenuProps["onClick"] = (e) => {
+    if (e.key === "0") {
+      setCurrentLanguage("Viet Nam");
+    } else if (e.key === "1") {
+      setCurrentLanguage("English");
+    }
+  };
+
   return (
-    <div className="relative flex">
-      <button
-        onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-        className="focus:outline-none"
-      >
-        <Language
-          language={currentLanguage}
-          setCurrentLanguage={setCurrentLanguage}
-        />
-      </button>
-
-      <MenuDrop
-        el="language"
-        isLanguageMenuOpen={isLanguageMenuOpen}
-        setIsLanguageMenuOpen={setIsLanguageMenuOpen}
-        currentLanguage={currentLanguage}
-        setCurrentLanguage={setCurrentLanguage}
-      />
-    </div>
+    <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={["click"]}>
+      <a onClick={(e) => e.preventDefault()}>
+        <Space>
+          <Language language={currentLanguage} />
+        </Space>
+      </a>
+    </Dropdown>
   );
 };
-
-interface LanguageProps {
-  language: string;
-  setCurrentLanguage: Dispatch<SetStateAction<string>>;
-}
-
-const Language: React.FC<LanguageProps> = ({
-  language,
-  setCurrentLanguage,
-}) => {
-  return (
-    <div
-      className="flex w-full items-center space-x-1"
-      onClick={() => setCurrentLanguage(language)}
-    >
-      <img
-        src={`/${language === "Viet Nam" ? "vietnam_flag.png" : "uk_flag.png"}`}
-        alt="Language"
-        className="h-5"
-      />
-      <span className="text text-gray-700 hover:text-blue-500">{language}</span>
-    </div>
-  );
-};
-
-export { Language, LanguageMenu };
 
 export default LanguageMenu;
