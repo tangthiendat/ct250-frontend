@@ -21,9 +21,9 @@ const LanguageMenu: React.FC = () => {
   const [currentLanguage, setCurrentLanguage] = useState("Viet Nam");
 
   const handleMenuClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "0") {
+    if (e.key === "vi-language") {
       setCurrentLanguage("Viet Nam");
-    } else if (e.key === "1") {
+    } else if (e.key === "en-language") {
       setCurrentLanguage("English");
     }
   };
