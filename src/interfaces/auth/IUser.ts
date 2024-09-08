@@ -1,7 +1,7 @@
 export interface IUser {
   firstName: string;
   lastName: string;
-  dob: Date;
+  dob: string;
   gender: string;
   country: string;
   email: string;
