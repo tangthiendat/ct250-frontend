@@ -26,10 +26,12 @@ const Header: React.FC = () => {
             theme={{
               token: {
                 fontSize: 18,
+                // colorText: "red",
               },
             }}
           >
             <Anchor
+              // className="text-red-500"
               offsetTop={-200}
               direction="horizontal"
               items={[
