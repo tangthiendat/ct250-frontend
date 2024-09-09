@@ -1,6 +1,7 @@
 import { Form, Input } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { useState } from "react";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 const LoginForm: React.FC = () => {
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
@@ -38,7 +39,7 @@ const LoginForm: React.FC = () => {
           },
         ]}
       >
-        <Input placeholder="Email" />
+        <Input prefix={<UserOutlined />} placeholder="Email" />
       </Form.Item>
 
       <Form.Item
@@ -51,7 +52,7 @@ const LoginForm: React.FC = () => {
           },
         ]}
       >
-        <Input.Password placeholder="Mật khẩu" />
+        <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" />
       </Form.Item>
 
       <Form.Item>
