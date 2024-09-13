@@ -4,6 +4,11 @@ import { useState } from "react";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 const LoginForm: React.FC = () => {
+  type FormValues = {
+    email: string;
+    password: string;
+  };
+
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
@@ -12,7 +17,7 @@ const LoginForm: React.FC = () => {
     setComponentSize(size);
   };
 
-  function onSubmit(data: any): void {
+  function onSubmit(data: FormValues) {
     console.log(data);
   }
 

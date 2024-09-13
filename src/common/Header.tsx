@@ -5,13 +5,10 @@ import AccountMenu from "./AccountMenu";
 import Menu from "./Menu";
 
 const Header: React.FC = () => {
-  // const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  // const [language, setLanguage] = useState("Viet Nam");
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   return (
-    <header className="rounded-3xl bg-white shadow-xl">
+    <header className="z-10 rounded-3xl bg-white shadow-xl">
       <div className="m-3 flex items-center justify-between">
         <a href="../">
           <img
@@ -26,12 +23,10 @@ const Header: React.FC = () => {
             theme={{
               token: {
                 fontSize: 18,
-                // colorText: "red",
               },
             }}
           >
             <Anchor
-              // className="text-red-500"
               offsetTop={-200}
               direction="horizontal"
               items={[
