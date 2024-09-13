@@ -1,5 +1,6 @@
-import { AutoComplete, Input } from "antd";
+import { AutoComplete, Form, Input } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
+// import { Form } from "react-router-dom";
 import removeAccents from "remove-accents";
 
 interface SearchAirPortProps {
@@ -94,40 +95,62 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
 
   return (
     <div className="flex flex-1 gap-2">
-      <AutoComplete
+      <Form.Item
         className="flex-1"
-        options={filteredDepartureOptions}
-        filterOption={(inputValue, option) =>
-          removeAccents(option!.label.toString().toUpperCase()).indexOf(
-            removeAccents(inputValue.toUpperCase()),
-          ) !== -1
-        }
-        onChange={handleDepartureChange}
+        name="departureAirport"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn điểm đi",
+          },
+        ]}
       >
-        <Input
-          className="h-10"
-          prefix={<MdFlightTakeoff />}
-          placeholder="Địa điểm đi"
-        />
-      </AutoComplete>
-
-      {typeTrip === "round-trip" && (
         <AutoComplete
-          className="flex-1"
-          options={filteredDestinationOptions}
+          size="large"
+          options={filteredDepartureOptions}
           filterOption={(inputValue, option) =>
             removeAccents(option!.label.toString().toUpperCase()).indexOf(
               removeAccents(inputValue.toUpperCase()),
             ) !== -1
           }
-          onChange={handleDestinationChange}
+          onChange={handleDepartureChange}
         >
           <Input
             className="h-10"
-            prefix={<MdFlightLand />}
-            placeholder="Địa điểm đến"
+            prefix={<MdFlightTakeoff />}
+            placeholder="Địa điểm đi"
           />
         </AutoComplete>
+      </Form.Item>
+
+      {typeTrip === "round-trip" && (
+        <Form.Item
+          className="flex-1"
+          name="destinationAirport"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn điểm đến",
+            },
+          ]}
+        >
+          <AutoComplete
+            size="large"
+            options={filteredDestinationOptions}
+            filterOption={(inputValue, option) =>
+              removeAccents(option!.label.toString().toUpperCase()).indexOf(
+                removeAccents(inputValue.toUpperCase()),
+              ) !== -1
+            }
+            onChange={handleDestinationChange}
+          >
+            <Input
+              className="h-10"
+              prefix={<MdFlightLand />}
+              placeholder="Địa điểm đến"
+            />
+          </AutoComplete>
+        </Form.Item>
       )}
     </div>
   );

@@ -8,16 +8,18 @@ import {
 } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import { Dayjs } from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { RiCoupon3Line } from "react-icons/ri";
 import { TbArrowNarrowRight, TbArrowsRightLeft } from "react-icons/tb";
-import PassengerSelector from "./PassengerSelector"; // Import the new component
+import { ISearchFlights } from "../../interfaces/booking/ISearchFlights";
+import PassengerSelector from "./PassengerSelector";
 import SearchAirPort from "./SearchAirPort";
-import { ISearchFlights } from "../../layouts/booking/ISearchFlights";
 
 const { RangePicker } = DatePicker;
 
 const typeTripOptions = [
   {
+    key: "round-trip",
     label: (
       <div className="flex items-center gap-2">
         <TbArrowsRightLeft /> Khứ hồi
@@ -26,6 +28,7 @@ const typeTripOptions = [
     value: "round-trip",
   },
   {
+    key: "one-way",
     label: (
       <div className="flex items-center gap-2">
         <TbArrowNarrowRight /> Một chiều
@@ -38,6 +41,7 @@ const typeTripOptions = [
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const SearchFlightsForm: React.FC = () => {
+  const [form] = Form.useForm();
   const [typeTrip, setTypeTrip] = useState("round-trip");
   const [departAirport, setDepartAirport] = useState("");
   const [destAirport, setDestAirport] = useState("");
@@ -47,16 +51,20 @@ const SearchFlightsForm: React.FC = () => {
     null,
     null,
   ]);
-
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
   const [infant, setInfant] = useState(0);
-
   const [couponCode, setCouponCode] = useState("");
 
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
+
+  useEffect(() => {
+    form.setFieldsValue({
+      passengers: { adult, children, infant },
+    });
+  }, [adult, children, infant, form]);
 
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
@@ -84,27 +92,29 @@ const SearchFlightsForm: React.FC = () => {
   };
 
   const handleSearch = () => {
-    console.log("Loại chuyến bay:", typeTrip);
-    console.log("Sân bay đi:", departAirport);
-    console.log("Sân bay đến:", destAirport);
-    console.log("Ngày đi:", departDate?.format("DD/MM/YYYY"));
-    console.log("Ngày về:", returnDate?.format("DD/MM/YYYY"));
-    console.log("Hành khách bao gồm:", {
-      nguoiLon: adult,
-      treEm: children,
-      emBe: infant,
-    });
-    console.log("Mã giảm giá:", couponCode);
+    console.log("------------------------------------");
+    // console.log("Loại chuyến bay:", typeTrip);
+    // console.log("Sân bay đi:", departAirport);
+    // console.log("Sân bay đến:", destAirport);
+    // console.log("Ngày đi:", departDate?.format("DD/MM/YYYY"));
+    // console.log("Ngày về:", returnDate?.format("DD/MM/YYYY"));
+    // console.log("Hành khách bao gồm:", {
+    //   nguoiLon: adult,
+    //   treEm: children,
+    //   emBe: infant,
+    // });
+    // console.log("Mã giảm giá:", couponCode);
   };
 
   return (
     <Form
+      form={form}
       onFinish={onSubmit}
       initialValues={{ size: componentSize }}
       onValuesChange={onFormLayoutChange}
       size={componentSize as SizeType}
     >
-      <div className="rounded-bl-md rounded-br-md p-2 shadow-md">
+      <Form.Item name="typeTrip" initialValue={typeTrip}>
         <ConfigProvider
           theme={{
             components: {
@@ -123,49 +133,71 @@ const SearchFlightsForm: React.FC = () => {
             }}
           />
         </ConfigProvider>
+      </Form.Item>
 
-        <div className="justify-centr flex flex-col gap-2 pt-3">
-          <div className="flex gap-2">
+      <div className="justify-centr flex flex-col gap-2">
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <SearchAirPort
+              typeTrip={typeTrip}
+              departure={departAirport}
+              setDeparture={setDepartAirport}
+              destination={destAirport}
+              setDestination={setDestAirport}
+            />
+          </div>
+
+          {typeTrip === "one-way" && (
             <div className="flex-1">
-              <SearchAirPort
-                typeTrip={typeTrip}
-                departure={departAirport}
-                setDeparture={setDepartAirport}
-                destination={destAirport}
-                setDestination={setDestAirport}
-              />
-            </div>
-
-            {typeTrip === "one-way" && (
-              <div className="flex-1">
+              <Form.Item
+                name="departureDate"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng chọn ngày đi",
+                  },
+                ]}
+              >
                 <DatePicker
                   className="w-full"
                   size="large"
                   format={"DD/MM/YYYY"}
                   placeholder="Chọn ngày đi"
                   disabledDate={(date) => dateValidation(date.toDate())}
-                  onChange={(date) => {
-                    setDepartDate(date);
-                    setReturnDate(null);
-                  }}
+                  onChange={(date) => setDepartDate(date)}
                 />
-              </div>
-            )}
-          </div>
+              </Form.Item>
+            </div>
+          )}
+        </div>
 
-          {typeTrip === "round-trip" && (
+        {typeTrip === "round-trip" && (
+          <Form.Item
+            name="dates"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng chọn ngày đi và ngày về",
+              },
+            ]}
+          >
             <RangePicker
-              className="mt-2"
+              className="w-full"
               size="large"
               format={"DD/MM/YYYY"}
               placeholder={["Chọn ngày đi", "Chọn ngày về"]}
               disabledDate={(date) => dateValidation(date.toDate())}
               onChange={onDateChange}
             />
-          )}
+          </Form.Item>
+        )}
 
-          <div className="flex gap-2">
-            <div className="flex-1">
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <Form.Item
+              name="passengers"
+              initialValue={{ adult, children, infant }}
+            >
               <PassengerSelector
                 adult={adult}
                 setAdult={setAdult}
@@ -174,21 +206,28 @@ const SearchFlightsForm: React.FC = () => {
                 infant={infant}
                 setInfant={setInfant}
               />
-            </div>
+            </Form.Item>
+          </div>
 
-            <div className="flex-1">
+          <div className="flex-1">
+            <Form.Item name="couponCode">
               <Input
                 className="w-full"
                 size="large"
                 placeholder="Nhập mã giảm giá"
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
+                prefix={<RiCoupon3Line />}
               />
-            </div>
+            </Form.Item>
           </div>
         </div>
-        <div className="mt-3 flex justify-center">
+      </div>
+
+      <div className="flex justify-center">
+        <Form.Item>
           <Button
+            htmlType="submit"
             type="primary"
             size="large"
             className="w-40"
@@ -196,7 +235,7 @@ const SearchFlightsForm: React.FC = () => {
           >
             Tìm chuyến bay
           </Button>
-        </div>
+        </Form.Item>
       </div>
     </Form>
   );

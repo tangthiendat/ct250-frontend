@@ -1,10 +1,9 @@
-import { ISearchFlights } from "../../interfaces";
-import { Button, ConfigProvider, Space } from "antd";
-import { MdFlight, MdFlightTakeoff } from "react-icons/md";
-import { BiSolidPurchaseTag } from "react-icons/bi";
+import React from "react";
+import { Button, ConfigProvider } from "antd";
 import { createStyles } from "antd-style";
-import Tabs from "../../common/Tabs";
 import { useState } from "react";
+import { BiSolidPurchaseTag } from "react-icons/bi";
+import { MdFlight, MdFlightTakeoff } from "react-icons/md";
 import SearchFlightsForm from "./SearchFlightsForm";
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
@@ -61,36 +60,51 @@ const SearchPanel: React.FC = () => {
   const { styles } = useStyle();
 
   return (
-    <>
-      <div className="relative top-[-64px] flex justify-center max-[768px]:hidden md:px-4">
-        <Tabs
-          tabItemActive={formActive}
-          setTabItemActive={setFormActive}
-          tabItems={btnItems}
-        >
-          {formActive === "booking" && <SearchFlightsForm />}
-          {formActive === "checkin" && <div></div>}
-          {formActive === "my-tickets" && <div></div>}
-        </Tabs>
+    <div>
+      <div className="relative top-[-60px] flex justify-center max-[768px]:hidden md:px-4">
+        <div className="md:w-[70%]">
+          <div className="flex justify-center">
+            {btnItems.map((item) => (
+              <div className="flex-1" key={item.key}>
+                <div
+                  className={`${item.key === formActive ? "bg-blue-700 text-white" : "bg-blue-600/60"} flex cursor-pointer items-center justify-center gap-2 p-4 text-lg uppercase text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
+                  onClick={() => setFormActive(item.key)}
+                >
+                  {item.icon}
+                  {item.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="bg-re-700 m-1 flex justify-between rounded-sm p-3 shadow min-[768px]:hidden">
+      <div className="m-1 flex justify-between rounded-sm p-3 shadow min-[768px]:hidden">
         <ConfigProvider>
-          {/* <Space> */}
           {btnItems.map((item) => (
             <Button
               key={item.key}
               type="primary"
               className={`${styles.linearGradientButton} h-12 w-[30%]`}
               icon={item.icon}
+              onClick={() => {
+                setFormActive(item.key);
+              }}
             >
               {item.children}
             </Button>
           ))}
-          {/* </Space> */}
         </ConfigProvider>
       </div>
-    </>
+
+      <div className="relative md:top-[-60px] md:flex md:justify-center md:px-4">
+        <div className="rounded-bl-md rounded-br-md p-2 shadow-md md:w-[70%]">
+          {formActive === "booking" && <SearchFlightsForm />}
+          {formActive === "checkin" && <div></div>}
+          {formActive === "my-tickets" && <div></div>}
+        </div>
+      </div>
+    </div>
   );
 };
 
