@@ -1,10 +1,12 @@
 export interface ISearchFlights {
-  originAirport: string;
+  typeTrip: string;
+  departureAirport: string;
   destinationAirport: string;
   departureDate: string;
   returnDate: string;
   adultCount: number;
   childrenCount: number;
   infantCount: number;
-  cabinClass: string;
+  couponCode: string;
+  // cabinClass: string;
 }
