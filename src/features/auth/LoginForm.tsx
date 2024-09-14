@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { useState } from "react";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -60,18 +60,25 @@ const LoginForm: React.FC = () => {
         <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" />
       </Form.Item>
 
-      <Form.Item>
+      {/* <Form.Item>
         <button
           type="submit"
           className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
         >
           Đăng nhập
         </button>
-      </Form.Item>
+      </Form.Item> */}
 
-      {/* <div className="text-center text-xs"></div> */}
+      <Button
+        type="primary"
+        htmlType="submit"
+        size="large"
+        // className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
+      >
+        Đăng nhập
+      </Button>
 
-      <div className="flex flex-col gap-5 text-center text-xs">
+      <div className="mt-4 flex flex-col gap-5 text-center text-xs">
         <a
           href="#"
           className="text-sm font-semibold text-blue-700 hover:text-blue-900"
