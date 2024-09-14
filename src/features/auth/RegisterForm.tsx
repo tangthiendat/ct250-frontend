@@ -1,5 +1,5 @@
 import { IUser } from "../../interfaces";
-import { Form, Input, Radio, Select, DatePicker } from "antd";
+import { Form, Input, Radio, Select, DatePicker, Divider, Button } from "antd";
 import { useState } from "react";
 
 const countryOptions = [
@@ -28,6 +28,10 @@ const RegisterForm: React.FC = () => {
 
   function onSubmit(data: IUser): void {
     console.log(data);
+  }
+
+  function onLoginWithGoogle(): void {
+    console.log("Login with Google");
   }
 
   return (
@@ -231,15 +235,24 @@ const RegisterForm: React.FC = () => {
         <Input.Password placeholder="Xác nhận mật khẩu" />
       </Form.Item>
 
-      <Form.Item>
-        <button
-          type="submit"
-          className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
-        >
-          Đăng ký
-        </button>
-      </Form.Item>
-      <div className="text-center text-xs">
+      <Button type="primary" size="large" htmlType="submit">
+        Đăng ký
+      </Button>
+
+      <Divider plain>Hoặc</Divider>
+
+      <Button
+        type="default"
+        size="large"
+        icon={
+          <img src="/google_logo.png" alt="Google logo" className="h-6 w-6" />
+        }
+        onClick={onLoginWithGoogle}
+      >
+        Đăng ký với Google
+      </Button>
+
+      <div className="mt-4 text-center text-xs">
         <span className="text-sm text-gray-900">
           Bạn đã có tài khoản? Quay lại{" "}
         </span>
