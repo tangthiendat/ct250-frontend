@@ -1,66 +1,120 @@
-import React, { useState } from "react";
+import { Anchor, ConfigProvider, Dropdown, Menu, Tooltip } from "antd";
+import React from "react";
+import AccountMenu from "./AccountMenu";
+import LanguageMenu from "./LanguageMenu";
 
 const Header: React.FC = () => {
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const menuItems = [
+    {
+      key: "0",
+      title: "Khám phá",
+      href: "#0",
+      submenu: [
+        { key: "0-1", title: "Submenu 1", href: "#0-1" },
+        { key: "0-2", title: "Submenu 2", href: "#0-2" },
+      ],
+    },
+    {
+      key: "1",
+      title: "Chuyến bay của tôi",
+      href: "#1",
+      submenu: [
+        { key: "1-1", title: "Submenu 1", href: "#1-1" },
+        { key: "1-2", title: "Submenu 2", href: "#1-2" },
+      ],
+    },
+    {
+      key: "2",
+      title: "Dịch vụ bổ sung",
+      href: "#2",
+      submenu: [
+        { key: "2-1", title: "Submenu 1", href: "#2-1" },
+        { key: "2-2", title: "Submenu 2", href: "#2-2" },
+      ],
+    },
+    {
+      key: "3",
+      title: "Góp ý",
+      href: "#3",
+      submenu: [
+        { key: "3-1", title: "Submenu 1", href: "#3-1" },
+        { key: "3-2", title: "Submenu 2", href: "#3-2" },
+      ],
+    },
+    {
+      key: "4",
+      title: "Hỗ trợ",
+      href: "#4",
+      submenu: [
+        { key: "4-1", title: "Submenu 1", href: "#4-1" },
+        { key: "4-2", title: "Submenu 2", href: "#4-2" },
+      ],
+    },
+  ];
 
   return (
-    // <header className="z-10 rounded-3xl bg-white shadow-xl">
-    //   <div className="m-3 flex items-center justify-between">
-    //     <a href="../">
-    //       <img
-    //         src="/logo512.png"
-    //         alt="DaViKa Airways"
-    //         className="h-14 md:h-14 lg:h-20 xl:h-24"
-    //       />
-    //     </a>
+    <header className="z-10 bg-white shadow-md">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
+        {/* Logo */}
+        <a href="../" className="flex items-center">
+          <img
+            src="/logo512.png"
+            alt="DaViKa Airways"
+            className="xl:h-18 h-12 w-auto transition-transform duration-300 ease-in-out hover:scale-110 md:h-14 lg:h-16"
+          />
+        </a>
 
-    //     <div className="text space-x-4 max-[840px]:hidden">
-    //       <ConfigProvider
-    //         theme={{
-    //           token: {
-    //             fontSize: 18,
-    //           },
-    //         }}
-    //       >
-    //         <Anchor
-    //           offsetTop={-200}
-    //           direction="horizontal"
-    //           items={[
-    //             { key: "0", title: "Khám phá", href: "#0" },
-    //             { key: "1", title: "Chuyến bay của tôi", href: "#1" },
-    //             { key: "2", title: "Dịch vụ bổ sung", href: "#2" },
-    //             { key: "3", title: "Góp ý", href: "#3" },
-    //             { key: "4", title: "Hỗ trợ", href: "#4" },
-    //           ]}
-    //         />
-    //       </ConfigProvider>
-    //     </div>
+        {/* Menu Navigation */}
+        <div className="hidden space-x-6 md:flex">
+          <ConfigProvider
+            theme={{
+              token: {
+                fontSize: 16,
+              },
+            }}
+          >
+            <Anchor
+              offsetTop={-200}
+              direction="horizontal"
+              items={menuItems.map((item) => ({
+                key: item.key,
+                title: (
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        {item.submenu.map((subItem) => (
+                          <Menu.Item key={subItem.key}>
+                            <a href={subItem.href}>{subItem.title}</a>
+                          </Menu.Item>
+                        ))}
+                      </Menu>
+                    }
+                    trigger={["hover"]}
+                  >
+                    <Tooltip title={item.title}>
+                      <a
+                        href={item.href}
+                        className="transition-colors duration-200 hover:text-blue-600"
+                      >
+                        {item.title}
+                      </a>
+                    </Tooltip>
+                  </Dropdown>
+                ),
+                href: item.href,
+              }))}
+              className="flex items-center space-x-4"
+            />
+          </ConfigProvider>
+        </div>
 
-    //     <div className="flex items-center">
-    //       <LanguageMenu />
-    //       <AccountMenu />
-    //       <div className="min-[841px]:hidden">
-    //         <Menu />
-    //       </div>
-    //     </div>
-    //   </div>
-    // </header>
-    <header className="relative clear-both" style={{ textAlign: "left" }}>
-      <div className="clear-both overflow-visible">
-        <div className="relative clear-both m-auto max-w-[1000px] rounded-[4px]">
-          <nav className="relative top-[0] z-0 float-left mb-0 h-[80px] rounded-none bg-[#fff] p-0">
-            <div className="md:float-left">
-              <div className="md: md:relative md:max-w-[325px]">
-                <div className="md:float-left md:block md:h-auto md:max-w-[88%] md:overflow-hidden md:border-[1px] md:border-[solid] md:border-[transparent] md:px-[0] md:py-[5px]">
-                  <img
-                    src="/logo512.png"
-                    alt="DaViKa Airways"
-                    className="h-14 md:h-14 lg:h-20 xl:h-24"
-                  />
-                </div>
-              </div>
-            </div>
-          </nav>
+        {/* Right Side Menus */}
+        <div className="flex items-center space-x-4">
+          <LanguageMenu />
+          <AccountMenu />
+          <div className="md:hidden">
+            <Menu />
+          </div>
         </div>
       </div>
     </header>

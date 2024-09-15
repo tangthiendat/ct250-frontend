@@ -1,5 +1,5 @@
-import React from "react";
 import { Carousel } from "antd";
+import React from "react";
 import SearchPanel from "../features/searching/SearchPanel";
 
 const Home: React.FC = () => {

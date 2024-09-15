@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import { Drawer } from "antd";
+import React, { useEffect, useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 
 const items = [
@@ -30,17 +30,26 @@ const Menu: React.FC = () => {
   return (
     <>
       <IoMenuOutline
-        color="blue"
-        className="m-2 size-8"
+        className="m-2 cursor-pointer text-3xl text-blue-600 transition-transform duration-300 ease-in-out hover:scale-110"
         onClick={() => setOpen(true)}
       />
-      <Drawer title="Menu" onClose={() => setOpen(false)} open={open}>
-        <div>
+      <Drawer
+        title="Menu"
+        onClose={() => setOpen(false)}
+        open={open}
+        className="custom-drawer"
+        bodyStyle={{ padding: "0" }}
+        headerStyle={{
+          backgroundColor: "#f0f0f0",
+          borderBottom: "1px solid #e0e0e0",
+        }}
+      >
+        <div className="flex flex-col space-y-2 p-5">
           {items.map((item) => (
             <a
               key={item.key}
               href={item.href}
-              className="my-2 block rounded-lg px-5 py-3 text-xl hover:bg-gray-200"
+              className="block w-full rounded-lg bg-gray-100 px-4 py-3 text-center text-lg font-medium text-gray-700 shadow-sm transition-colors duration-200 hover:bg-blue-500 hover:text-white"
             >
               {item.title}
             </a>
