@@ -1,33 +1,48 @@
-import { Carousel } from "antd";
+import { Carousel, Divider } from "antd";
 import React from "react";
 import SearchPanel from "../features/searching/SearchPanel";
 
+const bannerImages = [
+  {
+    src: "/pages/home/banner-1.jpg",
+    alt: "banner-1",
+  },
+  {
+    src: "/pages/home/banner-2.jpg",
+    alt: "banner-2",
+  },
+  {
+    src: "/pages/home/banner-3.jpg",
+    alt: "banner-3",
+  },
+  {
+    src: "/pages/home/banner-4.jpg",
+    alt: "banner-4",
+  },
+];
+
+const destinationsImages = [];
+
 const Home: React.FC = () => {
   return (
-    <div className="relative flex min-h-full flex-col justify-center">
+    <div className="relative top-6 flex min-h-full flex-col justify-center">
       <div className="max-md:hiden">
         <Carousel
           autoplay
-          dots={false}
-          effect="fade"
-          autoplaySpeed={5000}
-          slickGoTo={1}
+          effect="scrollx"
+          arrows={true}
+          autoplaySpeed={3000}
+          pauseOnHover={false}
         >
-          <div>
-            <img
-              src="/pages/home/landscape_background_1.jpg"
-              alt="landscape_background_1"
-              className="w-full rounded-sm object-cover"
-            />
-          </div>
-
-          <div>
-            <img
-              src="/pages/home/booking_illustration_background.jpg"
-              alt="landscape_background_2"
-              className="w-full rounded-sm object-cover"
-            />
-          </div>
+          {bannerImages.map((banner) => (
+            <div key={banner.alt} className="">
+              <img
+                src={banner.src}
+                alt={banner.alt}
+                className="mx-auto w-[98%] rounded-xl sm:w-[80%]"
+              />
+            </div>
+          ))}
         </Carousel>
       </div>
 

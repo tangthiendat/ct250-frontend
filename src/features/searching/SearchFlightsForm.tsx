@@ -113,6 +113,7 @@ const SearchFlightsForm: React.FC = () => {
       initialValues={{ size: componentSize }}
       onValuesChange={onFormLayoutChange}
       size={componentSize as SizeType}
+      className="p-2"
     >
       <Form.Item name="typeTrip" initialValue={typeTrip}>
         <ConfigProvider

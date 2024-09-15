@@ -56,19 +56,31 @@ const btnItems = [
 ];
 
 const SearchPanel: React.FC = () => {
-  const [formActive, setFormActive] = useState("booking");
+  const [formActive, setFormActive] = useState("");
   const { styles } = useStyle();
 
   return (
-    <div>
-      <div className="relative top-[-60px] flex justify-center max-[768px]:hidden md:px-4">
+    <>
+      <div
+        className={`${
+          formActive === "" ? "py-6" : "md:top-[-200px] xl:top-[-300px]"
+        } relative flex justify-center max-[768px]:hidden md:px-4`}
+      >
         <div className="md:w-[70%]">
-          <div className="flex justify-center">
+          <div
+            className={`${formActive === "" && "gap-12"} flex justify-center`}
+          >
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>
                 <div
-                  className={`${item.key === formActive ? "bg-blue-700 text-white" : "bg-blue-600/60"} flex cursor-pointer items-center justify-center gap-2 p-4 text-lg uppercase text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
-                  onClick={() => setFormActive(item.key)}
+                  className={`${item.key === formActive ? "bg-blue-700 text-white" : "bg-blue-600/60"} ${formActive === "" ? "rounded-3xl bg-blue-700 p-2 text-white" : "p-4"} flex cursor-pointer items-center justify-center gap-2 text-base uppercase text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
+                  onClick={() => {
+                    if (item.key === formActive) {
+                      setFormActive("");
+                    } else {
+                      setFormActive(item.key);
+                    }
+                  }}
                 >
                   {item.icon}
                   {item.label}
@@ -97,14 +109,14 @@ const SearchPanel: React.FC = () => {
         </ConfigProvider>
       </div>
 
-      <div className="relative md:top-[-60px] md:flex md:justify-center md:px-4">
-        <div className="rounded-bl-md rounded-br-md p-2 shadow-md md:w-[70%]">
+      <div className="relative md:top-[-200px] md:flex md:justify-center md:px-4 xl:top-[-300px]">
+        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl md:w-[70%]">
           {formActive === "booking" && <SearchFlightsForm />}
           {formActive === "checkin" && <div></div>}
           {formActive === "my-tickets" && <div></div>}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
