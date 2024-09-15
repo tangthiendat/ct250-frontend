@@ -22,4 +22,5 @@ export function createApiClient(
       return config;
     });
   }
+  return axiosInstance;
 }
