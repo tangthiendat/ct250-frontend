@@ -1,4 +1,4 @@
-import { Anchor, ConfigProvider, Dropdown, Menu, Tooltip } from "antd";
+import { Anchor, ConfigProvider, Dropdown, Menu } from "antd";
 import React from "react";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="z-10 bg-white shadow-md">
+    <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
         {/* Logo */}
         <a href="../" className="flex items-center">
@@ -65,7 +65,9 @@ const Header: React.FC = () => {
         </a>
 
         {/* Menu Navigation */}
-        <div className="hidden space-x-6 md:flex">
+        <div className="hidden items-center space-x-8 md:flex">
+          {" "}
+          {/* Adjusted space-x */}
           <ConfigProvider
             theme={{
               token: {
@@ -91,19 +93,18 @@ const Header: React.FC = () => {
                     }
                     trigger={["hover"]}
                   >
-                    <Tooltip title={item.title}>
-                      <a
-                        href={item.href}
-                        className="transition-colors duration-200 hover:text-blue-600"
-                      >
-                        {item.title}
-                      </a>
-                    </Tooltip>
+                    <a
+                      href={item.href}
+                      className="font-bold transition-colors duration-200 hover:text-blue-600"
+                    >
+                      {item.title}
+                    </a>
                   </Dropdown>
                 ),
                 href: item.href,
               }))}
-              className="flex items-center space-x-4"
+              className="flex items-center space-x-8 text-gray-700"
+              style={{ fontWeight: "bold" }}
             />
           </ConfigProvider>
         </div>
