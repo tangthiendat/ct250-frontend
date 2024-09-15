@@ -1,27 +1,20 @@
-import { Anchor, ConfigProvider, Dropdown, Menu } from "antd";
+import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
 import React from "react";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
+import Menu from "./Menu"; // Import Menu component
 
 const Header: React.FC = () => {
   const menuItems = [
     {
       key: "0",
-      title: "Khám phá",
-      href: "#0",
-      submenu: [
-        { key: "0-1", title: "Submenu 1", href: "#0-1" },
-        { key: "0-2", title: "Submenu 2", href: "#0-2" },
-      ],
+      title: "Chuyến bay của tôi",
+      href: "#",
     },
     {
       key: "1",
-      title: "Chuyến bay của tôi",
+      title: "Online Check-in",
       href: "#1",
-      submenu: [
-        { key: "1-1", title: "Submenu 1", href: "#1-1" },
-        { key: "1-2", title: "Submenu 2", href: "#1-2" },
-      ],
     },
     {
       key: "2",
@@ -34,21 +27,8 @@ const Header: React.FC = () => {
     },
     {
       key: "3",
-      title: "Góp ý",
-      href: "#3",
-      submenu: [
-        { key: "3-1", title: "Submenu 1", href: "#3-1" },
-        { key: "3-2", title: "Submenu 2", href: "#3-2" },
-      ],
-    },
-    {
-      key: "4",
       title: "Hỗ trợ",
-      href: "#4",
-      submenu: [
-        { key: "4-1", title: "Submenu 1", href: "#4-1" },
-        { key: "4-2", title: "Submenu 2", href: "#4-2" },
-      ],
+      href: "#3",
     },
   ];
 
@@ -60,14 +40,12 @@ const Header: React.FC = () => {
           <img
             src="/logo512.png"
             alt="DaViKa Airways"
-            className="xl:h-18 h-12 w-auto transition-transform duration-300 ease-in-out hover:scale-110 md:h-14 lg:h-16"
+            className="xl:h-18 lg:h-18 h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 md:h-14"
           />
         </a>
 
         {/* Menu Navigation */}
         <div className="hidden items-center space-x-8 md:flex">
-          {" "}
-          {/* Adjusted space-x */}
           <ConfigProvider
             theme={{
               token: {
@@ -80,31 +58,40 @@ const Header: React.FC = () => {
               direction="horizontal"
               items={menuItems.map((item) => ({
                 key: item.key,
-                title: (
+                title: item.submenu ? (
                   <Dropdown
                     overlay={
-                      <Menu>
+                      <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
-                          <Menu.Item key={subItem.key}>
-                            <a href={subItem.href}>{subItem.title}</a>
-                          </Menu.Item>
+                          <AntdMenu.Item key={subItem.key}>
+                            <a href={subItem.href} className="block px-4 py-2">
+                              {subItem.title}
+                            </a>
+                          </AntdMenu.Item>
                         ))}
-                      </Menu>
+                      </AntdMenu>
                     }
                     trigger={["hover"]}
+                    overlayClassName="custom-dropdown"
                   >
                     <a
                       href={item.href}
-                      className="font-bold transition-colors duration-200 hover:text-blue-600"
+                      className="px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
                     >
                       {item.title}
                     </a>
                   </Dropdown>
+                ) : (
+                  <a
+                    href={item.href}
+                    className="px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
+                  >
+                    {item.title}
+                  </a>
                 ),
                 href: item.href,
               }))}
-              className="flex items-center space-x-8 text-gray-700"
-              style={{ fontWeight: "bold" }}
+              className="flex items-center space-x-8 font-bold text-gray-700"
             />
           </ConfigProvider>
         </div>
@@ -114,7 +101,7 @@ const Header: React.FC = () => {
           <LanguageMenu />
           <AccountMenu />
           <div className="md:hidden">
-            <Menu />
+            <Menu /> {/* Add Menu here */}
           </div>
         </div>
       </div>

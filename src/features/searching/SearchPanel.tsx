@@ -1,7 +1,6 @@
-import React from "react";
 import { Button, ConfigProvider } from "antd";
 import { createStyles } from "antd-style";
-import { useState } from "react";
+import React, { useState } from "react";
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { MdFlight, MdFlightTakeoff } from "react-icons/md";
 import SearchFlightsForm from "./SearchFlightsForm";
@@ -56,7 +55,7 @@ const btnItems = [
 ];
 
 const SearchPanel: React.FC = () => {
-  const [formActive, setFormActive] = useState("");
+  const [formActive, setFormActive] = useState("booking");
   const { styles } = useStyle();
 
   return (

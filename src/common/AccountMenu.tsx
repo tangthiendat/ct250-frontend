@@ -40,7 +40,7 @@ const AccountMenu: React.FC = () => {
     >
       <a onClick={(e) => e.preventDefault()} className="flex items-center">
         <Space>
-          <FaUserCircle className="m-2 text-3xl text-gray-600 transition-transform duration-200 hover:scale-110 hover:text-blue-600 md:text-4xl lg:text-5xl" />
+          <FaUserCircle className="m-2 text-3xl text-gray-600 transition-transform duration-200 hover:scale-110 hover:text-blue-600 md:text-2xl lg:text-3xl" />
         </Space>
       </a>
     </Dropdown>
