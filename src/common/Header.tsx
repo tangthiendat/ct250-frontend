@@ -1,9 +1,9 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
-import Menu from "./Menu"; // Import Menu component
+import Menu from "./Menu";
 
 const Header: React.FC = () => {
   const menuItems = [
@@ -32,28 +32,6 @@ const Header: React.FC = () => {
       href: "/support",
     },
   ];
-
-  const renderMenuItem = (item) => {
-    if (item.submenu) {
-      return (
-        <div key={item.key}>
-          <span>{item.title}</span>
-          <div>
-            {item.submenu.map((subItem) => (
-              <Link key={subItem.key} to={subItem.href}>
-                {subItem.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-      );
-    }
-    return (
-      <Link key={item.key} to={item.href}>
-        {item.title}
-      </Link>
-    );
-  };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
@@ -121,7 +99,7 @@ const Header: React.FC = () => {
           <LanguageMenu />
           <AccountMenu />
           <div className="md:hidden">
-            <Menu /> {/* Add Menu here */}
+            <Menu />
           </div>
         </div>
       </div>

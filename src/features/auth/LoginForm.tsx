@@ -1,16 +1,18 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Form, Input, notification } from "antd";
+import { Form, Input, notification, Spin } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ApiResponse, IAuthRequest, IAuthResponse } from "../../interfaces";
 import { authService } from "../../services/auth-service";
+import { useLoggedInUser } from "./hooks/UseLoggedInUser";
 
 const LoginForm: React.FC = () => {
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
+  const [loading, setLoading] = useState(false);
 
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
@@ -20,35 +22,49 @@ const LoginForm: React.FC = () => {
   const [notificationApi, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { refetch: refetchUser } = useLoggedInUser();
 
-  const { mutate: login } = useMutation({
-    mutationFn: authService.login,
-    onSuccess: (data: ApiResponse<IAuthResponse>) => {
+  const handleLoginSuccess = async (data: ApiResponse<IAuthResponse>) => {
+    if (data.payload) {
+      const { accessToken, user } = data.payload;
+      window.localStorage.setItem("access_token", accessToken);
+      queryClient.setQueryData(["user", "logged-in"], { payload: user });
+      await refetchUser(); // Refetch user data after login
       notificationApi.success({
         message: "Đăng nhập thành công",
       });
-      if (data.payload) {
-        const { accessToken } = data.payload;
-        window.localStorage.setItem("access_token", accessToken);
-        queryClient.invalidateQueries(["user", "logged-in"]);
-        navigate("/");
-      }
-    },
-    onError: (error) => {
-      console.error(error);
-      notificationApi.error({
-        message: "Đăng nhập thất bại",
-      });
-    },
+      navigate("/");
+    }
+    setLoading(false);
+  };
+
+  const handleLoginError = (error: unknown) => {
+    console.error("Login error:", error);
+    notificationApi.error({
+      message: "Đăng nhập thất bại",
+    });
+    setLoading(false);
+  };
+
+  const mutation = useMutation({
+    mutationFn: authService.login,
+    onSuccess: handleLoginSuccess,
+    onError: handleLoginError,
   });
 
-  function onFinish(data: IAuthRequest): void {
-    login(data);
-  }
+  const onFinish = (data: IAuthRequest): void => {
+    setLoading(true);
+    mutation.mutate(data);
+  };
 
   return (
     <>
       {contextHolder}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <Spin size="large" />
+        </div>
+      )}
       <Form
         className="flex flex-col"
         onFinish={onFinish}
@@ -92,6 +108,7 @@ const LoginForm: React.FC = () => {
           <button
             type="submit"
             className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
+            disabled={loading}
           >
             Đăng nhập
           </button>
@@ -106,13 +123,13 @@ const LoginForm: React.FC = () => {
           </a>
 
           <span className="text-sm text-gray-900">
-            Chưa có tài khoản? {""}
-            <a
-              href="../register"
+            Chưa có tài khoản?{" "}
+            <Link
+              to="/register"
               className="text-sm font-semibold text-blue-700 hover:text-blue-900"
             >
               Đăng ký ngay
-            </a>
+            </Link>
           </span>
         </div>
       </Form>

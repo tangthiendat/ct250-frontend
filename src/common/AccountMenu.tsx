@@ -1,42 +1,38 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dropdown, Space, notification } from "antd";
+import { Dropdown, Space } from "antd";
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useLoggedInUser } from "../features/auth/hooks/UseLoggedInUser";
-import { authService } from "../services/auth-service";
 
 const AccountMenu: React.FC = () => {
-  const { user, isLoading } = useLoggedInUser();
+  const { user, setUser } = useLoggedInUser();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [notificationApi, contextHolder] = notification.useNotification();
-
-  const { mutate: logout } = useMutation({
-    mutationFn: authService.logout,
-    onSuccess: () => {
-      notificationApi.success({
-        message: "Đăng xuất thành công",
-      });
-      window.localStorage.removeItem("access_token");
-      queryClient.invalidateQueries(["user", "logged-in"]);
-      navigate("/login");
-    },
-    onError: (error) => {
-      console.error(error);
-      notificationApi.error({
-        message: "Đăng xuất thất bại",
-      });
-    },
-  });
 
   const handleLogout = () => {
-    logout();
+    setUser(null);
+    window.localStorage.removeItem("access_token");
+    navigate("/login");
   };
 
-  const items = user
+  type MenuItemType = {
+    label: React.ReactNode;
+    key: string;
+    type?: undefined;
+  };
+
+  const items: MenuItemType[] = user
     ? [
+        {
+          label: (
+            <Link
+              to="/account"
+              className="block px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
+            >
+              Quản lý tài khoản
+            </Link>
+          ),
+          key: "account",
+        },
         {
           label: (
             <span
@@ -79,7 +75,6 @@ const AccountMenu: React.FC = () => {
 
   return (
     <>
-      {contextHolder}
       <Dropdown
         menu={{ items }}
         trigger={["click"]}
