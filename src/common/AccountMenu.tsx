@@ -1,37 +1,59 @@
 import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 
-const items: MenuProps["items"] = [
-  {
-    label: (
-      <a
-        href="/login"
-        className="block px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
-      >
-        Đăng nhập
-      </a>
-    ),
-    key: "login",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: (
-      <a
-        href="/register"
-        className="block px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
-      >
-        Đăng ký
-      </a>
-    ),
-    key: "register",
-  },
-];
-
 const AccountMenu: React.FC = () => {
+  const [loggedIn, setLoggedIn] = useState(true);
+  // const [loggedIn, setLoggedIn] = useState(false);
+
+  const items: MenuProps["items"] = loggedIn
+    ? [
+        {
+          label: (
+            <a
+              href="/manage-account/my-account"
+              className="block px-4 py-1 text-gray-700"
+            >
+              Quản lý tài khoản
+            </a>
+          ),
+          key: "manage-account",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: (
+            <a href="/" className="block px-4 py-1 text-gray-700">
+              Đăng xuất
+            </a>
+          ),
+          key: "logout",
+        },
+      ]
+    : [
+        {
+          label: (
+            <a href="/login" className="block px-4 py-1 text-gray-700">
+              Đăng nhập
+            </a>
+          ),
+          key: "login",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: (
+            <a href="/register" className="block px-4 py-1 text-gray-700">
+              Đăng ký
+            </a>
+          ),
+          key: "register",
+        },
+      ];
+
   return (
     <Dropdown
       menu={{ items }}
