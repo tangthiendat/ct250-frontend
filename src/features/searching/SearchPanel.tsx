@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { MdFlight, MdFlightTakeoff } from "react-icons/md";
-import SearchFlightsForm from "./SearchFlightsForm";
+import SearchFlightsForm from "./flights/SearchFlightsForm";
 
 const btnItems = [
   {
@@ -35,7 +35,13 @@ const SearchPanel: React.FC = () => {
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>
                 <div
-                  className={`${item.key === formActive ? "bg-blue-700 text-white" : "bg-slate-300 text-black"} ${formActive === "" && "bg-blue-700 p-2 text-white"} text flex cursor-pointer items-center justify-center gap-2 rounded-3xl p-2 uppercase text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
+                  className={`${
+                    formActive === ""
+                      ? "bg-blue-700 p-2 text-white"
+                      : item.key === formActive
+                        ? "bg-blue-700 text-white"
+                        : "bg-slate-300 text-black"
+                  } text flex cursor-pointer items-center justify-center gap-2 rounded-3xl p-2 uppercase hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
                   onClick={() => {
                     if (item.key === formActive) {
                       setFormActive("");

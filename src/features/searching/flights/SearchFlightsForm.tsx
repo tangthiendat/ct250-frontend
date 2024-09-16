@@ -11,9 +11,10 @@ import { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import { RiCoupon3Line } from "react-icons/ri";
 import { TbArrowNarrowRight, TbArrowsRightLeft } from "react-icons/tb";
-import { ISearchFlights } from "../../interfaces/booking/ISearchFlights";
+
 import PassengerSelector from "./PassengerSelector";
 import SearchAirPort from "./SearchAirPort";
+import { ISearchFlights } from "../../../interfaces";
 
 const { RangePicker } = DatePicker;
 
