@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import RoleBasedRoute from "./RoleBasedRoute";
 
 const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
