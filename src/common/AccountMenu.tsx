@@ -2,16 +2,17 @@ import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom"; // Import Link
 
 const items: MenuProps["items"] = [
   {
     label: (
-      <a
-        href="/login"
+      <Link
+        to="/login"
         className="block px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
       >
         Đăng nhập
-      </a>
+      </Link>
     ),
     key: "login",
   },
@@ -20,12 +21,12 @@ const items: MenuProps["items"] = [
   },
   {
     label: (
-      <a
-        href="/register"
+      <Link
+        to="/register"
         className="block px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
       >
         Đăng ký
-      </a>
+      </Link>
     ),
     key: "register",
   },

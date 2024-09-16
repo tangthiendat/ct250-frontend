@@ -1,14 +1,6 @@
-import { IUser } from "../../interfaces";
-import { Form, Input, Radio, Select, DatePicker, Divider, Button } from "antd";
+import { Button, DatePicker, Divider, Form, Input, Radio, Select } from "antd";
 import { useState } from "react";
-
-const countryOptions = [
-  { value: "vietnam", label: "Việt Nam" },
-  { value: "japan", label: "Nhật Bản" },
-  { value: "korea", label: "Hàn Quốc" },
-  { value: "usa", label: "Mỹ" },
-  { value: "other", label: "Khác" },
-];
+import { useCountries } from "../countries/hooks";
 
 const genderOptions = [
   { value: "male", label: "Nam" },
@@ -21,23 +13,31 @@ const RegisterForm: React.FC = () => {
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
+  const { countries } = useCountries();
 
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
   };
 
-  function onSubmit(data: IUser): void {
-    console.log(data);
-  }
+  // function onSubmit(data: IUser): void {
+  //   console.log(data);
+  // }
 
   function onLoginWithGoogle(): void {
     console.log("Login with Google");
   }
 
+  const { countryNames } = useCountries();
+
+  const countryOptions = countryNames.map((countryName: string) => ({
+    label: countryName,
+    value: countryName,
+  }));
+
   return (
     <Form
       className="flex flex-col"
-      onFinish={onSubmit}
+      // onFinish={onSubmit}
       layout="vertical"
       initialValues={{ size: componentSize }}
       onValuesChange={onFormLayoutChange}
@@ -77,8 +77,8 @@ const RegisterForm: React.FC = () => {
             },
             {
               pattern:
-                /^[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđA-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÍÌỈĨỊÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ\s]+$/,
-              message: "Họ không chứa ký tự đặc biệt",
+                /^[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđA-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỪỬỮỰÝỲỶỸỴĐ\s]+$/,
+              message: "Tên đệm & tên không chứa ký tự đặc biệt",
             },
           ]}
         >
@@ -97,9 +97,9 @@ const RegisterForm: React.FC = () => {
           rules={[
             {
               required: true,
-              message: "Ngày sinh không hợp lệ",
+              message: "Ngày sinh không hợp lệ",
               validator: (_, value) =>
-                new Date(value).getTime() < new Date().getTime()
+                value && new Date(value).getTime() < new Date().getTime()
                   ? Promise.resolve()
                   : Promise.reject("Ngày sinh không hợp lệ"),
             },
@@ -258,9 +258,9 @@ const RegisterForm: React.FC = () => {
         </span>
         <a
           href="../login"
-          className="text-sm font-semibold text-blue-700 hover:text-blue-900"
+          className="text-sm font-medium text-blue-600 hover:underline"
         >
-          đăng nhập
+          Đăng nhập
         </a>
       </div>
     </Form>

@@ -1,5 +1,6 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu"; // Import Menu component
@@ -9,40 +10,62 @@ const Header: React.FC = () => {
     {
       key: "0",
       title: "Chuyến bay của tôi",
-      href: "#",
+      href: "/flights",
     },
     {
       key: "1",
       title: "Online Check-in",
-      href: "#1",
+      href: "/checkin",
     },
     {
       key: "2",
       title: "Dịch vụ bổ sung",
-      href: "#2",
+      href: "/services",
       submenu: [
-        { key: "2-1", title: "Submenu 1", href: "#2-1" },
-        { key: "2-2", title: "Submenu 2", href: "#2-2" },
+        { key: "2-1", title: "Submenu 1", href: "/services/submenu1" },
+        { key: "2-2", title: "Submenu 2", href: "/services/submenu2" },
       ],
     },
     {
       key: "3",
       title: "Hỗ trợ",
-      href: "#3",
+      href: "/support",
     },
   ];
+
+  const renderMenuItem = (item) => {
+    if (item.submenu) {
+      return (
+        <div key={item.key}>
+          <span>{item.title}</span>
+          <div>
+            {item.submenu.map((subItem) => (
+              <Link key={subItem.key} to={subItem.href}>
+                {subItem.title}
+              </Link>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    return (
+      <Link key={item.key} to={item.href}>
+        {item.title}
+      </Link>
+    );
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
         {/* Logo */}
-        <a href="../" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img
             src="/logo512.png"
             alt="DaViKa Airways"
             className="xl:h-18 lg:h-18 h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 md:h-14"
           />
-        </a>
+        </Link>
 
         {/* Menu Navigation */}
         <div className="hidden items-center space-x-8 md:flex">
@@ -64,9 +87,9 @@ const Header: React.FC = () => {
                       <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
                           <AntdMenu.Item key={subItem.key}>
-                            <a href={subItem.href} className="block px-4 py-2">
+                            <Link to={subItem.href} className="block px-4 py-2">
                               {subItem.title}
-                            </a>
+                            </Link>
                           </AntdMenu.Item>
                         ))}
                       </AntdMenu>
@@ -74,20 +97,17 @@ const Header: React.FC = () => {
                     trigger={["hover"]}
                     overlayClassName="custom-dropdown"
                   >
-                    <a
-                      href={item.href}
-                      className="px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
-                    >
+                    <span className="cursor-pointer px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600">
                       {item.title}
-                    </a>
+                    </span>
                   </Dropdown>
                 ) : (
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 ),
                 href: item.href,
               }))}
