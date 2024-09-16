@@ -54,8 +54,6 @@ const Header: React.FC = () => {
             }}
           >
             <Anchor
-              // offsetTop={-200}
-              // className="bg-ed-700 flex items-center font-bold text-gray-700"
               direction="horizontal"
               items={menuItems.map((item) => ({
                 key: item.key,
@@ -77,7 +75,7 @@ const Header: React.FC = () => {
                   >
                     <a
                       href={item.href}
-                      className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
+                      className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
                     >
                       {item.title}
                     </a>
@@ -85,7 +83,7 @@ const Header: React.FC = () => {
                 ) : (
                   <a
                     href={item.href}
-                    className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-10 xl:px-20"
+                    className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
                   >
                     {item.title}
                   </a>
