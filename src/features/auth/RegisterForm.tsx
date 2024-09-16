@@ -3,8 +3,9 @@ import { useState } from "react";
 import { useCountries } from "../countries/hooks";
 
 const genderOptions = [
-  { value: "male", label: "Nam" },
-  { value: "female", label: "Nữ" },
+  { value: "MALE", label: "Nam" },
+  { value: "FEMALE", label: "Nữ" },
+  { value: "OTHER", label: "Khác" },
 ];
 
 type SizeType = Parameters<typeof Form>[0]["size"];

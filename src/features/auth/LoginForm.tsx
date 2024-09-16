@@ -1,8 +1,8 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Input, notification } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiResponse, IAuthRequest, IAuthResponse } from "../../interfaces";
 import { authService } from "../../services/auth-service";
@@ -19,13 +19,7 @@ const LoginForm: React.FC = () => {
   const [loginForm] = Form.useForm<IAuthRequest>();
   const [notificationApi, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
-  const accessToken = window.localStorage.getItem("access_token");
-
-  useEffect(() => {
-    if (accessToken) {
-      navigate("/");
-    }
-  }, [accessToken, navigate]);
+  const queryClient = useQueryClient();
 
   const { mutate: login } = useMutation({
     mutationFn: authService.login,
@@ -36,6 +30,7 @@ const LoginForm: React.FC = () => {
       if (data.payload) {
         const { accessToken } = data.payload;
         window.localStorage.setItem("access_token", accessToken);
+        queryClient.invalidateQueries(["user", "logged-in"]);
         navigate("/");
       }
     },
