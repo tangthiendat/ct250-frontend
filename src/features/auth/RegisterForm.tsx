@@ -27,11 +27,9 @@ const RegisterForm: React.FC = () => {
     console.log("Login with Google");
   }
 
-  const { countryNames } = useCountries();
-
-  const countryOptions = countryNames.map((countryName: string) => ({
-    label: countryName,
-    value: countryName,
+  const countryOptions = countries?.map((country) => ({
+    label: country.countryName,
+    value: country.countryId,
   }));
 
   return (
