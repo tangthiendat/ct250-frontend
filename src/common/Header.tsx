@@ -33,19 +33,19 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto flex items-center justify-between px-4 py-2">
+    <header className="sticky top-0 z-50 rounded-b-xl bg-white shadow-md">
+      <div className="mx-auto flex items-center justify-between px-4 py-2">
         {/* Logo */}
         <a href="../" className="flex items-center">
           <img
             src="/logo512.png"
             alt="DaViKa Airways"
-            className="xl:h-18 lg:h-18 h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 md:h-14"
+            className="h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 lg:h-14 xl:h-16"
           />
         </a>
 
         {/* Menu Navigation */}
-        <div className="hidden items-center space-x-8 md:flex">
+        <div className="hidden items-center md:flex">
           <ConfigProvider
             theme={{
               token: {
@@ -54,7 +54,8 @@ const Header: React.FC = () => {
             }}
           >
             <Anchor
-              offsetTop={-200}
+              // offsetTop={-200}
+              // className="bg-ed-700 flex items-center font-bold text-gray-700"
               direction="horizontal"
               items={menuItems.map((item) => ({
                 key: item.key,
@@ -76,7 +77,7 @@ const Header: React.FC = () => {
                   >
                     <a
                       href={item.href}
-                      className="px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
+                      className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
                     >
                       {item.title}
                     </a>
@@ -84,20 +85,19 @@ const Header: React.FC = () => {
                 ) : (
                   <a
                     href={item.href}
-                    className="px-4 py-2 font-bold transition-colors duration-200 hover:text-blue-600"
+                    className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-10 xl:px-20"
                   >
                     {item.title}
                   </a>
                 ),
                 href: item.href,
               }))}
-              className="flex items-center space-x-8 font-bold text-gray-700"
             />
           </ConfigProvider>
         </div>
 
         {/* Right Side Menus */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           <LanguageMenu />
           <AccountMenu />
           <div className="md:hidden">
