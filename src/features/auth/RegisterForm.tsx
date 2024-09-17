@@ -1,70 +1,61 @@
 import { Button, Divider, Form, notification } from "antd";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+
 import ContactFields from "./components/ContactFields";
 import DateAndGenderFields from "./components/DateAndGenderFields";
-
-import { FcGoogle } from "react-icons/fc";
-import IdentityFields from "./components/IndentityFields";
+import GoogleLoginButton from "./components/GoogleLoginButton";
 import NameFields from "./components/NameFields";
 import PasswordFields from "./components/PasswordFields";
-import { useRegister } from "./hooks/UseAuth";
-import { IUser } from "../../interfaces";
+import { useRegisterForm } from "./hooks/UseRegisterForm";
+import IdentityFields from "./components/IndentityFields";
 
 const RegisterForm: React.FC = () => {
-  const [form] = Form.useForm<IUser>();
-  const { register, isLoading } = useRegister();
-  const [notificationApi, contextHolder] = notification.useNotification();
-  const [componentSize, setComponentSize] = useState<"large">("large");
-  const navigate = useNavigate();
+  const { form, isLoading, contextHolder, onFinish } = useRegisterForm();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
-  const accessToken = localStorage.getItem("access_token");
 
-  useEffect(() => {
-    if (accessToken) {
-      navigate("/");
-    }
-  }, [accessToken, navigate]);
-
-  const onFinish = (values: IUser) => {
-    const formattedValues = {
-      ...values,
-      dateOfBirth: moment(values.dateOfBirth).toISOString(),
-      firstName: values.firstName?.toUpperCase(),
-      lastName: values.lastName?.toUpperCase(),
-    };
-    console.log(formattedValues);
-
-    register(formattedValues, {
-      onSuccess: () => {
-        notificationApi.success({
-          message: "Đăng ký thành công",
-        });
+  const handleGoogleLoginSuccess = async (tokenResponse: any) => {
+    const userInfoResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        },
       },
-      onError: (error) => {
-        console.error("Register error:", error);
-        notificationApi.error({
-          message: "Đăng ký thất bại",
-          description: "Có lỗi xảy ra trong quá trình đăng ký",
-        });
-      },
+    );
+    const profile = await userInfoResponse.json();
+
+
+    localStorage.removeItem("avatarUrl");
+
+    form.setFieldsValue({
+      email: profile.email,
+      firstName: profile.family_name,
+      lastName: profile.given_name,
+      avatar: profile.picture,
     });
+    localStorage.setItem("avatarUrl", profile.picture);
+    setAvatarUrl(profile.picture);
+    console.log("Google login profile:", profile);
+  };
+
+  const handleGoogleLoginFailure = (error: any) => {
+    console.error("Google login error:", error);
+    notification.error({
+      message: "Đăng nhập Google thất bại",
+      description: "Có lỗi xảy ra trong quá trình đăng nhập Google",
+    });
+
   };
 
   return (
     <>
-      {/* {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
-          <Spin size="large" />
-        </div>
-      )} */}
       {contextHolder}
       <Form
         className="flex flex-col"
         onFinish={onFinish}
         layout="vertical"
-        size={componentSize}
+        size="large"
         form={form}
       >
         <NameFields />
@@ -72,21 +63,26 @@ const RegisterForm: React.FC = () => {
         <ContactFields />
         <IdentityFields />
         <PasswordFields />
+        <Form.Item name="avatar" hidden>
+          <input type="hidden" />
+        </Form.Item>
 
         <Button
           type="primary"
           size="large"
           htmlType="submit"
           loading={isLoading}
+          className="w-full"
         >
           Đăng ký
         </Button>
 
         <Divider plain>Hoặc</Divider>
 
-        <Button type="default" size="large" icon={<FcGoogle />}>
-          Đăng ký với Google
-        </Button>
+        <GoogleLoginButton
+          onSuccess={handleGoogleLoginSuccess}
+          onError={handleGoogleLoginFailure}
+        />
       </Form>
     </>
   );

@@ -1,9 +1,11 @@
 import { Dropdown, Space } from "antd";
 import React, { useCallback } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../features/auth/hooks/UseAuth";
+
 import { IUser } from "../interfaces";
+import UserAvatar from "./UserAvatar";
+import { useAvatarUrl } from "../features/auth/hooks/UseAvatarUrl";
 
 interface AccountMenuProps {
   user?: IUser;
@@ -12,9 +14,11 @@ interface AccountMenuProps {
 const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
   const { logout } = useLogout();
   const navigate = useNavigate();
+  const avatarUrl = useAvatarUrl(user);
 
   const handleLogout = useCallback(() => {
     logout();
+    localStorage.removeItem("avatarUrl"); // Clear avatar URL on logout
   }, [logout]);
 
   const handleLoginClick = useCallback(() => {
@@ -66,7 +70,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
               className="flex items-center"
             >
               <Space>
-                <FaUserCircle className="m-2 text-3xl text-gray-600 transition-transform duration-200 hover:scale-110 hover:text-blue-600" />
+                <UserAvatar avatarUrl={avatarUrl} />
               </Space>
             </a>
           </Dropdown>
