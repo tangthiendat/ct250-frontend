@@ -84,16 +84,15 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                       className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
                     >
                       {item.title}
-                    </span>
+                    </a>
                   </Dropdown>
                 ) : (
                   <a
                     href={item.href}
                     className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
-
                   >
                     {item.title}
-                  </Link>
+                  </a>
                 ),
                 href: item.href,
               }))}
