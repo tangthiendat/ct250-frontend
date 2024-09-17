@@ -1,34 +1,40 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
 import React from "react";
+import { Link } from "react-router-dom";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
-import Menu from "./Menu"; // Import Menu component
+import Menu from "./Menu";
+import { IUser } from "../interfaces";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  user?: IUser;
+}
+
+const Header: React.FC<HeaderProps> = ({ user }) => {
   const menuItems = [
     {
       key: "0",
       title: "Chuyến bay của tôi",
-      href: "#",
+      href: "/flights",
     },
     {
       key: "1",
       title: "Online Check-in",
-      href: "#1",
+      href: "/checkin",
     },
     {
       key: "2",
       title: "Dịch vụ bổ sung",
-      href: "#2",
+      href: "/services",
       submenu: [
-        { key: "2-1", title: "Submenu 1", href: "#2-1" },
-        { key: "2-2", title: "Submenu 2", href: "#2-2" },
+        { key: "2-1", title: "Submenu 1", href: "/services/submenu1" },
+        { key: "2-2", title: "Submenu 2", href: "/services/submenu2" },
       ],
     },
     {
       key: "3",
       title: "Hỗ trợ",
-      href: "#3",
+      href: "/support",
     },
   ];
 
@@ -36,13 +42,13 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 rounded-b-xl bg-white shadow-md">
       <div className="mx-auto flex items-center justify-between px-4 py-2">
         {/* Logo */}
-        <a href="../" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img
             src="/logo512.png"
             alt="DaViKa Airways"
             className="h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 lg:h-14 xl:h-16"
           />
-        </a>
+        </Link>
 
         {/* Menu Navigation */}
         <div className="hidden items-center md:flex">
@@ -63,9 +69,9 @@ const Header: React.FC = () => {
                       <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
                           <AntdMenu.Item key={subItem.key}>
-                            <a href={subItem.href} className="block px-4 py-2">
+                            <Link to={subItem.href} className="block px-4 py-2">
                               {subItem.title}
-                            </a>
+                            </Link>
                           </AntdMenu.Item>
                         ))}
                       </AntdMenu>
@@ -78,15 +84,16 @@ const Header: React.FC = () => {
                       className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
                     >
                       {item.title}
-                    </a>
+                    </span>
                   </Dropdown>
                 ) : (
                   <a
                     href={item.href}
                     className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
+
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 ),
                 href: item.href,
               }))}
@@ -97,9 +104,9 @@ const Header: React.FC = () => {
         {/* Right Side Menus */}
         <div className="flex items-center">
           <LanguageMenu />
-          <AccountMenu />
+          <AccountMenu user={user} />
           <div className="md:hidden">
-            <Menu /> {/* Add Menu here */}
+            <Menu />
           </div>
         </div>
       </div>

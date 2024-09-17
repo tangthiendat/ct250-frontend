@@ -12,7 +12,7 @@ const Language: React.FC<LanguageProps> = ({ language }) => {
         alt={`${language} flag`}
         className="h-5 rounded-full shadow-md"
       />
-      <span className="text-sm font-semibold text-gray-800 transition-colors duration-200 ease-in-out hover:text-blue-600 md:text-base lg:text-lg">
+      <span className="text-sm font-semibold text-gray-800 transition-colors duration-200 ease-in-out hover:text-blue-600">
         {language}
       </span>
     </div>
