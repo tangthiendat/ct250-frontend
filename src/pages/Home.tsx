@@ -1,4 +1,4 @@
-import { Carousel, Divider } from "antd";
+import { Carousel } from "antd";
 import React from "react";
 import SearchPanel from "../features/searching/SearchPanel";
 
@@ -21,7 +21,7 @@ const bannerImages = [
   },
 ];
 
-const destinationsImages = [];
+// const destinationsImages = [];
 
 const Home: React.FC = () => {
   return (
@@ -30,16 +30,16 @@ const Home: React.FC = () => {
         <Carousel
           autoplay
           effect="scrollx"
-          arrows={true}
+          // arrows={true}
           autoplaySpeed={3000}
           pauseOnHover={false}
         >
           {bannerImages.map((banner) => (
-            <div key={banner.alt} className="">
+            <div key={banner.alt}>
               <img
                 src={banner.src}
                 alt={banner.alt}
-                className="mx-auto w-[98%] rounded-xl sm:w-[80%]"
+                className="mx-auto w-[98%] rounded-xl md:w-[80%]"
               />
             </div>
           ))}
