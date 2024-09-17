@@ -3,16 +3,19 @@ import React, { useCallback } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../features/auth/hooks/UseAuth";
-import { useLoggedInUser } from "../features/auth/hooks/UseLoggedInUser";
+import { IUser } from "../interfaces";
 
-const AccountMenu: React.FC = () => {
-  const { user, isLoading } = useLoggedInUser();
-  const logoutMutation = useLogout();
+interface AccountMenuProps {
+  user?: IUser;
+}
+
+const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
+  const { logout } = useLogout();
   const navigate = useNavigate();
 
   const handleLogout = useCallback(() => {
-    logoutMutation.mutate();
-  }, [logoutMutation]);
+    logout();
+  }, [logout]);
 
   const handleLoginClick = useCallback(() => {
     navigate("/login");
@@ -75,7 +78,6 @@ const AccountMenu: React.FC = () => {
         <button
           onClick={handleLoginClick}
           className="rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-          disabled={isLoading}
         >
           Đăng nhập
         </button>
