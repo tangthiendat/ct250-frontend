@@ -109,4 +109,16 @@
       color: #ffffff;
     }
   }
+
+  .text-heading {
+    font-family: "Calibri";
+    font-weight: 600;
+    line-height: 1.2;
+    color: black;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    font-style: normal;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
 }
