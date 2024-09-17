@@ -1,55 +1,37 @@
-export interface IAuthRequest {
-    email: string;
-    password: string;
+export interface Permission {
+    permissionId: number;
+    name: string;
+    apiPath: string;
+    method: string;
+    module: string;
+    createdAt: string;
 }
 
-export interface IAuthResponse {
-    accessToken: string;
+export interface Role {
+    roleId: number;
+    roleName: string;
+    description: string;
+    active: boolean;
+    permissions: Permission[];
+    createdAt: string;
 }
 
-export interface IUser {
+export interface User {
     userId: string;
     email: string;
     firstName: string;
     lastName: string;
-    gender: "MALE" | "FEMALE" | "OTHER";
+    gender: string;
     identityNumber: string;
     phoneNumber: string;
     countryId: number;
     active: boolean;
     dateOfBirth: string;
-    role: IRole;
+    role: Role;
     createdAt: string;
-    updatedAt?: string;
 }
 
-export interface IPermission {
-    permissionId: number;
-    name: string;
-    apiPath: string;
-    method: "GET" | "POST" | "PUT" | "DELETE";
-    module: string;
-    createdAt: string;
-    updatedAt?: string;
-}
-
-
-export interface IPermission {
-    permissionId: number;
-    name: string;
-    apiPath: string;
-    method: "GET" | "POST" | "PUT" | "DELETE";
-    module: string;
-    createdAt: string;
-    updatedAt?: string;
-}
-
-export interface IRole {
-    roleId: number;
-    roleName: string;
-    active: boolean;
-    description?: string;
-    permissions: IPermission[];
-    createdAt: string;
-    updatedAt?: string;
+export interface UserResponse {
+    status: number;
+    payload: User;
 }

@@ -9,3 +9,4 @@ export function useLoggedInUser() {
 
     return { user: data?.payload || null, isLoading, refetch };
 }
+

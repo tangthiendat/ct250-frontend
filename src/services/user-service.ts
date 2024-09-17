@@ -1,14 +1,14 @@
 import { AxiosInstance } from "axios";
-import { ApiResponse, IUser } from "../interfaces";
+import { ApiResponse, User, } from "../interfaces";
 import { createApiClient } from "./api-client";
 
 interface IUserService {
-    getLoggedInUser(): Promise<ApiResponse<IUser>>;
+    getLoggedInUser(): Promise<ApiResponse<User>>;
 }
 
 const apiClient: AxiosInstance = createApiClient("users");
 class UserService implements IUserService {
-    async getLoggedInUser(): Promise<ApiResponse<IUser>> {
+    async getLoggedInUser(): Promise<ApiResponse<User>> {
         return (await apiClient.get("/logged-in")).data;
     }
 }

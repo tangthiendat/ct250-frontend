@@ -1,5 +1,5 @@
 import { Dropdown, Space } from "antd";
-import React from "react";
+import React, { useCallback } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../features/auth/hooks/UseAuth";
@@ -10,9 +10,13 @@ const AccountMenu: React.FC = () => {
   const logoutMutation = useLogout();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     logoutMutation.mutate();
-  };
+  }, [logoutMutation]);
+
+  const handleLoginClick = useCallback(() => {
+    navigate("/login");
+  }, [navigate]);
 
   type MenuItemType = {
     label: React.ReactNode;
@@ -69,7 +73,7 @@ const AccountMenu: React.FC = () => {
         </>
       ) : (
         <button
-          onClick={() => navigate("/login")}
+          onClick={handleLoginClick}
           className="rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
           disabled={isLoading}
         >
@@ -80,4 +84,4 @@ const AccountMenu: React.FC = () => {
   );
 };
 
-export default AccountMenu;
+export default React.memo(AccountMenu);
