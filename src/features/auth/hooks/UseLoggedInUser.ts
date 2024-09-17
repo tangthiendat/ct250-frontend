@@ -2,11 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { userService } from "../../../services/user-service";
 
 export function useLoggedInUser() {
-    const { data, isLoading, refetch } = useQuery({
-        queryKey: ["user", "logged-in"],
-        queryFn: userService.getLoggedInUser,
-    });
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["user", "logged-in"],
+    queryFn: userService.getLoggedInUser,
+  });
 
-    return { user: data?.payload || null, isLoading, refetch };
+  return { user: data?.payload, isLoading, refetch };
 }
-

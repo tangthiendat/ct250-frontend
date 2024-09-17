@@ -1,48 +1,47 @@
-import { Form, notification, Spin } from "antd";
+import { Form, notification } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useLogin } from "./hooks/UseAuth";
-import { useLoggedInUser } from "./hooks/UseLoggedInUser";
-import useRedirectIfLoggedIn from "./hooks/UseRedirectIfLoggedIn";
+import { IAuthRequest } from "../../interfaces";
 import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import SubmitButton from "./components/SubmitButton";
-import { IAuthRequest } from "../../interfaces";
+import { useLogin } from "./hooks/UseAuth";
 
 const LoginForm: React.FC = () => {
-  useRedirectIfLoggedIn();
+  const navigate = useNavigate();
 
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
-  const [loading, setLoading] = useState(false);
 
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
   };
+  const accessToken = localStorage.getItem("access_token");
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [accessToken, navigate]);
 
   const [loginForm] = Form.useForm<IAuthRequest>();
   const [notificationApi, contextHolder] = notification.useNotification();
-  const loginMutation = useLogin();
-  const { refetch } = useLoggedInUser();
+  const { login, isLoading } = useLogin();
 
   const onFinish = (data: IAuthRequest): void => {
-    setLoading(true);
-    loginMutation.mutate(data, {
-      onSuccess: async () => {
-        await refetch();
+    login(data, {
+      onSuccess: () => {
         notificationApi.success({
           message: "Đăng nhập thành công",
         });
-        setLoading(false);
       },
       onError: () => {
         notificationApi.error({
           message: "Đăng nhập thất bại",
         });
-        setLoading(false);
       },
     });
   };
@@ -50,11 +49,11 @@ const LoginForm: React.FC = () => {
   return (
     <>
       {contextHolder}
-      {loading && (
+      {/* {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <Spin size="large" />
         </div>
-      )}
+      )} */}
       <Form
         className="flex flex-col"
         onFinish={onFinish}
@@ -66,7 +65,7 @@ const LoginForm: React.FC = () => {
       >
         <EmailInput />
         <PasswordInput />
-        <SubmitButton loading={loading} />
+        <SubmitButton loading={isLoading} />
         <div className="mt-4 flex flex-col gap-5 text-center text-xs">
           <a
             href="#"
