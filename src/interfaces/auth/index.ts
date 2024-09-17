@@ -1,10 +1,10 @@
 export interface IAuthRequest {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface IAuthResponse {
-    accessToken: string;
+  accessToken: string;
 }
 
 export interface IUser {
@@ -22,41 +22,40 @@ export interface IUser {
     createdAt: string;
     updatedAt?: string;
     avatar?: string;
+
 }
 
 export interface IPermission {
-    permissionId: number;
-    name: string;
-    apiPath: string;
-    method: "GET" | "POST" | "PUT" | "DELETE";
-    module: string;
-    createdAt: string;
-    updatedAt?: string;
+  permissionId: number;
+  name: string;
+  apiPath: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  module: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
-
 export interface IPermission {
-    permissionId: number;
-    name: string;
-    apiPath: string;
-    method: "GET" | "POST" | "PUT" | "DELETE";
-    module: string;
-    createdAt: string;
-    updatedAt?: string;
+  permissionId: number;
+  name: string;
+  apiPath: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  module: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface IRole {
-    roleId: number;
-    roleName: string;
-    active: boolean;
-    description?: string;
-    permissions: IPermission[];
-    createdAt: string;
-    updatedAt?: string;
+  roleId: number;
+  roleName: string;
+  active: boolean;
+  description?: string;
+  permissions: IPermission[];
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface UserResponse {
-    status: number;
-    payload: IUser;
-
+  status: number;
+  payload: IUser;
 }

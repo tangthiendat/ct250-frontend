@@ -13,6 +13,7 @@ const RegisterForm: React.FC = () => {
   const { form, isLoading, contextHolder, onFinish } = useRegisterForm();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
+
   const handleGoogleLoginSuccess = async (tokenResponse: any) => {
     const userInfoResponse = await fetch(
       "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -23,6 +24,7 @@ const RegisterForm: React.FC = () => {
       },
     );
     const profile = await userInfoResponse.json();
+
 
     localStorage.removeItem("avatarUrl");
 
@@ -43,6 +45,7 @@ const RegisterForm: React.FC = () => {
       message: "Đăng nhập Google thất bại",
       description: "Có lỗi xảy ra trong quá trình đăng nhập Google",
     });
+
   };
 
   return (
