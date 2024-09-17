@@ -5,6 +5,7 @@ const IdentityFields: React.FC = () => (
     <Form.Item
       label="Hộ chiếu/CCCD"
       name="identityNumber"
+      hasFeedback
       rules={[
         {
           required: true,
@@ -22,6 +23,7 @@ const IdentityFields: React.FC = () => (
     <Form.Item
       label="Email"
       name="email"
+      hasFeedback
       rules={[
         {
           required: true,
