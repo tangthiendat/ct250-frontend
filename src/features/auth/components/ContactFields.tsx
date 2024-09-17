@@ -14,6 +14,7 @@ const ContactFields: React.FC = () => {
         className="flex-1"
         label="Số điện thoại"
         name="phoneNumber"
+        hasFeedback
         rules={[
           {
             required: true,

@@ -1,54 +1,46 @@
-import { Form, notification } from "antd";
-import moment from "moment";
+import { Form } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "../../../interfaces";
 import { useRegister } from "./UseAuth";
 
 export const useRegisterForm = () => {
-    const [form] = Form.useForm();
-    const { register, isLoading } = useRegister();
-    const [notificationApi, contextHolder] = notification.useNotification();
-    const navigate = useNavigate();
+  const [form] = Form.useForm<IUser>();
+  const { register, isLoading } = useRegister();
 
-    const accessToken = localStorage.getItem("access_token");
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (accessToken) {
-            navigate("/");
-        }
-    }, [accessToken, navigate]);
+  const accessToken = localStorage.getItem("access_token");
 
-    const onFinish = (values: any) => {
-        const formattedValues = {
-            ...values,
-            dateOfBirth: values.dateOfBirth
-                ? moment(values.dateOfBirth).format("DD/MM/YYYY")
-                : null,
-        };
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [accessToken, navigate]);
 
-        console.log("Form values before sending to backend:", formattedValues);
-
-        register(formattedValues, {
-            onSuccess: () => {
-                notificationApi.success({
-                    message: "Đăng ký thành công",
-                });
-                navigate("/login");
-            },
-            onError: (error) => {
-                console.error("Register error:", error);
-                notificationApi.error({
-                    message: "Đăng ký thất bại",
-                    description: "Có lỗi xảy ra trong quá trình đăng ký",
-                });
-            },
-        });
+  const onFinish = (values: IUser) => {
+    const formattedValues = {
+      ...values,
+      dateOfBirth: new Date(values.dateOfBirth).toISOString(),
+      firstName: values.firstName.toUpperCase(),
+      lastName: values.lastName.toUpperCase(),
     };
 
-    return {
-        form,
-        isLoading,
-        contextHolder,
-        onFinish,
-    };
+    console.log("Form values before sending to backend:", formattedValues);
+
+    register(formattedValues, {
+      onSuccess: () => {
+        navigate("/login");
+      },
+      onError: (error) => {
+        console.error("Register error:", error);
+      },
+    });
+  };
+
+  return {
+    form,
+    isLoading,
+    onFinish,
+  };
 };

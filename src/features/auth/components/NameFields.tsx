@@ -6,6 +6,7 @@ const NameFields: React.FC = () => (
       className="flex-1"
       label="Họ"
       name="lastName"
+      hasFeedback
       rules={[
         {
           required: true,
@@ -27,6 +28,7 @@ const NameFields: React.FC = () => (
       className="flex-1"
       label="Tên đệm & tên"
       name="firstName"
+      hasFeedback
       rules={[
         {
           required: true,
