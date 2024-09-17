@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { Form, notification } from "antd";
 import moment from "moment";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "./UseAuth";
 
@@ -25,6 +25,8 @@ export const useRegisterForm = () => {
                 ? moment(values.dateOfBirth).format("DD/MM/YYYY")
                 : null,
         };
+
+        console.log("Form values before sending to backend:", formattedValues);
 
         register(formattedValues, {
             onSuccess: () => {

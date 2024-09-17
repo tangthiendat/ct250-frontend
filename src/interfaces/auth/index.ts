@@ -21,6 +21,7 @@ export interface IUser {
     role: IRole;
     createdAt: string;
     updatedAt?: string;
+    avatar?: string;
 }
 
 export interface IPermission {
