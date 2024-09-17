@@ -2,7 +2,6 @@ import { Form, notification, Spin } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { IAuthRequest } from "../../interfaces";
 
 import { useLogin } from "./hooks/UseAuth";
 import { useLoggedInUser } from "./hooks/UseLoggedInUser";
@@ -10,6 +9,7 @@ import useRedirectIfLoggedIn from "./hooks/UseRedirectIfLoggedIn";
 import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import SubmitButton from "./components/SubmitButton";
+import { IAuthRequest } from "../../interfaces";
 
 const LoginForm: React.FC = () => {
   useRedirectIfLoggedIn();
