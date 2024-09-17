@@ -10,9 +10,10 @@ import IdentityFields from "./components/IndentityFields";
 import NameFields from "./components/NameFields";
 import PasswordFields from "./components/PasswordFields";
 import { useRegister } from "./hooks/UseAuth";
+import { IUser } from "../../interfaces";
 
 const RegisterForm: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<IUser>();
   const { register, isLoading } = useRegister();
   const [notificationApi, contextHolder] = notification.useNotification();
   const [componentSize, setComponentSize] = useState<"large">("large");
@@ -26,20 +27,20 @@ const RegisterForm: React.FC = () => {
     }
   }, [accessToken, navigate]);
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: IUser) => {
     const formattedValues = {
       ...values,
-      dateOfBirth: values.dateOfBirth
-        ? moment(values.dateOfBirth).format("DD/MM/YYYY")
-        : null,
+      dateOfBirth: moment(values.dateOfBirth).toISOString(),
+      firstName: values.firstName?.toUpperCase(),
+      lastName: values.lastName?.toUpperCase(),
     };
+    console.log(formattedValues);
 
     register(formattedValues, {
       onSuccess: () => {
         notificationApi.success({
           message: "Đăng ký thành công",
         });
-        navigate("/login");
       },
       onError: (error) => {
         console.error("Register error:", error);
@@ -49,25 +50,6 @@ const RegisterForm: React.FC = () => {
         });
       },
     });
-
-    // registerMutation.mutate(formattedValues, {
-    //   onSuccess: () => {
-    //     notificationApi.success({
-    //       message: "Đăng ký thành công",
-    //     });
-    //     setTimeout(() => {
-    //       setLoading(false);
-    //       navigate("/login");
-    //     }, 2000);
-    //   },
-    //   onError: (error) => {
-    //     notificationApi.error({
-    //       message: "Đăng ký thất bại",
-    //       description: error.message || "Có lỗi xảy ra trong quá trình đăng ký",
-    //     });
-    //     setLoading(false);
-    //   },
-    // });
   };
 
   return (
