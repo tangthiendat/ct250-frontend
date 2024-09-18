@@ -3,18 +3,14 @@ import React, { useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../features/auth/hooks/UseAuth";
 
-import { IUser } from "../interfaces";
+import { useLoggedInUser } from "../features/auth/hooks/UseLoggedInUser";
 import UserAvatar from "./UserAvatar";
-import { useAvatarUrl } from "../features/auth/hooks/UseAvatarUrl";
 
-interface AccountMenuProps {
-  user?: IUser;
-}
-
-const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
+const AccountMenu: React.FC = () => {
   const { logout } = useLogout();
   const navigate = useNavigate();
-  const avatarUrl = useAvatarUrl(user);
+
+  const { user } = useLoggedInUser();
 
   const handleLogout = useCallback(() => {
     logout();
@@ -74,7 +70,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
               className="flex items-center"
             >
               <Space>
-                <UserAvatar avatarUrl={avatarUrl} />
+                <UserAvatar avatarUrl={user?.avatar} />
               </Space>
             </a>
           </Dropdown>

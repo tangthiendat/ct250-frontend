@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../../../interfaces";
 import { useRegister } from "./UseAuth";
+import { formatISODate } from "../../../utils";
 
 export const useRegisterForm = () => {
   const [form] = Form.useForm<IUser>();
@@ -21,7 +22,7 @@ export const useRegisterForm = () => {
   const onFinish = (values: IUser) => {
     const formattedValues = {
       ...values,
-      dateOfBirth: new Date(values.dateOfBirth).toISOString(),
+      dateOfBirth: formatISODate(values.dateOfBirth.toString()),
       firstName: values.firstName.toUpperCase(),
       lastName: values.lastName.toUpperCase(),
     };

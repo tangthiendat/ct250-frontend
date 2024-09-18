@@ -4,13 +4,8 @@ import { Link } from "react-router-dom";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
-import { IUser } from "../interfaces";
 
-interface HeaderProps {
-  user?: IUser;
-}
-
-const Header: React.FC<HeaderProps> = ({ user }) => {
+const Header: React.FC = () => {
   const menuItems = [
     {
       key: "0",
@@ -103,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
         {/* Right Side Menus */}
         <div className="flex items-center">
           <LanguageMenu />
-          <AccountMenu user={user} />
+          <AccountMenu />
           <div className="lg:hidden">
             <Menu menuItems={menuItems} />
           </div>
