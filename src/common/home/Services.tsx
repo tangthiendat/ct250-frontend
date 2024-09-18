@@ -1,38 +1,38 @@
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Carousel } from "antd";
 import Title from "antd/es/typography/Title";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const moreServices = [
+const services = [
   {
-    src: "/pages/home/hanh_ly.jpg",
+    src: "/pages/home/services/hanh_ly.jpg",
     alt: "Hành lý",
     title: "Mua thêm hành lý ký gửi",
     description:
       "Nếu hành lý ký gửi của hành khách vượt quá quy định, hành khách có thể chọn mua thêm hành lý ký gửi!!!",
   },
   {
-    src: "/pages/home/suat_an.jpg",
+    src: "/pages/home/services/suat_an.jpg",
     alt: "Suất ăn",
     title: "Dịch vụ đặt trước suất ăn",
     description:
       "Với dịch vụ đặt trước suất ăn, hành khách có thể thoải mái lựa chọn suất ăn phù hợp với khẩu vị của mình.",
   },
   {
-    src: "/pages/home/cho_ngoi.jpg",
+    src: "/pages/home/services/cho_ngoi.jpg",
     alt: "Chỗ ngồi",
     title: "Lựa chọn chỗ ngồi yêu thích",
     description:
       "Hãy chọn trước chỗ ngồi để có được vị trí ưng ý nhất và tận hưởng trải nghiệm bay thoải mái cùng DaViKa Airways!!!",
   },
   {
-    src: "/pages/home/dichvu_thucung.jpg",
+    src: "/pages/home/services/dichvu_thucung.jpg",
     alt: "Dịch vụ thú cưng",
     title: "Dịch vụ vận chuyển thú cưng",
     description:
       "Hành khách có thể mang theo thú cưng lên khoang hành khách hoặc vận chuyển theo hành lý ký gửi.",
   },
   {
-    src: "/pages/home/dichvu_treem.jpg",
+    src: "/pages/home/services/dichvu_treem.jpg",
     alt: "Dịch vụ cho trẻ em",
     title: "Dịch vụ cho trẻ em đi một mình",
     description:
@@ -98,7 +98,7 @@ const Services: React.FC = () => {
         dots={false}
         autoplaySpeed={5000}
         speed={2000}
-        pauseOnHover={false}
+        pauseOnHover={true}
         slidesToShow={3}
         className="bg-re-700 mx-auto w-[90%] pt-2 transition-all duration-1000 lg:w-[80%]"
         responsive={[
@@ -116,7 +116,7 @@ const Services: React.FC = () => {
           },
         ]}
       >
-        {moreServices.map((service) => (
+        {services.map((service) => (
           <div key={service.alt} className="bg-red700 pb-8">
             <div className="mx-auto h-[380px] w-[90%] cursor-pointer rounded-xl bg-white shadow-xl transition-all duration-1000 sm:h-[430px] md:h-[380px] lg:h-[430px] xl:h-[380px]">
               <div className="overflow-hidden rounded-t-xl">

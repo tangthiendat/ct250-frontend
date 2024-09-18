@@ -32,8 +32,8 @@ const SearchPanel: React.FC = () => {
   return (
     <>
       <div className="relative flex justify-center py-6 transition-all duration-1000 md:px-4">
-        <div className="w-[90%] transition-all duration-1000 md:w-[70%]">
-          <div className="flex justify-center gap-2 transition-all duration-1000 md:gap-12">
+        <div className="w-[98%] transition-all duration-1000 sm:w-[95%] md:w-[70%]">
+          <div className="flex flex-col justify-center gap-1 transition-all duration-1000 sm:flex-row sm:gap-2 md:gap-6">
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>
                 <div
@@ -43,7 +43,7 @@ const SearchPanel: React.FC = () => {
                       : item.key === formActive
                         ? "bg-blue-700 text-white"
                         : "bg-slate-300 text-black"
-                  } text flex cursor-pointer items-center justify-center gap-2 rounded-3xl p-2 uppercase transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
+                  } flex cursor-pointer items-center justify-center gap-1 rounded-md p-2 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 md:gap-2 md:rounded-3xl md:uppercase`}
                   onClick={() => {
                     if (item.key === formActive) {
                       setFormActive("");
