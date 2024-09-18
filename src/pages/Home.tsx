@@ -7,7 +7,7 @@ import SearchPanel from "../features/searching/SearchPanel";
 
 const Home: React.FC = () => {
   return (
-    <div className="relative top-6 flex min-h-full flex-col justify-center">
+    <div className="relative flex min-h-full flex-col justify-center">
       <Banner />
       <SearchPanel />
       <FlightRoutes />

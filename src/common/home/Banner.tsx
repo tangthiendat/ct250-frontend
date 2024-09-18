@@ -28,11 +28,11 @@ const Banner: React.FC = () => {
       pauseOnHover={false}
     >
       {bannerImages.map((banner) => (
-        <div key={banner.alt}>
+        <div key={banner.alt} className="pt-2">
           <img
             src={banner.src}
             alt={banner.alt}
-            className="mx-auto w-[98%] rounded-xl px-10 transition-all duration-1000 md:w-[80%]"
+            className="mx-auto w-[98%] rounded-md transition-all duration-1000 sm:w-[90%] md:rounded-2xl lg:w-[80%]"
           />
         </div>
       ))}

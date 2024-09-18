@@ -2,7 +2,12 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-100 py-8">
+    <footer
+      className="rounded-t-3xl border bg-white py-8"
+      style={{
+        boxShadow: "0px -2px 20px 5px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <div className="container mx-auto flex flex-col items-center justify-between px-6 md:flex-row">
         {/* Left Section */}
         <div className="flex flex-col items-center md:flex-row md:items-start">

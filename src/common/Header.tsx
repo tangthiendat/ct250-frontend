@@ -39,19 +39,19 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 rounded-b-xl bg-white shadow-md">
+    <header className="sticky top-0 z-50 rounded-b-3xl bg-white shadow-md">
       <div className="mx-auto flex items-center justify-between px-4 py-2">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
             src="/logo512.png"
             alt="DaViKa Airways"
-            className="h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 lg:h-14 xl:h-16"
+            className="h-12 w-full min-w-24 transition-all duration-1000 ease-in-out hover:scale-110 lg:h-14 xl:h-16"
           />
         </Link>
 
         {/* Menu Navigation */}
-        <div className="hidden items-center md:flex">
+        <div className="g-blue-700 hidden items-center lg:flex">
           <ConfigProvider
             theme={{
               token: {
@@ -81,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                   >
                     <a
                       href={item.href}
-                      className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
+                      className="g-red-700 px-0 py-2 font-bold transition-all duration-500 hover:text-blue-600 lg:px-3 xl:px-8"
                     >
                       {item.title}
                     </a>
@@ -89,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                 ) : (
                   <a
                     href={item.href}
-                    className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
+                    className="g-red-700 px-0 py-2 font-bold transition-all duration-500 hover:text-blue-600 lg:px-3 xl:px-8"
                   >
                     {item.title}
                   </a>
@@ -104,8 +104,8 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
         <div className="flex items-center">
           <LanguageMenu />
           <AccountMenu user={user} />
-          <div className="md:hidden">
-            <Menu />
+          <div className="lg:hidden">
+            <Menu menuItems={menuItems} />
           </div>
         </div>
       </div>

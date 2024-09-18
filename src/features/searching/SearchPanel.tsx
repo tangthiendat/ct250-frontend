@@ -32,7 +32,7 @@ const SearchPanel: React.FC = () => {
   return (
     <>
       <div className="relative flex justify-center py-6 transition-all duration-1000 md:px-4">
-        <div className="w-[98%] transition-all duration-1000 sm:w-[95%] md:w-[70%]">
+        <div className="w-[95%] transition-all duration-1000 sm:w-[90%] md:w-[70%]">
           <div className="flex flex-col justify-center gap-1 transition-all duration-1000 sm:flex-row sm:gap-2 md:gap-6">
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>

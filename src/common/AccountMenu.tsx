@@ -25,6 +25,10 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
     navigate("/login");
   }, [navigate]);
 
+  const handleSignupClick = useCallback(() => {
+    navigate("/register");
+  }, [navigate]);
+
   type MenuItemType = {
     label: React.ReactNode;
     key: string;
@@ -35,19 +39,19 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
     {
       label: (
         <Link
-          to="/account"
-          className="block px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
+          to="/manage-account"
+          className="block cursor-pointer px-4 py-2 font-bold text-gray-700"
         >
           Quản lý tài khoản
         </Link>
       ),
-      key: "account",
+      key: "manage-account",
     },
     {
       label: (
         <span
           onClick={handleLogout}
-          className="block cursor-pointer px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-blue-500 hover:text-white"
+          className="block cursor-pointer px-4 py-2 font-bold text-gray-700"
         >
           Đăng xuất
         </span>
@@ -74,17 +78,25 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ user }) => {
               </Space>
             </a>
           </Dropdown>
-          <span className="ml-2 text-sm font-semibold text-gray-700">
+          <span className="text-sm font-semibold text-gray-700">
             {user.firstName} {user.lastName}
           </span>
         </>
       ) : (
-        <button
-          onClick={handleLoginClick}
-          className="rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-        >
-          Đăng nhập
-        </button>
+        <>
+          <button
+            onClick={handleLoginClick}
+            className="rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          >
+            Đăng nhập
+          </button>
+          <button
+            onClick={handleSignupClick}
+            className="ml-2 rounded-lg border border-blue-500 bg-white px-3 py-1.5 text-sm text-blue-500 transition-colors duration-200 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          >
+            Đăng ký
+          </button>
+        </>
       )}
     </div>
   );
