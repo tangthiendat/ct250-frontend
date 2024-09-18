@@ -1,15 +1,16 @@
 import { IoIosArrowForward } from "react-icons/io";
+import BodyLayout from "../../layouts/BodyLayout";
 
 const Destinations: React.FC = () => {
   return (
     <>
-      <div className="bg-blue-00 mx-auto w-[90%] py-5 transition-all duration-1000 lg:w-[80%]">
+      <BodyLayout>
         <h1 className="text-heading">Điểm đến nội địa</h1>
         <a href="#">
           <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
             <img
               className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-              src="/pages/home/VietNam.png"
+              src="/pages/home/destinations/VietNam/VietNam.png"
               alt="Viet Nam"
             />
             <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -20,16 +21,16 @@ const Destinations: React.FC = () => {
             </div>
           </div>
         </a>
-      </div>
+      </BodyLayout>
 
-      <div className="bg-blue-00 mx-auto mt-10 w-[90%] py-5 transition-all duration-1000 lg:w-[80%]">
+      <BodyLayout>
         <h1 className="text-heading">Châu Âu</h1>
         <div className="flex flex-col gap-5 md:flex-row">
           <a href="#">
             <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
               <img
                 className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-                src="/pages/home/Anh.png"
+                src="/pages/home/destinations/Europe/Anh.png"
                 alt="Anh"
               />
               <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -44,7 +45,7 @@ const Destinations: React.FC = () => {
             <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
               <img
                 className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-                src="/pages/home/Duc.png"
+                src="/pages/home/destinations/Europe/Duc.png"
                 alt="Đức"
               />
               <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -56,16 +57,16 @@ const Destinations: React.FC = () => {
             </div>
           </a>
         </div>
-      </div>
+      </BodyLayout>
 
-      <div className="bg-blue-00 mx-auto mt-10 w-[90%] py-5 transition-all duration-1000 lg:w-[80%]">
+      <BodyLayout>
         <h1 className="text-heading">Đông Bắc Á</h1>
         <div className="flex flex-col gap-5 md:flex-row">
           <a href="#">
             <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
               <img
                 className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-                src="/pages/home/HanQuoc.png"
+                src="/pages/home/destinations/NortheastAsia/HanQuoc.png"
                 alt="Hàn Quốc"
               />
               <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -80,7 +81,7 @@ const Destinations: React.FC = () => {
             <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
               <img
                 className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-                src="/pages/home/NhatBan.png"
+                src="/pages/home/destinations/NortheastAsia/NhatBan.png"
                 alt="Nhật Bản"
               />
               <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -96,7 +97,7 @@ const Destinations: React.FC = () => {
           <div className="relative mx-auto mt-5 h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
             <img
               className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-              src="/pages/home/DaiLoan.png"
+              src="/pages/home/destinations/NortheastAsia/DaiLoan.png"
               alt="Đài Loan"
             />
             <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -107,16 +108,16 @@ const Destinations: React.FC = () => {
             </div>
           </div>
         </a>
-      </div>
+      </BodyLayout>
 
-      <div className="bg-blue-00 mx-auto mt-10 w-[90%] py-5 transition-all duration-1000 lg:w-[80%]">
+      <BodyLayout>
         <h1 className="text-heading">Đông Nam Á</h1>
         <div className="flex flex-col gap-5 md:flex-row">
           <a href="#">
             <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
               <img
                 className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-                src="/pages/home/Singapore.png"
+                src="/pages/home/destinations/SoutheastAsia/Singapore.png"
                 alt="Singapore"
               />
               <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -131,7 +132,7 @@ const Destinations: React.FC = () => {
             <div className="relative mx-auto h-52 overflow-hidden rounded-ee-3xl rounded-ss-3xl transition-all duration-1000 sm:h-72 lg:h-96">
               <img
                 className="relative h-full w-full rounded-ee-3xl rounded-ss-3xl object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
-                src="/pages/home/ThaiLan.png"
+                src="/pages/home/destinations/SoutheastAsia/ThaiLan.png"
                 alt="Thái Lan"
               />
               <div className="absolute bottom-0 z-10 whitespace-normal pb-6 pl-6 font-serif text-2xl font-semibold text-white">
@@ -143,7 +144,7 @@ const Destinations: React.FC = () => {
             </div>
           </a>
         </div>
-      </div>
+      </BodyLayout>
     </>
   );
 };
