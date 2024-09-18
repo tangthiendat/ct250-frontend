@@ -66,21 +66,22 @@ const LoginForm: React.FC = () => {
         <EmailInput />
         <PasswordInput />
         <SubmitButton loading={isLoading} />
-        <div className="mt-4 flex flex-col gap-5 text-center text-xs">
-          <a
+        <div className="flex flex-col gap-5 text-center text-xs">
+          {/* <a
             href="#"
             className="text-sm font-semibold text-blue-700 hover:text-blue-900"
           >
             Quên mật khẩu?
-          </a>
+          </a> */}
           <span className="text-sm text-gray-900">
             Chưa có tài khoản?{" "}
             <Link
               to="/register"
               className="text-sm font-semibold text-blue-700 hover:text-blue-900"
             >
-              Đăng ký ngay
+              Đăng ký{" "}
             </Link>
+            ngay.
           </span>
         </div>
       </Form>

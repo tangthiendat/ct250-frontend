@@ -43,7 +43,10 @@ const DateAndGenderFields: React.FC = () => {
           },
         ]}
       >
-        <Radio.Group className="space-x-4" options={genderOptions} />
+        <Radio.Group
+          className="flex flex-row space-x-0"
+          options={genderOptions}
+        />
       </Form.Item>
     </div>
   );
