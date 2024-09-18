@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { useNavigate } from "react-router-dom";
 import {
   ApiResponse,
@@ -29,12 +28,9 @@ export const useLogin = () => {
 };
 
 export const useRegister = () => {
-  const navigate = useNavigate();
-
   const { mutate: register, isPending: isLoading } = useMutation({
-    mutationFn: (user: Omit<IUser, "userId">) => authService.register(user),
+    mutationFn: (user: Omit<IUser, "userId">) => authService.register(user, window.location.origin),
     onSuccess: () => {
-      navigate("/login");
     },
     onError: (error: unknown) => {
       console.error("Register error:", error);

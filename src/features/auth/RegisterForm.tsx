@@ -1,5 +1,5 @@
-import { Button, Divider, Form, notification } from "antd";
-import React, { useState } from "react";
+import { Button, Divider, Form, Modal, notification } from "antd";
+import React from "react";
 
 import ContactFields from "./components/ContactFields";
 import DateAndGenderFields from "./components/DateAndGenderFields";
@@ -10,8 +10,8 @@ import PasswordFields from "./components/PasswordFields";
 import { useRegisterForm } from "./hooks/UseRegisterForm";
 
 const RegisterForm: React.FC = () => {
-  const { form, isLoading, onFinish } = useRegisterForm();
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const { form, isLoading, onFinish, isModalVisible, handleModalOk } =
+    useRegisterForm();
 
   const handleGoogleLoginSuccess = async (tokenResponse: any) => {
     const userInfoResponse = await fetch(
@@ -33,7 +33,7 @@ const RegisterForm: React.FC = () => {
       avatar: profile.picture,
     });
     localStorage.setItem("avatarUrl", profile.picture);
-    setAvatarUrl(profile.picture);
+
     console.log("Google login profile:", profile);
   };
 
@@ -80,6 +80,18 @@ const RegisterForm: React.FC = () => {
           onError={handleGoogleLoginFailure}
         />
       </Form>
+
+      <Modal
+        title="Đăng ký thành công"
+        open={isModalVisible}
+        footer={[
+          <Button key="ok" type="primary" onClick={handleModalOk}>
+            Quay về trang đăng nhập
+          </Button>,
+        ]}
+      >
+        <p>Vui lòng kiểm tra email của bạn để kích hoạt tài khoản.</p>
+      </Modal>
     </>
   );
 };

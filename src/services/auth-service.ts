@@ -6,14 +6,20 @@ const apiClient: AxiosInstance = createApiClient("auth", { auth: false });
 
 interface IAuthService {
     login(authRequest: IAuthRequest): Promise<ApiResponse<IAuthResponse>>;
-    register(user: Omit<IUser, "userId">): Promise<ApiResponse<IUser>>;
+    register(user: Omit<IUser, "userId">, siteUrl: string): Promise<ApiResponse<IUser>>;
     logout(): Promise<ApiResponse<null>>;
     refreshToken(): Promise<void>;
+    verifyEmail(token: string): Promise<ApiResponse<IUser>>;
 }
 
 class AuthService implements IAuthService {
-    async register(userRequest: Omit<IUser, "userId">): Promise<ApiResponse<IUser>> {
-        return (await apiClient.post("/register", userRequest)).data;
+    async register(userRequest: Omit<IUser, "userId">, siteUrl: string): Promise<ApiResponse<IUser>> {
+
+        return (await apiClient.post("/register", userRequest, {
+            headers: {
+                siteUrl: siteUrl,
+            },
+        })).data;
     }
 
     async login(authRequest: IAuthRequest): Promise<ApiResponse<IAuthResponse>> {
@@ -37,13 +43,21 @@ class AuthService implements IAuthService {
             localStorage.setItem("access_token", accessToken);
         }
     }
+    async verifyEmail(token: string): Promise<ApiResponse<IUser>> {
+        try {
+            const response = await apiClient.get<ApiResponse<IUser>>(`/verify?token=${token}`);
+            return response.data;
+        } catch (error: any) {
+            throw new Error(error.response?.data?.message || "Email verification failed");
+        }
+    }
 }
 
 apiClient.interceptors.response.use(
     (response: AxiosResponse) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             await authService.refreshToken();
             const newAccessToken = localStorage.getItem("access_token");

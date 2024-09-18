@@ -8,20 +8,21 @@ export interface IAuthResponse {
 }
 
 export interface IUser {
-    userId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    gender: "MALE" | "FEMALE" | "OTHER";
-    identityNumber: string;
-    phoneNumber: string;
-    countryId: number;
-    active: boolean;
-    dateOfBirth: string;
-    role: IRole;
-    createdAt: string;
-    updatedAt?: string;
-    avatar?: string;
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  gender: "MALE" | "FEMALE" | "OTHER";
+  identityNumber: string;
+  phoneNumber: string;
+  countryId: number;
+  active: boolean;
+  dateOfBirth: string;
+  role: IRole;
+  createdAt: string;
+  updatedAt?: string;
+  avatar?: string;
+  verificationToken?: string;
 
 }
 

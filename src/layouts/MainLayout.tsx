@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../common/Footer";
-import Header from "../common/Header";
+import Header from "../common/Header/Header";
 import Loading from "../common/Loading";
 import { useLoggedInUser } from "../features/auth/hooks/UseLoggedInUser";
 

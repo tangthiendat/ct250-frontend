@@ -1,10 +1,10 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
+import { IUser } from "../../interfaces";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
-import { IUser } from "../interfaces";
 
 interface HeaderProps {
   user?: IUser;
@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                 key: item.key,
                 title: item.submenu ? (
                   <Dropdown
-                    overlay={
+                    menu={
                       <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
                           <AntdMenu.Item key={subItem.key}>

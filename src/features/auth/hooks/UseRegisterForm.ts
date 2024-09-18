@@ -1,5 +1,5 @@
-import { Form } from "antd";
-import { useEffect } from "react";
+import { Form, notification } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../../../interfaces";
 import { useRegister } from "./UseAuth";
@@ -7,6 +7,7 @@ import { useRegister } from "./UseAuth";
 export const useRegisterForm = () => {
   const [form] = Form.useForm<IUser>();
   const { register, isLoading } = useRegister();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigate = useNavigate();
 
@@ -30,17 +31,29 @@ export const useRegisterForm = () => {
 
     register(formattedValues, {
       onSuccess: () => {
-        navigate("/login");
+        form.resetFields();
+        setIsModalVisible(true);
       },
       onError: (error) => {
         console.error("Register error:", error);
+        notification.error({
+          message: "Đăng ký thất bại",
+          description: error.message || "Có lỗi xảy ra trong quá trình đăng ký.",
+        });
       },
     });
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+    navigate("/login");
   };
 
   return {
     form,
     isLoading,
     onFinish,
+    isModalVisible,
+    handleModalOk,
   };
 };
