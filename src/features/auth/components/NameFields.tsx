@@ -1,7 +1,7 @@
 import { Form, Input } from "antd";
 
 const NameFields: React.FC = () => (
-  <div className="flex gap-5">
+  <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
     <Form.Item
       className="flex-1"
       label="Họ"
@@ -19,8 +19,12 @@ const NameFields: React.FC = () => (
       ]}
     >
       <Input
-        placeholder="Họ, ví dụ PHAM"
-        style={{ textTransform: "uppercase" }}
+        placeholder="Ví dụ: PHAM"
+        styles={{
+          input: {
+            textTransform: "uppercase",
+          },
+        }}
       />
     </Form.Item>
 
@@ -41,8 +45,12 @@ const NameFields: React.FC = () => (
       ]}
     >
       <Input
-        placeholder="Tên đệm & tên, ví dụ VAN A"
-        style={{ textTransform: "uppercase" }}
+        placeholder="Ví dụ: VAN A"
+        styles={{
+          input: {
+            textTransform: "uppercase",
+          },
+        }}
       />
     </Form.Item>
   </div>

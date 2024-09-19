@@ -1,5 +1,6 @@
 import { Button, Divider, Form, notification } from "antd";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import ContactFields from "./components/ContactFields";
 import DateAndGenderFields from "./components/DateAndGenderFields";
 import GoogleLoginButton from "./components/GoogleLoginButton";
@@ -7,7 +8,6 @@ import IdentityFields from "./components/IndentityFields";
 import NameFields from "./components/NameFields";
 import PasswordFields from "./components/PasswordFields";
 import { useRegisterForm } from "./hooks/UseRegisterForm";
-import { Link } from "react-router-dom";
 
 const RegisterForm: React.FC = () => {
   const { form, isLoading, onFinish } = useRegisterForm();

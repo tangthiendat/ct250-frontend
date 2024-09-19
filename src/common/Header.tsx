@@ -28,17 +28,17 @@ const Header: React.FC = () => {
 
   const menuItems = [
     {
-      key: "0",
+      key: "flights",
       title: "Chuyến bay của tôi",
       href: "/flights",
     },
     {
-      key: "1",
+      key: "checkin",
       title: "Online Check-in",
       href: "/checkin",
     },
     {
-      key: "2",
+      key: "services",
       title: "Dịch vụ bổ sung",
       href: "/services",
       submenu: [
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
       ],
     },
     {
-      key: "3",
+      key: "support",
       title: "Hỗ trợ",
       href: "/support",
     },
@@ -124,13 +124,13 @@ const Header: React.FC = () => {
             <>
               <button
                 onClick={handleLoginClick}
-                className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+                className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 max-[465px]:hidden"
               >
                 Đăng nhập
               </button>
               <button
                 onClick={handleSignupClick}
-                className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+                className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 max-[465px]:hidden"
               >
                 Đăng ký
               </button>

@@ -12,7 +12,7 @@ const DateAndGenderFields: React.FC = () => {
     return current && current > moment().endOf("day");
   };
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
       <Form.Item
         className="flex-1"
         label="Ngày sinh"
@@ -44,7 +44,7 @@ const DateAndGenderFields: React.FC = () => {
         ]}
       >
         <Radio.Group
-          className="flex flex-row space-x-0"
+          className="flex flex-row justify-between space-x-0"
           options={genderOptions}
         />
       </Form.Item>
