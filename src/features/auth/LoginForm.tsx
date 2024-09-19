@@ -1,8 +1,6 @@
 import { Form } from "antd";
-import { SizeType } from "antd/es/config-provider/SizeContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import toast from "react-hot-toast";
 import { IAuthRequest } from "../../interfaces";
 import EmailInput from "./components/EmailInput";
@@ -13,13 +11,6 @@ import { useLogin } from "./hooks/UseAuth";
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const [componentSize, setComponentSize] = useState<SizeType | "default">(
-    "large",
-  );
-
-  const onFormLayoutChange = ({ size }: { size: SizeType }) => {
-    setComponentSize(size);
-  };
   const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
@@ -45,19 +36,12 @@ const LoginForm: React.FC = () => {
 
   return (
     <>
-      {/* {isLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
-          <Spin size="large" />
-        </div>
-      )} */}
       <Form
         className="flex flex-col"
         onFinish={onFinish}
         form={loginForm}
         layout="vertical"
-        initialValues={{ size: componentSize }}
-        onValuesChange={onFormLayoutChange}
-        size={componentSize as SizeType}
+        size="large"
       >
         <EmailInput />
         <PasswordInput />
