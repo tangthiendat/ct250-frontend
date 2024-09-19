@@ -14,7 +14,7 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
 
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
-    "default",
+    "large",
   );
 
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
