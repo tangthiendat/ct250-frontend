@@ -1,6 +1,6 @@
 import { Dropdown, Space } from "antd";
 import React, { useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLogout } from "../features/auth/hooks/UseAuth";
 
 import { useLoggedInUser } from "../features/auth/hooks/UseLoggedInUser";
@@ -8,7 +8,6 @@ import UserAvatar from "./UserAvatar";
 
 const AccountMenu: React.FC = () => {
   const { logout } = useLogout();
-  const navigate = useNavigate();
 
   const { user } = useLoggedInUser();
 
@@ -16,14 +15,6 @@ const AccountMenu: React.FC = () => {
     logout();
     localStorage.removeItem("avatarUrl"); // Clear avatar URL on logout
   }, [logout]);
-
-  const handleLoginClick = useCallback(() => {
-    navigate("/login");
-  }, [navigate]);
-
-  const handleSignupClick = useCallback(() => {
-    navigate("/register");
-  }, [navigate]);
 
   type MenuItemType = {
     label: React.ReactNode;
@@ -58,7 +49,7 @@ const AccountMenu: React.FC = () => {
 
   return (
     <div className="flex items-center">
-      {user ? (
+      {user && (
         <>
           <Dropdown
             menu={{ items }}
@@ -77,21 +68,6 @@ const AccountMenu: React.FC = () => {
           <span className="text-sm font-semibold text-gray-700">
             {user.firstName} {user.lastName}
           </span>
-        </>
-      ) : (
-        <>
-          <button
-            onClick={handleLoginClick}
-            className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-          >
-            Đăng nhập
-          </button>
-          <button
-            onClick={handleSignupClick}
-            className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-          >
-            Đăng ký
-          </button>
         </>
       )}
     </div>

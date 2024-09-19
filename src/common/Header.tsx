@@ -1,11 +1,31 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const [showAccountMenu, setShowAccountMenu] = useState<boolean>(false);
+  const accessToken = localStorage.getItem("access_token");
+
+  useEffect(() => {
+    if (accessToken) {
+      setShowAccountMenu(true);
+    } else {
+      setShowAccountMenu(false);
+    }
+  }, [accessToken]);
+
+  const handleLoginClick = useCallback(() => {
+    navigate("/login");
+  }, [navigate]);
+
+  const handleSignupClick = useCallback(() => {
+    navigate("/register");
+  }, [navigate]);
+
   const menuItems = [
     {
       key: "0",
@@ -98,7 +118,24 @@ const Header: React.FC = () => {
         {/* Right Side Menus */}
         <div className="flex items-center">
           <LanguageMenu />
-          <AccountMenu />
+          {showAccountMenu ? (
+            <AccountMenu />
+          ) : (
+            <>
+              <button
+                onClick={handleLoginClick}
+                className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+              >
+                Đăng nhập
+              </button>
+              <button
+                onClick={handleSignupClick}
+                className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+              >
+                Đăng ký
+              </button>
+            </>
+          )}
           <div className="lg:hidden">
             <Menu menuItems={menuItems} />
           </div>

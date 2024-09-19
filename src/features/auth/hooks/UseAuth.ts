@@ -45,6 +45,7 @@ export const useRegister = () => {
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate: logout } = useMutation({
     mutationFn: () => authService.logout(),
@@ -55,6 +56,7 @@ export const useLogout = () => {
           return query.queryKey.includes("user");
         },
       });
+      navigate("/");
     },
     onError: (error: unknown) => {
       console.error("Logout error:", error);

@@ -1,8 +1,9 @@
-import { Form, notification } from "antd";
+import { Form } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import toast from "react-hot-toast";
 import { IAuthRequest } from "../../interfaces";
 import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
@@ -28,27 +29,22 @@ const LoginForm: React.FC = () => {
   }, [accessToken, navigate]);
 
   const [loginForm] = Form.useForm<IAuthRequest>();
-  const [notificationApi, contextHolder] = notification.useNotification();
+
   const { login, isLoading } = useLogin();
 
   const onFinish = (data: IAuthRequest): void => {
     login(data, {
       onSuccess: () => {
-        notificationApi.success({
-          message: "Đăng nhập thành công",
-        });
+        toast.success("Đăng nhập thành công");
       },
       onError: () => {
-        notificationApi.error({
-          message: "Đăng nhập thất bại",
-        });
+        toast.error("Đăng nhập thất bại");
       },
     });
   };
 
   return (
     <>
-      {contextHolder}
       {/* {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <Spin size="large" />

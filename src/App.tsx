@@ -3,6 +3,7 @@ import AppRouter from "./router/AppRouter";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import viVN from "antd/locale/vi_VN";
 import { ConfigProvider } from "antd";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +20,24 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         <AppRouter />
       </QueryClientProvider>
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          marginTop: "0.25rem",
+        }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 3000,
+          },
+          style: {
+            fontSize: "1rem",
+            padding: "0.75rem 1rem",
+          },
+        }}
+      />
     </ConfigProvider>
   );
 }
