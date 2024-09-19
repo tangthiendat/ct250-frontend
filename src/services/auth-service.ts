@@ -6,23 +6,28 @@ const apiClient: AxiosInstance = createApiClient("auth", { auth: false });
 
 interface IAuthService {
   login(authRequest: IAuthRequest): Promise<ApiResponse<IAuthResponse>>;
-  register(user: Omit<IUser, "userId">): Promise<ApiResponse<IUser>>;
+  register(user: Omit<IUser, "userId">, siteUrl: string): Promise<ApiResponse<IUser>>;
   logout(): Promise<ApiResponse<null>>;
   refreshToken(): Promise<void>;
+  verifyEmail(token: string): Promise<ApiResponse<IUser>>;
 }
 
 class AuthService implements IAuthService {
-  async register(
-    userRequest: Omit<IUser, "userId">,
-  ): Promise<ApiResponse<IUser>> {
-    return (await apiClient.post("/register", userRequest)).data;
+  async register(userRequest: Omit<IUser, "userId">, siteUrl: string): Promise<ApiResponse<IUser>> {
+
+    return (await apiClient.post("/register", userRequest, {
+      headers: {
+        siteUrl: siteUrl,
+      },
+    })).data;
   }
 
   async login(authRequest: IAuthRequest): Promise<ApiResponse<IAuthResponse>> {
-    const response = await apiClient.post<ApiResponse<IAuthResponse>>(
-      "/login",
-      authRequest,
-    );
+    const response = await apiClient.post<ApiResponse<IAuthResponse>>("/login", authRequest);
+    if (response.data.status === 200) {
+      const { accessToken } = response.data.payload;
+      localStorage.setItem("access_token", accessToken);
+    }
     return response.data;
   }
 
@@ -36,6 +41,14 @@ class AuthService implements IAuthService {
     if (response.data.status === 200) {
       const { accessToken } = response.data.payload;
       localStorage.setItem("access_token", accessToken);
+    }
+  }
+  async verifyEmail(token: string): Promise<ApiResponse<IUser>> {
+    try {
+      const response = await apiClient.get<ApiResponse<IUser>>(`/verify?token=${token}`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Email verification failed");
     }
   }
 }

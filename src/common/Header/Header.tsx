@@ -1,6 +1,8 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { IUser } from "../../interfaces";
+import { userService } from "../../services/user-service";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
@@ -8,14 +10,28 @@ import Menu from "./Menu";
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const [showAccountMenu, setShowAccountMenu] = useState<boolean>(false);
+  const [user, setUser] = useState<IUser | null>(null);
   const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
-    if (accessToken) {
-      setShowAccountMenu(true);
-    } else {
-      setShowAccountMenu(false);
-    }
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const response = await userService.getLoggedInUser();
+          const userData = response.payload;
+          if (userData) {
+            setUser(userData);
+            setShowAccountMenu(true);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      } else {
+        setShowAccountMenu(false);
+      }
+    };
+
+    fetchUserData();
   }, [accessToken]);
 
   const handleLoginClick = useCallback(() => {
@@ -80,7 +96,7 @@ const Header: React.FC = () => {
                 key: item.key,
                 title: item.submenu ? (
                   <Dropdown
-                    overlay={
+                    overLay={
                       <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
                           <AntdMenu.Item key={subItem.key}>
