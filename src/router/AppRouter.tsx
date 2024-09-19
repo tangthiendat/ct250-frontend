@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyAccount from "../features/account-management/MyAccount";
-import PersonalInfo from "../features/account-management/PersonalInfo";
 import TransactionHistory from "../features/account-management/TransactionHistory";
 import MainLayout from "../layouts/MainLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
@@ -30,10 +29,6 @@ const router = createBrowserRouter([
           {
             path: "/manage-account/my-account",
             element: <MyAccount />,
-          },
-          {
-            path: "/manage-account/personal-info",
-            element: <PersonalInfo />,
           },
           {
             path: "/manage-account/transaction-history",

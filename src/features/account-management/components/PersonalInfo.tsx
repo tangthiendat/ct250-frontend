@@ -12,20 +12,13 @@ import {
 import { CiEdit } from "react-icons/ci";
 
 const initialPersonalInfo = {
-  avatar: (
-    <Avatar shape="square" size={120}>
-      P
-    </Avatar>
-  ),
-  name: "Phạm Quốc Khang",
+  name: "Tăng Thanh Hà",
   dob: "01/01/2000",
   passport: "123456789",
   nationality: "Việt Nam",
 };
 
 const initialContactInfo = {
-  phone: "+84123456789",
-  email: "test@gmail.com",
   country: "Việt Nam",
   city: "Cần Thơ",
   district: "Ninh Kiều",
@@ -80,9 +73,9 @@ const PersonalInfo: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 md:flex-row">
+    <>
       <Card
-        className="flex-1 shadow md:shadow-md"
+        className="flex-1 shadow-lg md:shadow-md"
         title="Thông tin cá nhân"
         bordered={true}
         extra={
@@ -93,7 +86,9 @@ const PersonalInfo: React.FC = () => {
       >
         <div className="flex flex-col gap-5 lg:flex-row">
           <div className="flex items-center justify-center">
-            {personalInfo.avatar}
+            <Avatar shape="square" size={120}>
+              {personalInfo.name[0]}
+            </Avatar>
           </div>
           <Descriptions
             column={{
@@ -101,7 +96,7 @@ const PersonalInfo: React.FC = () => {
               sm: 1,
               md: 1,
               lg: 1,
-              xl: 2,
+              xl: 1,
               xxl: 2,
             }}
           >
@@ -122,7 +117,7 @@ const PersonalInfo: React.FC = () => {
       </Card>
 
       <Card
-        className="flex-1 shadow md:shadow-md"
+        className="flex-1 shadow-lg md:shadow-md"
         title="Thông tin liên hệ"
         bordered={true}
         extra={
@@ -138,15 +133,9 @@ const PersonalInfo: React.FC = () => {
             md: 1,
             lg: 1,
             xl: 2,
-            xxl: 2,
+            xxl: 3,
           }}
         >
-          <Descriptions.Item label={<strong>Số điện thoại</strong>}>
-            <strong>{contactInfo.phone}</strong>
-          </Descriptions.Item>
-          <Descriptions.Item label={<strong>Email</strong>}>
-            <strong>{contactInfo.email}</strong>
-          </Descriptions.Item>
           <Descriptions.Item label={<strong>Quốc gia</strong>}>
             <strong>{contactInfo.country}</strong>
           </Descriptions.Item>
@@ -167,7 +156,7 @@ const PersonalInfo: React.FC = () => {
 
       <Modal
         title="Chỉnh sửa thông tin cá nhân"
-        visible={isPersonalInfoModalVisible}
+        open={isPersonalInfoModalVisible}
         onOk={handlePersonalInfoOk}
         onCancel={handleCancel}
       >
@@ -205,25 +194,11 @@ const PersonalInfo: React.FC = () => {
 
       <Modal
         title="Chỉnh sửa thông tin liên hệ"
-        visible={isContactInfoModalVisible}
+        open={isContactInfoModalVisible}
         onOk={handleContactInfoOk}
         onCancel={handleCancel}
       >
         <Form form={form} layout="vertical">
-          <Form.Item
-            name="phone"
-            label="Số điện thoại"
-            rules={[{ required: true, message: "Vui lòng nhập số điện thoại" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[{ required: true, message: "Vui lòng nhập email" }]}
-          >
-            <Input />
-          </Form.Item>
           <Form.Item
             name="country"
             label="Quốc gia"
@@ -263,7 +238,7 @@ const PersonalInfo: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </div>
+    </>
   );
 };
 

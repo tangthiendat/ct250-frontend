@@ -3,7 +3,6 @@ import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import { FaHistory, FaUserCircle } from "react-icons/fa";
-import { FaCircleInfo } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
 
 const menuItems = [
@@ -11,13 +10,6 @@ const menuItems = [
     label: <NavLink to="/manage-account/my-account">Tài khoản của tôi</NavLink>,
     key: "my-account",
     icon: <FaUserCircle />,
-  },
-  {
-    label: (
-      <NavLink to="/manage-account/personal-info">Thông tin cá nhân</NavLink>
-    ),
-    key: "personal-info",
-    icon: <FaCircleInfo />,
   },
   {
     label: (
@@ -33,8 +25,9 @@ const menuItems = [
 const ManageAccountLayout: React.FC = () => {
   const [currentMenuItem, setCurrentMenuItem] = useState("my-account");
 
-  const handleMenuClick = (e: { key: string }) => {
-    setCurrentMenuItem(e.key);
+  const handleMenuClick = (key: string) => {
+    setCurrentMenuItem(key);
+    console.log(key);
   };
 
   return (
@@ -44,27 +37,20 @@ const ManageAccountLayout: React.FC = () => {
         breakpoint="md"
         collapsedWidth="1"
         collapsible={false}
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={["my-account"]}
           selectedKeys={[currentMenuItem]}
           items={menuItems}
-          onClick={handleMenuClick}
+          onClick={(e) => handleMenuClick(e.key)}
         />
       </Sider>
 
       <Layout>
         <Tabs
           className="absolute md:hidden"
-          defaultActiveKey="1"
+          activeKey={currentMenuItem}
           type="card"
           size="large"
           items={menuItems.map((item) => {
@@ -73,6 +59,7 @@ const ManageAccountLayout: React.FC = () => {
               key: item.key,
             };
           })}
+          onChange={(key) => handleMenuClick(key)}
         />
 
         <Content className="mt-10 md:mt-0 md:p-2">
