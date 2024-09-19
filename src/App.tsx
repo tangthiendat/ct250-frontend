@@ -4,6 +4,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import viVN from "antd/locale/vi_VN";
 import { ConfigProvider } from "antd";
 import { Toaster } from "react-hot-toast";
+import "dayjs/locale/vi";
+import dayjs from "dayjs";
+
+dayjs.locale("vi");
 
 const queryClient = new QueryClient({
   defaultOptions: {
