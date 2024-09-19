@@ -9,7 +9,7 @@ const ContactFields: React.FC = () => {
   }));
 
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
       <Form.Item
         className="flex-1"
         label="Số điện thoại"
