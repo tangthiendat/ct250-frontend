@@ -1,4 +1,4 @@
-import { Button, Divider, Form, notification } from "antd";
+import { Button, Divider, Form, Modal, notification } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import ContactFields from "./components/ContactFields";
