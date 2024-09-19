@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { MdFlight, MdFlightTakeoff } from "react-icons/md";
-import SearchFlightsForm from "./SearchFlightsForm";
+import SearchFlightsForm from "./flights/SearchFlightsForm";
+import CheckinForm from "./checkin/CheckinForm";
+import SearchTicketForm from "./ticket/SearchTicketForm";
 
 const btnItems = [
   {
@@ -29,13 +31,19 @@ const SearchPanel: React.FC = () => {
 
   return (
     <>
-      <div className="relative flex justify-center py-6 md:px-4">
-        <div className="w-[90%] md:w-[70%]">
-          <div className="flex justify-center gap-2 md:gap-12">
+      <div className="relative flex justify-center py-6 transition-all duration-1000 md:px-4">
+        <div className="w-[95%] transition-all duration-1000 sm:w-[90%] md:w-[70%]">
+          <div className="flex flex-col justify-center gap-1 transition-all duration-1000 sm:flex-row sm:gap-2 md:gap-6">
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>
                 <div
-                  className={`${item.key === formActive ? "bg-blue-700 text-white" : "bg-slate-300 text-black"} ${formActive === "" && "bg-blue-700 p-2 text-white"} text flex cursor-pointer items-center justify-center gap-2 rounded-3xl p-2 uppercase text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
+                  className={`${
+                    formActive === ""
+                      ? "bg-blue-700 p-2 text-white"
+                      : item.key === formActive
+                        ? "bg-blue-700 text-white"
+                        : "bg-slate-300 text-black"
+                  } flex cursor-pointer items-center justify-center gap-1 rounded-md p-2 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 md:gap-2 md:rounded-3xl md:uppercase`}
                   onClick={() => {
                     if (item.key === formActive) {
                       setFormActive("");
@@ -53,11 +61,11 @@ const SearchPanel: React.FC = () => {
         </div>
       </div>
 
-      <div className="relative md:flex md:justify-center md:px-4">
-        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl md:w-[70%]">
+      <div className="relative transition-all duration-1000 md:flex md:justify-center md:px-4">
+        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl transition-all duration-1000 md:w-[70%]">
           {formActive === "booking" && <SearchFlightsForm />}
-          {formActive === "checkin" && <div></div>}
-          {formActive === "my-tickets" && <div></div>}
+          {formActive === "checkin" && <CheckinForm />}
+          {formActive === "my-tickets" && <SearchTicketForm />}
         </div>
       </div>
     </>

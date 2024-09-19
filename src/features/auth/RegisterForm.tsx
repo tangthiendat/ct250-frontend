@@ -1,6 +1,6 @@
 import { Button, Divider, Form, Modal, notification } from "antd";
 import React from "react";
-
+import { Link } from "react-router-dom";
 import ContactFields from "./components/ContactFields";
 import DateAndGenderFields from "./components/DateAndGenderFields";
 import GoogleLoginButton from "./components/GoogleLoginButton";
@@ -79,6 +79,18 @@ const RegisterForm: React.FC = () => {
           onSuccess={handleGoogleLoginSuccess}
           onError={handleGoogleLoginFailure}
         />
+        <div className="mt-4 flex flex-col gap-5 text-center text-xs">
+          <span className="text-sm text-gray-900">
+            Bạn đã có tài khoản? Quay lại{" "}
+            <Link
+              to="/login"
+              className="text-sm font-semibold text-blue-700 hover:text-blue-900"
+            >
+              đăng nhập
+            </Link>
+            .
+          </span>
+        </div>
       </Form>
 
       <Modal

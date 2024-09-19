@@ -40,19 +40,19 @@ export const useRegister = () => {
 };
 
 export const useLogout = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate: logout } = useMutation({
     mutationFn: () => authService.logout(),
     onSuccess: () => {
       window.localStorage.removeItem("access_token");
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         predicate: (query) => {
           return query.queryKey.includes("user");
         },
       });
-      navigate("/login");
+      navigate("/");
     },
     onError: (error: unknown) => {
       console.error("Logout error:", error);

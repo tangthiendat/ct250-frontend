@@ -1,16 +1,47 @@
 import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../../interfaces";
+import { userService } from "../../services/user-service";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
 
-interface HeaderProps {
-  user?: IUser;
-}
+const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const [showAccountMenu, setShowAccountMenu] = useState<boolean>(false);
+  const [user, setUser] = useState<IUser | null>(null);
+  const accessToken = localStorage.getItem("access_token");
 
-const Header: React.FC<HeaderProps> = ({ user }) => {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const response = await userService.getLoggedInUser();
+          const userData = response.payload;
+          if (userData) {
+            setUser(userData);
+            setShowAccountMenu(true);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      } else {
+        setShowAccountMenu(false);
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
+
+  const handleLoginClick = useCallback(() => {
+    navigate("/login");
+  }, [navigate]);
+
+  const handleSignupClick = useCallback(() => {
+    navigate("/register");
+  }, [navigate]);
+
   const menuItems = [
     {
       key: "0",
@@ -39,19 +70,19 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 rounded-b-xl bg-white shadow-md">
+    <header className="sticky top-0 z-50 rounded-b-3xl bg-white shadow-md">
       <div className="mx-auto flex items-center justify-between px-4 py-2">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
             src="/logo512.png"
             alt="DaViKa Airways"
-            className="h-12 w-full max-w-lg transition-transform duration-300 ease-in-out hover:scale-110 lg:h-14 xl:h-16"
+            className="h-12 w-full min-w-24 transition-all duration-1000 ease-in-out hover:scale-110 lg:h-14 xl:h-16"
           />
         </Link>
 
         {/* Menu Navigation */}
-        <div className="hidden items-center md:flex">
+        <div className="g-blue-700 hidden items-center lg:flex">
           <ConfigProvider
             theme={{
               token: {
@@ -65,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                 key: item.key,
                 title: item.submenu ? (
                   <Dropdown
-                    menu={
+                    overLay={
                       <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
                           <AntdMenu.Item key={subItem.key}>
@@ -81,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                   >
                     <a
                       href={item.href}
-                      className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
+                      className="g-red-700 px-0 py-2 font-bold transition-all duration-500 hover:text-blue-600 lg:px-3 xl:px-8"
                     >
                       {item.title}
                     </a>
@@ -89,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                 ) : (
                   <a
                     href={item.href}
-                    className="px-0 py-2 font-bold transition-colors duration-200 hover:text-blue-600 lg:px-4"
+                    className="g-red-700 px-0 py-2 font-bold transition-all duration-500 hover:text-blue-600 lg:px-3 xl:px-8"
                   >
                     {item.title}
                   </a>
@@ -103,9 +134,26 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
         {/* Right Side Menus */}
         <div className="flex items-center">
           <LanguageMenu />
-          <AccountMenu user={user} />
-          <div className="md:hidden">
-            <Menu />
+          {showAccountMenu ? (
+            <AccountMenu />
+          ) : (
+            <>
+              <button
+                onClick={handleLoginClick}
+                className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+              >
+                Đăng nhập
+              </button>
+              <button
+                onClick={handleSignupClick}
+                className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+              >
+                Đăng ký
+              </button>
+            </>
+          )}
+          <div className="lg:hidden">
+            <Menu menuItems={menuItems} />
           </div>
         </div>
       </div>

@@ -2,20 +2,22 @@ import { Drawer } from "antd";
 import React, { useEffect, useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 
-const items = [
-  { key: "0", title: "Khám phá", href: "#0" },
-  { key: "1", title: "Chuyến bay của tôi", href: "#1" },
-  { key: "2", title: "Dịch vụ bổ sung", href: "#2" },
-  { key: "3", title: "Góp ý", href: "#3" },
-  { key: "4", title: "Hỗ trợ", href: "#4" },
-];
+interface MenuItem {
+  key: string;
+  title: string;
+  href: string;
+}
 
-const Menu: React.FC = () => {
+interface MenuProps {
+  menuItems: MenuItem[];
+}
+
+const Menu: React.FC<MenuProps> = ({ menuItems }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 841) {
+      if (window.innerWidth > 1024) {
         setOpen(false);
       }
     };
@@ -45,7 +47,7 @@ const Menu: React.FC = () => {
         }}
       >
         <div className="flex flex-col space-y-2 p-5">
-          {items.map((item) => (
+          {menuItems.map((item) => (
             <a
               key={item.key}
               href={item.href}

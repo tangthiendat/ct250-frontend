@@ -32,7 +32,7 @@ const ContactFields: React.FC = () => {
       <Form.Item
         className="flex-1"
         label="Quốc gia"
-        name="countryId"
+        name={["country", "countryId"]}
         rules={[
           {
             required: true,

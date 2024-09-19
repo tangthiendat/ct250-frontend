@@ -1,19 +1,17 @@
-
-import { AxiosInstance } from 'axios';
-import { ApiResponse, ICountry } from '../interfaces';
-import { createApiClient } from './api-client';
+import { AxiosInstance } from "axios";
+import { ApiResponse, ICountry } from "../interfaces";
+import { createApiClient } from "./api-client";
 
 interface ICountryService {
-    getCountries(): Promise<ApiResponse<ICountry[]>>;
+  getAllCountries(): Promise<ApiResponse<ICountry[]>>;
 }
 
-const apiClient: AxiosInstance = createApiClient('countries');
+const apiClient: AxiosInstance = createApiClient("countries", { auth: false });
 
 class CountryService implements ICountryService {
-    public async getCountries(): Promise<ApiResponse<ICountry[]>> {
-        return (await apiClient.get('')).data;
-    }
+  public async getAllCountries(): Promise<ApiResponse<ICountry[]>> {
+    return (await apiClient.get("/all")).data;
+  }
 }
 
 export const countryService = new CountryService();
-

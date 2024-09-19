@@ -1,7 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { UserProvider } from "../common/Header/UserContext";
 import EmailVerification from "../features/auth/components/EmailVerification";
-import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -17,11 +15,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-    ],
-  },
-  {
-    element: <AuthLayout />,
-    children: [
       {
         path: "/login",
         element: <Login />,
@@ -40,11 +33,7 @@ const router = createBrowserRouter([
 ]);
 
 const AppRouter: React.FC = () => {
-  return (
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default AppRouter;

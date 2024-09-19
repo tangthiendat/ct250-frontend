@@ -1,5 +1,5 @@
 export interface ICountry {
-    countryId: string;
-    countryName: string;
-    countryCode: string;
+  countryId: string;
+  countryName: string;
+  countryCode: number;
 }
