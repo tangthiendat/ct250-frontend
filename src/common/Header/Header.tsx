@@ -96,7 +96,7 @@ const Header: React.FC = () => {
                 key: item.key,
                 title: item.submenu ? (
                   <Dropdown
-                    overLay={
+                    overlay={
                       <AntdMenu className="mt-2 border-none shadow-lg">
                         {item.submenu.map((subItem) => (
                           <AntdMenu.Item key={subItem.key}>
@@ -114,7 +114,7 @@ const Header: React.FC = () => {
                       href={item.href}
                       className="g-red-700 px-0 py-2 font-bold transition-all duration-500 hover:text-blue-600 lg:px-3 xl:px-8"
                     >
-                      {item.title}
+                      {item.title.toUpperCase()}
                     </a>
                   </Dropdown>
                 ) : (
@@ -122,7 +122,7 @@ const Header: React.FC = () => {
                     href={item.href}
                     className="g-red-700 px-0 py-2 font-bold transition-all duration-500 hover:text-blue-600 lg:px-3 xl:px-8"
                   >
-                    {item.title}
+                    {item.title.toUpperCase()}
                   </a>
                 ),
                 href: item.href,

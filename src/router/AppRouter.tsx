@@ -12,36 +12,38 @@ import EmailVerification from "../features/auth/components/EmailVerification";
 
 const router = createBrowserRouter([
   {
+    path: "/",
     element: <MainLayout />,
     errorElement: <NotFound />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Home />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
       {
+        path: "manage-account/",
         element: <ManageAccountLayout />,
         children: [
           {
-            path: "/manage-account/my-account",
+            path: "my-account",
             element: <MyAccount />,
           },
           {
-            path: "/manage-account/transaction-history",
+            path: "transaction-history",
             element: <TransactionHistory />,
           },
         ],
       },
       {
-        path: "/verify",
+        path: "verify",
         element: <EmailVerification />,
       },
     ],
