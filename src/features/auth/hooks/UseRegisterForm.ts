@@ -35,11 +35,12 @@ export const useRegisterForm = () => {
         form.resetFields();
         setIsModalVisible(true);
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.error("Register error:", error);
         notification.error({
           message: "Đăng ký thất bại",
-          description: error.message || "Có lỗi xảy ra trong quá trình đăng ký.",
+          description:
+            error.message || "Có lỗi xảy ra trong quá trình đăng ký.",
         });
       },
     });

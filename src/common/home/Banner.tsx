@@ -32,7 +32,7 @@ const Banner: React.FC = () => {
           <img
             src={banner.src}
             alt={banner.alt}
-            className="mx-auto w-[98%] rounded-md transition-all duration-1000 sm:w-[90%] md:rounded-2xl lg:w-[80%]"
+            className="mx-auto w-[98%] rounded-md transition-all duration-1000 sm:w-[90%] md:rounded-2xl lg:max-w-screen-xl"
           />
         </div>
       ))}

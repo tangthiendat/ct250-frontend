@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { RiCoupon3Line } from "react-icons/ri";
 import { TbArrowNarrowRight, TbArrowsRightLeft } from "react-icons/tb";
-
+import { useNavigate } from "react-router-dom";
 import { ISearchFlights } from "../../../interfaces";
 import PassengerSelector from "./PassengerSelector";
 import SearchAirPort from "./SearchAirPort";
@@ -40,11 +40,14 @@ const typeTripOptions = [
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const SearchFlightsForm: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<ISearchFlights>();
+  const navigate = useNavigate();
 
-  const [typeTrip, setTypeTrip] = useState<string>("");
-  const [departAirport, setDepartAirport] = useState("");
-  const [destAirport, setDestAirport] = useState("");
+  const [typeTrip, setTypeTrip] = useState<string>("round-trip");
+  const [departAirport, setDepartAirport] = useState<string>("");
+  const [destAirport, setDestAirport] = useState<string>("");
+  const [departureDate, setDepartureDate] = useState<string>();
+  const [returnDate, setReturnDate] = useState<string>();
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
   const [infant, setInfant] = useState(0);
@@ -63,9 +66,22 @@ const SearchFlightsForm: React.FC = () => {
     setComponentSize(size);
   };
 
-  function onSubmit(data: ISearchFlights): void {
-    console.log(data);
-  }
+  // function onSubmit(data: ISearchFlights): void {
+  //   console.log(data);
+  // }
+
+  const onSubmit = (data: ISearchFlights) => {
+    const searchData = {
+      typeTrip,
+      departAirport,
+      destAirport,
+      departureDate,
+      returnDate,
+      passengers: { adult, children, infant },
+      couponCode: data.couponCode,
+    };
+    navigate("/book/available-flights", { state: searchData });
+  };
 
   const dateValidation = (date: Date) => {
     const currentDate = new Date();
@@ -91,10 +107,9 @@ const SearchFlightsForm: React.FC = () => {
           },
         }}
       >
-        <Form.Item name="typeTrip">
+        <Form.Item name="typeTrip" initialValue={typeTrip}>
           <Segmented
             size="large"
-            value={typeTrip}
             options={typeTripOptions}
             onChange={(typeTrip) => {
               setTypeTrip(typeTrip);
@@ -130,6 +145,12 @@ const SearchFlightsForm: React.FC = () => {
                   size="large"
                   format={"DD/MM/YYYY"}
                   placeholder="Chọn ngày đi"
+                  // onChange={(date) =>
+                  //   setDepartureDate(formatISODate(date?.toString()))
+                  // }
+                  onChange={(date) => {
+                    setDepartureDate(date?.format("DD/MM/YYYY"));
+                  }}
                   disabledDate={(date) => dateValidation(date.toDate())}
                 />
               </Form.Item>
@@ -139,7 +160,6 @@ const SearchFlightsForm: React.FC = () => {
           {typeTrip === "round-trip" && (
             <div className="flex-1">
               <Form.Item
-                name="dates"
                 rules={[
                   {
                     required: true,
@@ -152,6 +172,22 @@ const SearchFlightsForm: React.FC = () => {
                   size="large"
                   format={"DD/MM/YYYY"}
                   placeholder={["Chọn ngày đi", "Chọn ngày về"]}
+                  // onChange={(dates) => {
+                  //   if (dates) {
+                  //     setDepartureDate(
+                  //       formatISODate((dates[0] as Dayjs).toString()),
+                  //     );
+                  //     setReturnDate(
+                  //       formatISODate((dates[1] as Dayjs).toString()),
+                  //     );
+                  //   }
+                  // }}
+                  onChange={(dates) => {
+                    if (dates) {
+                      setDepartureDate(dates[0]?.format("DD/MM/YYYY"));
+                      setReturnDate(dates[1]?.format("DD/MM/YYYY"));
+                    }
+                  }}
                   disabledDate={(date) => dateValidation(date.toDate())}
                 />
               </Form.Item>
