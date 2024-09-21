@@ -1,102 +1,71 @@
-import { Button, Form, Input } from "antd";
-import { SizeType } from "antd/es/config-provider/SizeContext";
-import { useState } from "react";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form } from "antd";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { IAuthRequest } from "../../interfaces";
+import EmailInput from "./components/EmailInput";
+import PasswordInput from "./components/PasswordInput";
+import SubmitButton from "./components/SubmitButton";
+import { useLogin } from "./hooks/UseAuth";
 
 const LoginForm: React.FC = () => {
-  type FormValues = {
-    email: string;
-    password: string;
+  const navigate = useNavigate();
+
+  const accessToken = localStorage.getItem("access_token");
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [accessToken, navigate]);
+
+  const [loginForm] = Form.useForm<IAuthRequest>();
+
+  const { login, isLoading } = useLogin();
+
+  const onFinish = (data: IAuthRequest): void => {
+    login(data, {
+      onSuccess: () => {
+        toast.success("Đăng nhập thành công");
+      },
+      onError: () => {
+        toast.error("Đăng nhập thất bại");
+      },
+    });
   };
-
-  const [componentSize, setComponentSize] = useState<SizeType | "default">(
-    "default",
-  );
-
-  const onFormLayoutChange = ({ size }: { size: SizeType }) => {
-    setComponentSize(size);
-  };
-
-  function onSubmit(data: FormValues) {
-    console.log(data);
-  }
 
   return (
-    <Form
-      className="flex flex-col"
-      onFinish={onSubmit}
-      layout="vertical"
-      initialValues={{ size: componentSize }}
-      onValuesChange={onFormLayoutChange}
-      size={componentSize as SizeType}
-    >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: "Vui lòng nhập email",
-          },
-          {
-            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-            message: "Email không hợp lệ",
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined />} placeholder="Email" />
-      </Form.Item>
-
-      <Form.Item
-        label="Mật khẩu"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Vui lòng nhập mật khẩu",
-          },
-        ]}
-      >
-        <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" />
-      </Form.Item>
-
-      {/* <Form.Item>
-        <button
-          type="submit"
-          className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
-        >
-          Đăng nhập
-        </button>
-      </Form.Item> */}
-
-      <Button
-        type="primary"
-        htmlType="submit"
+    <>
+      <Form
+        className="flex flex-col"
+        onFinish={onFinish}
+        form={loginForm}
+        layout="vertical"
         size="large"
-        // className="focus:shadow-outline mt-2 w-full rounded bg-blue-700 py-2 font-bold text-white hover:bg-blue-900 focus:outline-none"
       >
-        Đăng nhập
-      </Button>
-
-      <div className="mt-4 flex flex-col gap-5 text-center text-xs">
-        <a
-          href="#"
-          className="text-sm font-semibold text-blue-700 hover:text-blue-900"
-        >
-          Quên mật khẩu?
-        </a>
-
-        <span className="text-sm text-gray-900">
-          Chưa có tài khoản? {""}
-          <a
-            href="../register"
+        <EmailInput />
+        <PasswordInput />
+        <SubmitButton loading={isLoading} />
+        <div className="flex flex-col gap-5 text-center text-xs">
+          {/* <a
+            href="#"
             className="text-sm font-semibold text-blue-700 hover:text-blue-900"
           >
-            Đăng ký ngay
-          </a>
-        </span>
-      </div>
-    </Form>
+            Quên mật khẩu?
+          </a> */}
+          <span className="text-sm text-gray-900">
+            Chưa có tài khoản?{" "}
+            <Link
+              to="/register"
+              className="text-sm font-semibold text-blue-700 hover:text-blue-900"
+            >
+              Đăng ký{" "}
+            </Link>
+            ngay.
+          </span>
+        </div>
+      </Form>
+    </>
   );
 };
 

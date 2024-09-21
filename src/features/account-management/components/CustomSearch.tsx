@@ -1,6 +1,6 @@
 import { Button, DatePicker } from "antd";
-import Transactions from "./Transactions";
 import { useState } from "react";
+import TransactionsTable from "./TransactionsTable";
 const { RangePicker } = DatePicker;
 
 interface CustomSearchProps {
@@ -51,7 +51,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ type }) => {
   return (
     <>
       {type !== "custom" ? (
-        <Transactions fromDate={fromDate} toDate={toDate} />
+        <TransactionsTable fromDate={fromDate} toDate={toDate} />
       ) : (
         <>
           <div className="space-x-2">
@@ -81,7 +81,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ type }) => {
 
           {loading && (
             <div className="pt-4">
-              <Transactions fromDate={fromDateCustom} toDate={toDateCustom} />
+              <TransactionsTable
+                fromDate={fromDateCustom}
+                toDate={toDateCustom}
+              />
             </div>
           )}
         </>

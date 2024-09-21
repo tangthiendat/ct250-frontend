@@ -1,15 +1,19 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MyAccount from "../features/account-management/MyAccount";
-import TransactionHistory from "../features/account-management/TransactionHistory";
 import MainLayout from "../layouts/MainLayout";
-import ManageAccountLayout from "../layouts/ManageAccountLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
+import MyAccount from "../features/account-management/MyAccount";
+import TransactionHistory from "../features/account-management/TransactionHistory";
+import ManageAccountLayout from "../layouts/ManageAccountLayout";
+
+import EmailVerification from "../features/auth/components/EmailVerification";
 
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/",
@@ -35,6 +39,10 @@ const router = createBrowserRouter([
             element: <TransactionHistory />,
           },
         ],
+      },
+      {
+        path: "/verify",
+        element: <EmailVerification />,
       },
     ],
   },
