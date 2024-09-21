@@ -1,12 +1,13 @@
 import { Form } from "antd";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { IAuthRequest } from "../../interfaces";
 import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import SubmitButton from "./components/SubmitButton";
 import { useLogin } from "./hooks/UseAuth";
+import ForgotPassword from "./components/ForgotPassword";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
@@ -47,12 +48,13 @@ const LoginForm: React.FC = () => {
         <PasswordInput />
         <SubmitButton loading={isLoading} />
         <div className="flex flex-col gap-5 text-center text-xs">
-          {/* <a
-            href="#"
+          <Link
+            to="/forgot-password"
             className="text-sm font-semibold text-blue-700 hover:text-blue-900"
           >
             Quên mật khẩu?
-          </a> */}
+          </Link>
+
           <span className="text-sm text-gray-900">
             Chưa có tài khoản?{" "}
             <Link

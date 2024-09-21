@@ -23,6 +23,7 @@ const RegisterForm: React.FC = () => {
       },
     );
     const profile = await userInfoResponse.json();
+    // console.log(
 
     localStorage.removeItem("avatarUrl");
 
@@ -31,9 +32,13 @@ const RegisterForm: React.FC = () => {
       firstName: profile.family_name,
       lastName: profile.given_name,
       avatar: profile.picture,
+      gender: profile.gender,
+      dateOfBirth: profile.birthdate,
     });
     localStorage.setItem("avatarUrl", profile.picture);
 
+    console.log(profile.gender);
+    console.log(profile.dateOfBirth);
     console.log("Google login profile:", profile);
   };
 
