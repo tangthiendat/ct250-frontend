@@ -42,7 +42,7 @@ type SizeType = Parameters<typeof Form>[0]["size"];
 const SearchFlightsForm: React.FC = () => {
   const [form] = Form.useForm();
 
-  const [typeTrip, setTypeTrip] = useState<string>("");
+  const [typeTrip, setTypeTrip] = useState("round-trip");
   const [departAirport, setDepartAirport] = useState("");
   const [destAirport, setDestAirport] = useState("");
   const [adult, setAdult] = useState(1);
@@ -91,10 +91,9 @@ const SearchFlightsForm: React.FC = () => {
           },
         }}
       >
-        <Form.Item name="typeTrip">
+        <Form.Item name="typeTrip" initialValue={typeTrip}>
           <Segmented
             size="large"
-            value={typeTrip}
             options={typeTripOptions}
             onChange={(typeTrip) => {
               setTypeTrip(typeTrip);
