@@ -9,6 +9,7 @@ import TransactionHistory from "../features/account-management/TransactionHistor
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
 
 import EmailVerification from "../features/auth/components/EmailVerification";
+import MyFlights from "../pages/MyFlights";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "my-flights",
+        element: <MyFlights />,
       },
       {
         path: "login",

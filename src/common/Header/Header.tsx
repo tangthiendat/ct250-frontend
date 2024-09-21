@@ -44,9 +44,9 @@ const Header: React.FC = () => {
 
   const menuItems = [
     {
-      key: "flights",
+      key: "my-flights",
       title: "Chuyến bay của tôi",
-      href: "/flights",
+      href: "/my-flights",
     },
     {
       key: "checkin",
