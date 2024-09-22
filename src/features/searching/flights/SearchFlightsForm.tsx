@@ -40,6 +40,7 @@ const typeTripOptions = [
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const SearchFlightsForm: React.FC = () => {
+
   const [form] = Form.useForm<ISearchFlights>();
   const navigate = useNavigate();
 
@@ -48,6 +49,7 @@ const SearchFlightsForm: React.FC = () => {
   const [destAirport, setDestAirport] = useState<string>("");
   const [departureDate, setDepartureDate] = useState<string>();
   const [returnDate, setReturnDate] = useState<string>();
+
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
   const [infant, setInfant] = useState(0);
