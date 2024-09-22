@@ -1,4 +1,10 @@
-import { Anchor, Menu as AntdMenu, ConfigProvider, Dropdown } from "antd";
+import {
+  Anchor,
+  Menu as AntdMenu,
+  ConfigProvider,
+  Divider,
+  Dropdown,
+} from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../../interfaces";
@@ -6,7 +12,7 @@ import { userService } from "../../services/user-service";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
-import VoiceSearch from "./VoiceSearch";
+import Search from "./Search";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -42,10 +48,6 @@ const Header: React.FC = () => {
   const handleSignupClick = useCallback(() => {
     navigate("/register");
   }, [navigate]);
-
-  const handleVoiceSearch = (query: string) => {
-    console.log("Tìm kiếm:", query);
-  };
 
   const menuItems = [
     {
@@ -137,9 +139,12 @@ const Header: React.FC = () => {
         </div>
 
         {/* Right Side Menus */}
-        <div className="flex items-center">
-          <VoiceSearch onSearch={handleVoiceSearch} />
-          <LanguageMenu />
+        <div className="flex-col items-center">
+          <div className="flex items-center justify-end">
+            <Search />
+            <Divider type="vertical" className="h-6 bg-black" />
+            <LanguageMenu />
+          </div>
           {showAccountMenu ? (
             <AccountMenu />
           ) : (

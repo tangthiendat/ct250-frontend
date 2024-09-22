@@ -1,19 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import EmailVerification from "../features/auth/components/EmailVerification";
 
-import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
-import ResetPasswordForm from "../features/auth/ResetPasswordForm";
+
 import MyAccount from "../features/account-management/MyAccount";
-import TransactionHistory from "../features/account-management/TransactionHistory";
-import ManageAccountLayout from "../layouts/ManageAccountLayout";
+import ResetPasswordForm from "../features/auth/ResetPasswordForm";
 import EmailVerification from "../features/auth/components/EmailVerification";
-import BookingLayout from "../layouts/BookingLayout";
 import AvailableFlights from "../features/booking/components/AvailableFlights";
+import TransactionHistory from "../features/account-management/TransactionHistory";
+
+import MainLayout from "../layouts/MainLayout";
+import BookingLayout from "../layouts/BookingLayout";
+import ManageAccountLayout from "../layouts/ManageAccountLayout";
 
 const router = createBrowserRouter([
   {

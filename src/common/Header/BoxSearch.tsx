@@ -1,6 +1,6 @@
 import { AudioOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
-import React, { useState } from "react";
+import { Input, message } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 
 declare global {
   interface Window {
@@ -9,13 +9,11 @@ declare global {
   }
 }
 
-const VoiceSearch: React.FC<{ onSearch: (query: string) => void }> = ({
-  onSearch,
-}) => {
+const BoxSearch: React.FC = () => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [showInput, setShowInput] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
   const startListening = () => {
     const SpeechRecognition =
@@ -27,7 +25,8 @@ const VoiceSearch: React.FC<{ onSearch: (query: string) => void }> = ({
     }
 
     const recognition = new SpeechRecognition();
-    recognition.lang = "vi-VN"; // Thiết lập ngôn ngữ tiếng Việt
+    recognitionRef.current = recognition;
+    recognition.lang = "vi-VN";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
@@ -39,7 +38,6 @@ const VoiceSearch: React.FC<{ onSearch: (query: string) => void }> = ({
     recognition.onresult = (event: SpeechRecognitionResult) => {
       const speechResult = (event as any).results[0][0].transcript;
       setTranscript(speechResult);
-      onSearch(speechResult);
       setIsListening(false);
     };
 
@@ -56,35 +54,56 @@ const VoiceSearch: React.FC<{ onSearch: (query: string) => void }> = ({
     recognition.start();
   };
 
+  const stopListening = () => {
+    setIsListening(false);
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTranscript(value);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
+
   return (
-    <div className="voice-search">
-      {showInput ? (
-        <Input
-          placeholder="Tìm kiếm bằng giọng nói"
-          value={transcript}
-          readOnly
-          suffix={
-            <Button
-              icon={<CloseOutlined />}
-              onClick={() => setShowInput(false)}
+    <>
+      <Input
+        placeholder="Tìm kiếm..."
+        className="w-80 p-2 focus:outline-none focus:ring-0"
+        value={transcript}
+        onChange={handleInputChange}
+        suffix={
+          isListening ? (
+            <CloseOutlined
+              className="cursor-pointer text-xl"
+              onClick={stopListening}
             />
-          }
-        />
-      ) : (
-        <Button
-          icon={<AudioOutlined />}
-          onClick={() => {
-            setShowInput(true);
-            startListening();
-          }}
-          disabled={isListening}
-        >
-          {isListening ? "Đang nghe..." : "Tìm kiếm"}
-        </Button>
-      )}
-      {error && <p className="error">{error}</p>}
-    </div>
+          ) : (
+            <AudioOutlined
+              className="cursor-pointer text-xl"
+              onClick={startListening}
+            />
+          )
+        }
+      />
+
+      {error &&
+        message.error({
+          content: error,
+          duration: 5,
+          key: "speech-error",
+        })}
+    </>
   );
 };
 
-export default VoiceSearch;
+export default BoxSearch;
