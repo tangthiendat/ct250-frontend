@@ -10,6 +10,9 @@ interface IAuthService {
   logout(): Promise<ApiResponse<null>>;
   refreshToken(): Promise<void>;
   verifyEmail(token: string): Promise<ApiResponse<IUser>>;
+  forgotPassword(email: string, siteUrl: string): Promise<ApiResponse<void>>;
+  resetPassword(token: string, newPassword: string): Promise<ApiResponse<void>>;
+  verifyResetToken(token: string): Promise<ApiResponse<void>>;
 }
 
 class AuthService implements IAuthService {
@@ -51,6 +54,25 @@ class AuthService implements IAuthService {
       throw new Error(error.response?.data?.message || "Email verification failed");
     }
   }
+
+  async forgotPassword(email: string, siteUrl: string): Promise<ApiResponse<void>> {
+    return (await apiClient.post("/forgot-password", null, {
+      params: { email, siteUrl },
+    })).data;
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<ApiResponse<void>> {
+    return (await apiClient.post('/reset-password', null, {
+      params: { token, newPassword },
+    })).data;
+  }
+
+  async verifyResetToken(token: string): Promise<ApiResponse<void>> {
+    return (await apiClient.get(`/verify-reset-token`, {
+      params: { token },
+    })).data;
+  }
+
 }
 
 apiClient.interceptors.response.use(

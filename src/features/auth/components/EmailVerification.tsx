@@ -1,6 +1,7 @@
-import { notification, Spin } from "antd";
-import React, { useEffect, useRef } from "react";
+import { notification } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Loading from "../../../common/Loading";
 import { authService } from "../../../services/auth-service";
 
 const EmailVerification: React.FC = () => {
@@ -8,6 +9,7 @@ const EmailVerification: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const hasVerified = useRef(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -15,17 +17,22 @@ const EmailVerification: React.FC = () => {
         hasVerified.current = true;
         try {
           await authService.verifyEmail(token);
-          notification.success({
-            pauseOnHover: true,
-            message: "Xác thực email thành công",
-            description: "Email của bạn đã được xác thực. Vui lòng đăng nhập.",
-          });
-          navigate("/login");
+          setTimeout(() => {
+            notification.success({
+              pauseOnHover: true,
+              message: "Xác thực email thành công",
+              description:
+                "Email của bạn đã được xác thực. Vui lòng đăng nhập.",
+            });
+            setLoading(false);
+            navigate("/login");
+          }, 3000);
         } catch (error: any) {
           notification.error({
             message: "Xác thực email thất bại",
             description: "Có lỗi xảy ra trong quá trình xác thực email.",
           });
+          setLoading(false);
         }
       }
     };
@@ -34,14 +41,7 @@ const EmailVerification: React.FC = () => {
   }, [token, navigate]);
 
   return (
-    <>
-      <Spin
-        tip="Đang xác thực mail..."
-        size="large"
-        delay={5 * 1000}
-        fullscreen
-      />
-    </>
+    <>{loading && <Loading message="Tài khoản đang được kích hoạt..." />}</>
   );
 };
 

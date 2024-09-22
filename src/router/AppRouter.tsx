@@ -1,14 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import EmailVerification from "../features/auth/components/EmailVerification";
+
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPasswordForm from "../features/auth/ResetPasswordForm";
 import MyAccount from "../features/account-management/MyAccount";
 import TransactionHistory from "../features/account-management/TransactionHistory";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
-
-import EmailVerification from "../features/auth/components/EmailVerification";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
       {
         path: "verify",
         element: <EmailVerification />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPasswordForm />,
       },
     ],
   },

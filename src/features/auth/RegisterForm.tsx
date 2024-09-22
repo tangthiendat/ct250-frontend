@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Modal, notification } from "antd";
+import { Button, Divider, Form, notification, Result } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import ContactFields from "./components/ContactFields";
@@ -24,7 +24,6 @@ const RegisterForm: React.FC = () => {
       },
     );
     const profile = await userInfoResponse.json();
-
     localStorage.removeItem("avatarUrl");
 
     form.setFieldsValue({
@@ -32,9 +31,9 @@ const RegisterForm: React.FC = () => {
       firstName: nonAccentVietnamese(profile.family_name).toUpperCase(),
       lastName: nonAccentVietnamese(profile.given_name).toUpperCase(),
       avatar: profile.picture,
+      gender: profile.gender,
     });
     localStorage.setItem("avatarUrl", profile.picture);
-
     console.log("Google login profile:", profile);
   };
 
@@ -45,6 +44,21 @@ const RegisterForm: React.FC = () => {
       description: "Có lỗi xảy ra trong quá trình đăng nhập Google",
     });
   };
+
+  if (isModalVisible) {
+    return (
+      <Result
+        status="success"
+        title="Đăng ký thành công"
+        subTitle="Vui lòng kiểm tra email của bạn để kích hoạt tài khoản."
+        extra={[
+          <Button type="primary" key="login" onClick={handleModalOk}>
+            Quay về trang đăng nhập
+          </Button>,
+        ]}
+      />
+    );
+  }
 
   return (
     <>
@@ -93,18 +107,6 @@ const RegisterForm: React.FC = () => {
           </span>
         </div>
       </Form>
-
-      <Modal
-        title="Đăng ký thành công"
-        open={isModalVisible}
-        footer={[
-          <Button key="ok" type="primary" onClick={handleModalOk}>
-            Quay về trang đăng nhập
-          </Button>,
-        ]}
-      >
-        <p>Vui lòng kiểm tra email của bạn để kích hoạt tài khoản.</p>
-      </Modal>
     </>
   );
 };
