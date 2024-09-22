@@ -23,9 +23,10 @@ interface MenuItem {
 
 interface MenuProps {
   menuItems: MenuItem[];
+  showMenuItemsSecondary?: boolean;
 }
 
-const Menu: React.FC<MenuProps> = ({ menuItems }) => {
+const Menu: React.FC<MenuProps> = ({ menuItems, showMenuItemsSecondary }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -69,17 +70,19 @@ const Menu: React.FC<MenuProps> = ({ menuItems }) => {
               {item.title}
             </a>
           ))}
-          <div className="hidden flex-col space-y-2 max-[465px]:flex">
-            {items.map((item) => (
-              <a
-                key={item.key}
-                href={item.href}
-                className="block w-full rounded-lg bg-gray-100 px-4 py-3 text-center text-lg font-bold text-gray-700 shadow-sm transition-colors duration-200 hover:bg-blue-500 hover:text-white"
-              >
-                {item.title}
-              </a>
-            ))}
-          </div>
+          {showMenuItemsSecondary && (
+            <div className="hidden flex-col space-y-2 max-[565px]:flex">
+              {items.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className="block w-full rounded-lg bg-gray-100 px-4 py-3 text-center text-lg font-bold text-gray-700 shadow-sm transition-colors duration-200 hover:bg-blue-500 hover:text-white"
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </Drawer>
     </>

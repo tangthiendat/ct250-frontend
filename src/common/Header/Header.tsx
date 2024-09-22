@@ -139,32 +139,38 @@ const Header: React.FC = () => {
         </div>
 
         {/* Right Side Menus */}
-        <div className="flex-col items-center">
+        <div className="flex flex-row lg:flex-col">
           <div className="flex items-center justify-end">
             <Search />
             <Divider type="vertical" className="h-6 bg-black" />
             <LanguageMenu />
+            <Divider type="vertical" className="flex h-6 bg-black lg:hidden" />
           </div>
-          {showAccountMenu ? (
-            <AccountMenu />
-          ) : (
-            <>
-              <button
-                onClick={handleLoginClick}
-                className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 max-[465px]:hidden"
-              >
-                Đăng nhập
-              </button>
-              <button
-                onClick={handleSignupClick}
-                className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 max-[465px]:hidden"
-              >
-                Đăng ký
-              </button>
-            </>
-          )}
+          <div>
+            {showAccountMenu ? (
+              <AccountMenu />
+            ) : (
+              <>
+                <button
+                  onClick={handleLoginClick}
+                  className="min-w-28 rounded-lg bg-blue-500 py-2 text-base text-white transition-colors duration-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 max-[565px]:hidden"
+                >
+                  Đăng nhập
+                </button>
+                <button
+                  onClick={handleSignupClick}
+                  className="ml-2 min-w-24 rounded-lg border border-blue-500 bg-white py-2 text-base text-blue-500 transition-colors duration-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 max-[565px]:hidden"
+                >
+                  Đăng ký
+                </button>
+              </>
+            )}
+          </div>
           <div className="lg:hidden">
-            <Menu menuItems={menuItems} />
+            <Menu
+              menuItems={menuItems}
+              showMenuItemsSecondary={!showAccountMenu}
+            />
           </div>
         </div>
       </div>
