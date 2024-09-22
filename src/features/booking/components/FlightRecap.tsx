@@ -4,14 +4,17 @@ import { PiAirplaneInFlightFill } from "react-icons/pi";
 
 interface FlightRecapProps {
   data: {
+    typeTrip: string;
     departAirport: string;
     destAirport: string;
     departureDate: string;
+    returnDate?: string;
     passengers: {
       adult: number;
       children: number;
       infant: number;
     };
+    couponCode?: string;
   };
 }
 
@@ -27,11 +30,32 @@ const FlightRecap: React.FC<FlightRecapProps> = ({ data }) => {
                   {data.departAirport.split(" - ")[1]}
                 </p>
 
-                <div className="flex items-center gap-1 px-4">
-                  <div className="font-bold text-blue-500">
-                    --------------------
+                <div>
+                  <div className="mx-2 flex h-3 items-center">
+                    <div>
+                      <Divider
+                        type="horizontal"
+                        className="w-16 border-blue-800 md:w-20"
+                        dashed
+                        variant="dashed"
+                      />
+                    </div>
+                    <PiAirplaneInFlightFill className="text-blue-800" />
                   </div>
-                  <PiAirplaneInFlightFill />
+
+                  {data.typeTrip === "round-trip" && (
+                    <div className="mx-2 flex h-3 items-center">
+                      <PiAirplaneInFlightFill className="scale-x-[-1] transform text-blue-800" />
+                      <div>
+                        <Divider
+                          type="horizontal"
+                          className="w-16 border-blue-800 md:w-20"
+                          dashed
+                          variant="dashed"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-lg font-bold">
@@ -49,17 +73,34 @@ const FlightRecap: React.FC<FlightRecapProps> = ({ data }) => {
               </div>
             </div>
 
-            <Divider type="vertical" className="h-10 bg-black" />
+            <Divider type="vertical" className="h-7 bg-black" />
 
             <div className="text-center">
-              <p className="text-lg font-bold">Ngày khởi hành</p>
+              <p className="text-flights_recap_heading text-lg font-bold">
+                Ngày khởi hành
+              </p>
               <p className="text-sm text-gray-500">{data.departureDate}</p>
             </div>
 
-            <Divider type="vertical" className="h-10 bg-black" />
+            {data.typeTrip === "round-trip" && (
+              <>
+                <Divider type="vertical" className="h-7 bg-black" />
+
+                <div className="text-center">
+                  <p className="text-flights_recap_heading text-lg font-bold">
+                    Ngày về
+                  </p>
+                  <p className="text-sm text-gray-500">{data.returnDate}</p>
+                </div>
+              </>
+            )}
+
+            <Divider type="vertical" className="h-7 bg-black" />
 
             <div className="text-center">
-              <p className="text-lg font-bold">Hành khách</p>
+              <p className="text-flights_recap_heading text-lg font-bold">
+                Hành khách
+              </p>
               <p className="text-sm text-gray-500">
                 <div className="flex items-center justify-center">
                   <FaUsers />
@@ -71,7 +112,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({ data }) => {
             </div>
           </div>
 
-          <button className="m-1 flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+          <button className="m-1 flex items-center gap-2 rounded-lg bg-blue-800 px-4 py-2 text-white hover:bg-blue-600">
             <FaShoppingCart className="text-2xl" />
             Your booking
           </button>

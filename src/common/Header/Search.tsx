@@ -11,7 +11,7 @@ const Search: React.FC = () => {
       placement="bottomRight"
     >
       <a onClick={(e) => e.preventDefault()}>
-        <Space>
+        <Space className="cursor-pointer">
           <IoIosSearch className="text-2xl" />
         </Space>
       </a>

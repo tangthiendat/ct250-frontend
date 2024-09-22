@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import FlightRecap from "./FlightRecap";
+import { MdExpandMore } from "react-icons/md";
 
 const AvailableFlights: React.FC = () => {
   const location = useLocation();
@@ -26,13 +27,16 @@ const AvailableFlights: React.FC = () => {
     <>
       <FlightRecap data={searchData} />
 
-      <div className="relative">
+      <div className="relative h-[400px]">
         <img
           src={`/flight-routes/${searchData.destAirport.split(" - ")[1]}.jpg`}
           alt="flight route"
           className="absolute -z-10 h-[400px] w-full object-cover"
         />
-        <div className="h-[400px]">kjbb</div>
+        <div className="mx-auto mb-3 flex w-40 items-center justify-between space-x-2 rounded-b-full bg-white px-10 py-1 hover:bg-white/50">
+          Thay đổi
+          <MdExpandMore />
+        </div>
       </div>
 
       <div>
