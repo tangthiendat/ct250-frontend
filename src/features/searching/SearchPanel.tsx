@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { MdFlight, MdFlightTakeoff } from "react-icons/md";
-import SearchFlightsForm from "./flights/SearchFlightsForm";
 import CheckinForm from "./checkin/CheckinForm";
+import SearchFlightsForm from "./flights/SearchFlightsForm";
 import SearchTicketForm from "./ticket/SearchTicketForm";
 
 const btnItems = [
@@ -32,7 +32,7 @@ const SearchPanel: React.FC = () => {
   return (
     <>
       <div className="relative flex justify-center py-6 transition-all duration-1000 md:px-4">
-        <div className="w-[95%] transition-all duration-1000 sm:w-[90%] md:w-[70%]">
+        <div className="w-[95%] transition-all duration-1000 sm:w-[90%] md:w-[70%] lg:max-w-screen-lg">
           <div className="flex flex-col justify-center gap-1 transition-all duration-1000 sm:flex-row sm:gap-2 md:gap-6">
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>
@@ -62,7 +62,7 @@ const SearchPanel: React.FC = () => {
       </div>
 
       <div className="relative transition-all duration-1000 md:flex md:justify-center md:px-4">
-        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl transition-all duration-1000 md:w-[70%]">
+        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl transition-all duration-1000 md:w-[70%] lg:max-w-screen-lg">
           {formActive === "booking" && <SearchFlightsForm />}
           {formActive === "checkin" && <CheckinForm />}
           {formActive === "my-tickets" && <SearchTicketForm />}

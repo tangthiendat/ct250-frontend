@@ -11,6 +11,9 @@ import ResetPasswordForm from "../features/auth/ResetPasswordForm";
 import MyAccount from "../features/account-management/MyAccount";
 import TransactionHistory from "../features/account-management/TransactionHistory";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
+import EmailVerification from "../features/auth/components/EmailVerification";
+import BookingLayout from "../layouts/BookingLayout";
+import AvailableFlights from "../features/booking/components/AvailableFlights";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +58,17 @@ const router = createBrowserRouter([
       {
         path: "/reset-password",
         element: <ResetPasswordForm />,
+      },
+    ],
+  },
+  {
+    path: "/book/",
+    element: <BookingLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "available-flights",
+        element: <AvailableFlights />,
       },
     ],
   },

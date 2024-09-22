@@ -100,7 +100,7 @@ const Services: React.FC = () => {
         speed={2000}
         pauseOnHover={true}
         slidesToShow={3}
-        className="bg-re-700 mx-auto w-[90%] pt-2 transition-all duration-1000 lg:w-[80%]"
+        className="bg-re-700 mx-auto w-[90%] pt-2 transition-all duration-1000 lg:max-w-screen-xl"
         responsive={[
           {
             breakpoint: 1024,

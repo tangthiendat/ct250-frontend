@@ -36,6 +36,7 @@ export const useRegisterForm = () => {
         form.resetFields();
         setIsModalVisible(true);
       },
+
       onError: (error) => {
         if (error instanceof AxiosError) {
           const errorMessage = error.response?.data?.error || "Có lỗi xảy ra trong quá trình đăng ký.";
@@ -45,7 +46,6 @@ export const useRegisterForm = () => {
             description: errorMessage,
           });
         }
-
       },
     });
   };
