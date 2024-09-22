@@ -7,7 +7,6 @@ import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import SubmitButton from "./components/SubmitButton";
 import { useLogin } from "./hooks/UseAuth";
-import ForgotPassword from "./components/ForgotPassword";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();

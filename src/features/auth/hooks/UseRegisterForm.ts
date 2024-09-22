@@ -1,9 +1,10 @@
 import { Form, notification } from "antd";
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../../../interfaces";
-import { useRegister } from "./UseAuth";
 import { formatISODate } from "../../../utils";
+import { useRegister } from "./UseAuth";
 
 export const useRegisterForm = () => {
   const [form] = Form.useForm<IUser>();
@@ -36,25 +37,38 @@ export const useRegisterForm = () => {
         setIsModalVisible(true);
       },
       onError: (error) => {
-        console.error("Register error:", error);
-        notification.error({
-          message: "Đăng ký thất bại",
-          description: error.message || "Có lỗi xảy ra trong quá trình đăng ký.",
-        });
+        if (error instanceof AxiosError) {
+          const errorMessage = error.response?.data?.error || "Có lỗi xảy ra trong quá trình đăng ký.";
+          console.error("Register error:", errorMessage);
+          notification.error({
+            message: "Đăng ký thất bại",
+            description: errorMessage,
+          });
+        }
+
       },
     });
   };
+
+
 
   const handleModalOk = () => {
     setIsModalVisible(false);
     navigate("/login");
   };
 
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
+
   return {
     form,
     isLoading,
     onFinish,
     isModalVisible,
+    setIsModalVisible,
+    handleModalCancel,
     handleModalOk,
   };
 };
