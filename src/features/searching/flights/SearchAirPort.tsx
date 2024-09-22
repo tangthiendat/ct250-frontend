@@ -1,10 +1,8 @@
 import { AutoComplete, Form, Input } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
-// import { Form } from "react-router-dom";
 import removeAccents from "remove-accents";
 
 interface SearchAirPortProps {
-  typeTrip: string;
   departure: string;
   setDeparture: React.Dispatch<React.SetStateAction<string>>;
   destination: string;
@@ -69,7 +67,6 @@ const airPortOptions = [
 ];
 
 const SearchAirPort: React.FC<SearchAirPortProps> = ({
-  typeTrip,
   departure,
   setDeparture,
   destination,
@@ -123,35 +120,33 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
         </AutoComplete>
       </Form.Item>
 
-      {typeTrip === "round-trip" && (
-        <Form.Item
-          className="flex-1"
-          name="destinationAirport"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn điểm đến",
-            },
-          ]}
+      <Form.Item
+        className="flex-1"
+        name="destinationAirport"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn điểm đến",
+          },
+        ]}
+      >
+        <AutoComplete
+          size="large"
+          options={filteredDestinationOptions}
+          filterOption={(inputValue, option) =>
+            removeAccents(option!.label.toString().toUpperCase()).indexOf(
+              removeAccents(inputValue.toUpperCase()),
+            ) !== -1
+          }
+          onChange={handleDestinationChange}
         >
-          <AutoComplete
-            size="large"
-            options={filteredDestinationOptions}
-            filterOption={(inputValue, option) =>
-              removeAccents(option!.label.toString().toUpperCase()).indexOf(
-                removeAccents(inputValue.toUpperCase()),
-              ) !== -1
-            }
-            onChange={handleDestinationChange}
-          >
-            <Input
-              className="h-10"
-              prefix={<MdFlightLand />}
-              placeholder="Địa điểm đến"
-            />
-          </AutoComplete>
-        </Form.Item>
-      )}
+          <Input
+            className="h-10"
+            prefix={<MdFlightLand />}
+            placeholder="Địa điểm đến"
+          />
+        </AutoComplete>
+      </Form.Item>
     </div>
   );
 };

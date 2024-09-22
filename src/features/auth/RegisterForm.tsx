@@ -8,6 +8,7 @@ import IdentityFields from "./components/IndentityFields";
 import NameFields from "./components/NameFields";
 import PasswordFields from "./components/PasswordFields";
 import { useRegisterForm } from "./hooks/UseRegisterForm";
+import { nonAccentVietnamese } from "../../utils";
 
 const RegisterForm: React.FC = () => {
   const { form, isLoading, onFinish, isModalVisible, handleModalOk } =
@@ -27,8 +28,8 @@ const RegisterForm: React.FC = () => {
 
     form.setFieldsValue({
       email: profile.email,
-      firstName: profile.family_name,
-      lastName: profile.given_name,
+      firstName: nonAccentVietnamese(profile.family_name).toUpperCase(),
+      lastName: nonAccentVietnamese(profile.given_name).toUpperCase(),
       avatar: profile.picture,
       gender: profile.gender,
     });

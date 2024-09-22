@@ -26,7 +26,7 @@ const AccountMenu: React.FC = () => {
     {
       label: (
         <Link
-          to="/manage-account"
+          to="/manage-account/my-account"
           className="block cursor-pointer px-4 py-2 font-bold text-gray-700"
         >
           Quản lý tài khoản

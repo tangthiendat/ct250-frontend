@@ -8,27 +8,44 @@ import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPasswordForm from "../features/auth/ResetPasswordForm";
+import MyAccount from "../features/account-management/MyAccount";
+import TransactionHistory from "../features/account-management/TransactionHistory";
+import ManageAccountLayout from "../layouts/ManageAccountLayout";
 
 const router = createBrowserRouter([
   {
+    path: "/",
     element: <MainLayout />,
     errorElement: <NotFound />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Home />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
-
       {
-        path: "/verify",
+        path: "manage-account/",
+        element: <ManageAccountLayout />,
+        children: [
+          {
+            path: "my-account",
+            element: <MyAccount />,
+          },
+          {
+            path: "transaction-history",
+            element: <TransactionHistory />,
+          },
+        ],
+      },
+      {
+        path: "verify",
         element: <EmailVerification />,
       },
       {
