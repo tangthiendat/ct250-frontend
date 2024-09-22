@@ -6,6 +6,7 @@ import { userService } from "../../services/user-service";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";
+import VoiceSearch from "./VoiceSearch";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -41,6 +42,10 @@ const Header: React.FC = () => {
   const handleSignupClick = useCallback(() => {
     navigate("/register");
   }, [navigate]);
+
+  const handleVoiceSearch = (query: string) => {
+    console.log("Tìm kiếm:", query);
+  };
 
   const menuItems = [
     {
@@ -133,6 +138,7 @@ const Header: React.FC = () => {
 
         {/* Right Side Menus */}
         <div className="flex items-center">
+          <VoiceSearch onSearch={handleVoiceSearch} />
           <LanguageMenu />
           {showAccountMenu ? (
             <AccountMenu />
