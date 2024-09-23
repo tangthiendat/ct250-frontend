@@ -6,7 +6,8 @@ import Footer from "../common/Footer";
 const BookingLayout: React.FC = () => {
   return (
     <div>
-      <div className="mx-auto flex items-center space-x-2 md:space-x-4 lg:max-w-screen-xl">
+      {/* header */}
+      <div className="z-50 mx-auto flex items-center space-x-2 bg-white md:space-x-4 lg:max-w-screen-xl">
         <Link to="/">
           <img
             src="/logo512.png"

@@ -1,6 +1,10 @@
 import { Divider } from "antd";
+import React from "react";
 import { FaShoppingCart, FaUsers } from "react-icons/fa";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
+
+import useStickyScroll from "../hooks/useStickyScroll";
+import ModifyButton from "./ExpansionButton";
 
 interface FlightRecapProps {
   data: {
@@ -16,11 +20,22 @@ interface FlightRecapProps {
     };
     couponCode?: string;
   };
+
+  showModifyForm: boolean;
+  setShowModifyForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FlightRecap: React.FC<FlightRecapProps> = ({ data }) => {
+const FlightRecap: React.FC<FlightRecapProps> = ({
+  data,
+  showModifyForm,
+  setShowModifyForm,
+}) => {
+  const isSticky = useStickyScroll();
+
   return (
-    <div className="sticky top-0 bg-white shadow">
+    <div
+      className={` ${isSticky ? "-translate-y-0" : `-translate-y-[100%]`} sticky top-0 z-50 transform bg-white shadow-md transition-all duration-500`}
+    >
       <div className="mx-auto lg:max-w-screen-xl">
         <div className="flex w-full items-center justify-between bg-white p-2">
           <div className="flex items-center gap-4">
@@ -118,6 +133,16 @@ const FlightRecap: React.FC<FlightRecapProps> = ({ data }) => {
           </button>
         </div>
       </div>
+
+      <ModifyButton
+        showForm={showModifyForm}
+        setShowForm={setShowModifyForm}
+        titleOpen="Thay đổi"
+        titleClose="Đóng"
+        moreHandle={() => {
+          window.scrollTo(0, 0);
+        }}
+      />
     </div>
   );
 };

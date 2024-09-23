@@ -122,6 +122,18 @@
     text-transform: uppercase;
   }
 
+  .text-heading-2 {
+    font-family: "Calibri";
+    font-weight: 600;
+    line-height: 1.2;
+    color: black;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    font-style: normal;
+    margin-bottom: 20px;
+    /* text-transform: uppercase; */
+  }
+
   .text-flights_recap_heading {
     font-family: "Calibri";
     color: #1e40af;
