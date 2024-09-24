@@ -31,16 +31,19 @@ const ContactFields: React.FC = () => {
 
       <Form.Item
         className="flex-1"
-        label="Quốc gia"
+        label="Quốc tịch"
         name={["country", "countryId"]}
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn quốc gia",
+            message: "Vui lòng chọn quốc tịch",
           },
         ]}
       >
-        <Select placeholder="Vui lòng chọn quốc gia" options={countryOptions} />
+        <Select
+          placeholder="Vui lòng chọn quốc tịch"
+          options={countryOptions}
+        />
       </Form.Item>
     </div>
   );
