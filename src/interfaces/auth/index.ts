@@ -1,3 +1,5 @@
+import { ICountry } from "../country";
+
 export interface IAuthRequest {
   email: string;
   password: string;
@@ -15,7 +17,7 @@ export interface IUser {
   gender: "MALE" | "FEMALE" | "OTHER";
   identityNumber: string;
   phoneNumber: string;
-  countryId: number;
+  country: ICountry;
   active: boolean;
   dateOfBirth: string;
   role: IRole;
@@ -23,7 +25,6 @@ export interface IUser {
   updatedAt?: string;
   avatar?: string;
   verificationToken?: string;
-
 }
 
 export interface IPermission {
