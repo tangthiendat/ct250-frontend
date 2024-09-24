@@ -1,5 +1,4 @@
 import { useState } from "react";
-import BodyLayout from "../../../layouts/BodyLayout";
 import CalendarPanel from "./CalendarPanel";
 import ExpansionButton from "./ExpansionButton";
 
@@ -20,10 +19,10 @@ interface CalendarFlightsProps {
 }
 
 const CalendarFlights: React.FC<CalendarFlightsProps> = ({ data }) => {
-  const [showPanel, setShowPanel] = useState<boolean>(false);
+  const [showPanel, setShowPanel] = useState<boolean>(true);
 
   return (
-    <BodyLayout>
+    <div className="mx-auto lg:max-w-screen-xl">
       <p className="text-heading-2 text-center text-blue-900">
         {new Date(
           data.departureDate.split("/").reverse().join("/"),
@@ -42,8 +41,8 @@ const CalendarFlights: React.FC<CalendarFlightsProps> = ({ data }) => {
         setShowForm={setShowPanel}
       />
 
-      <CalendarPanel show={showPanel} />
-    </BodyLayout>
+      <CalendarPanel data={data} show={showPanel} />
+    </div>
   );
 };
 

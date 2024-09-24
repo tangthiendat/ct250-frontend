@@ -40,7 +40,6 @@ const typeTripOptions = [
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const SearchFlightsForm: React.FC = () => {
-
   const [form] = Form.useForm<ISearchFlights>();
   const navigate = useNavigate();
 
@@ -83,6 +82,7 @@ const SearchFlightsForm: React.FC = () => {
       couponCode: data.couponCode,
     };
     navigate("/book/available-flights", { state: searchData });
+    window.location.reload();
   };
 
   const dateValidation = (date: Date) => {

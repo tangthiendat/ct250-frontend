@@ -1,6 +1,7 @@
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Carousel } from "antd";
 import Title from "antd/es/typography/Title";
+import CustomNextArrow from "../CustomNextArrow";
+import CustomPrevArrow from "../CustomPrevArrow";
 
 const services = [
   {
@@ -40,48 +41,6 @@ const services = [
   },
 ];
 
-const CustomPrevArrow = (props: any) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, color: "transparent", left: "-15px", zIndex: 1 }}
-      onClick={onClick}
-    >
-      <LeftOutlined
-        style={{
-          fontSize: "30px",
-          color: "white",
-          backgroundColor: "black",
-          borderRadius: "50%",
-          zIndex: 1,
-        }}
-      />
-    </div>
-  );
-};
-
-const CustomNextArrow = (props: any) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, color: "transparent", right: "0px", zIndex: 1 }}
-      onClick={onClick}
-    >
-      <RightOutlined
-        style={{
-          fontSize: "30px",
-          color: "white",
-          backgroundColor: "black",
-          borderRadius: "50%",
-          zIndex: 1,
-        }}
-      />
-    </div>
-  );
-};
-
 const Services: React.FC = () => {
   return (
     <div className="py-10">
@@ -100,7 +59,7 @@ const Services: React.FC = () => {
         speed={2000}
         pauseOnHover={true}
         slidesToShow={3}
-        className="bg-re-700 mx-auto w-[90%] pt-2 transition-all duration-1000 lg:max-w-screen-xl"
+        className="mx-auto w-[90%] pt-2 transition-all duration-1000 lg:max-w-screen-xl"
         responsive={[
           {
             breakpoint: 1024,
