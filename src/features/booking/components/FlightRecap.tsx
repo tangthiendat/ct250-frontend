@@ -1,4 +1,4 @@
-import { Divider } from "antd";
+import { Button, Divider } from "antd";
 import React from "react";
 import { FaShoppingCart, FaUsers } from "react-icons/fa";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
@@ -81,7 +81,16 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
               <p className="text-flights_recap_heading text-lg font-bold">
                 Ngày khởi hành
               </p>
-              <p className="text-sm text-gray-500">{data.departureDate}</p>
+              <p className="text-sm text-gray-500">
+                {new Date(
+                  data.flightRange[0].split("/").reverse().join("/"),
+                ).toLocaleDateString("vi-VN", {
+                  weekday: "narrow",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "2-digit",
+                })}
+              </p>
             </div>
 
             {data.typeTrip === "round-trip" && (
@@ -92,7 +101,16 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                   <p className="text-flights_recap_heading text-lg font-bold">
                     Ngày về
                   </p>
-                  <p className="text-sm text-gray-500">{data.flightRange[1]}</p>
+                  <p className="text-sm text-gray-500">
+                    {new Date(
+                      data.flightRange[1].split("/").reverse().join("/"),
+                    ).toLocaleDateString("vi-VN", {
+                      weekday: "narrow",
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "2-digit",
+                    })}
+                  </p>
                 </div>
               </>
             )}
@@ -114,10 +132,13 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
             </div>
           </div>
 
-          <button className="m-1 flex items-center gap-2 rounded-lg bg-blue-800 px-4 py-2 text-white hover:bg-blue-600">
+          <Button
+            type="primary"
+            className="flex h-10 gap-2 rounded-lg text-white transition-colors duration-300"
+          >
             <FaShoppingCart className="text-2xl" />
-            Your booking
-          </button>
+            Vé của bạn
+          </Button>
         </div>
       </div>
 
