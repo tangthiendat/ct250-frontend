@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance } from "axios";
 import { ApiResponse, IAuthRequest, IAuthResponse, IUser } from "../interfaces";
 import { createApiClient } from "./api-client";
 
@@ -10,8 +10,7 @@ interface IAuthService {
     user: Omit<IUser, "userId">,
     siteUrl: string,
   ): Promise<ApiResponse<IUser>>;
-  logout(): Promise<ApiResponse<null>>;
-  refreshToken(): Promise<void>;
+  logout(): Promise<ApiResponse<void>>;
   verifyEmail(token: string): Promise<ApiResponse<IUser>>;
   forgotPassword(email: string, siteUrl: string): Promise<ApiResponse<void>>;
   resetPassword(token: string, newPassword: string): Promise<ApiResponse<void>>;
@@ -33,29 +32,13 @@ class AuthService implements IAuthService {
   }
 
   async login(authRequest: IAuthRequest): Promise<ApiResponse<IAuthResponse>> {
-    const response = await apiClient.post<ApiResponse<IAuthResponse>>(
-      "/login",
-      authRequest,
-    );
-    if (response.data.status === 200) {
-      const { accessToken } = response.data.payload;
-      localStorage.setItem("access_token", accessToken);
-    }
-    return response.data;
+    return (await apiClient.post("/login", authRequest)).data;
   }
 
-  async logout(): Promise<ApiResponse<null>> {
-    localStorage.removeItem("access_token");
+  async logout(): Promise<ApiResponse<void>> {
     return (await apiClient.post("/logout")).data;
   }
 
-  async refreshToken(): Promise<void> {
-    const response = await apiClient.post("/refresh-token");
-    if (response.data.status === 200) {
-      const { accessToken } = response.data.payload;
-      localStorage.setItem("access_token", accessToken);
-    }
-  }
   async verifyEmail(token: string): Promise<ApiResponse<IUser>> {
     try {
       const response = await apiClient.get<ApiResponse<IUser>>(
@@ -99,20 +82,5 @@ class AuthService implements IAuthService {
     ).data;
   }
 }
-
-apiClient.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      await authService.refreshToken();
-      const newAccessToken = localStorage.getItem("access_token");
-      originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-      return apiClient(originalRequest);
-    }
-    return Promise.reject(error);
-  },
-);
 
 export const authService = new AuthService();
