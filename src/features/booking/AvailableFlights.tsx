@@ -5,6 +5,7 @@ import ModifySearchFlightsForm from "./components/ModifySearchFlightsForm";
 import useSearchData from "./hooks/useSearchData";
 import Banner from "./components/Banner";
 import CalendarFlights from "./components/CalendarFlights";
+import FlightCards from "./components/FlightCards/FlightCards";
 
 const AvailableFlights: React.FC = () => {
   const { flightSearch: searchData } = useSearchData();
@@ -18,9 +19,9 @@ const AvailableFlights: React.FC = () => {
       />
       <ModifySearchFlightsForm show={showModifyForm} />
       <Banner />
-
-      <CalendarFlights />
-
+      {/* logic kiểm tra chuyến bay có sẵn hay không */}
+      <CalendarFlights /> {/* nếu có */}
+      <FlightCards /> {/* nếu có */}
       <BodyLayout>
         <div>
           <p>Type of Trip: {searchData.typeTrip}</p>
