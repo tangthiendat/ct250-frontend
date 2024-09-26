@@ -1,15 +1,12 @@
-interface BannerProps {
-  data: {
-    destAirport: string;
-  };
-}
+import useSearchData from "../hooks/useSearchData";
 
-const Banner: React.FC<BannerProps> = ({ data }) => {
+const Banner: React.FC = () => {
+  const { flightSearch: data } = useSearchData();
   return (
     <div className="relative">
       <img
-        src={`/flight-routes/${data.destAirport.split(" - ")[1]}.jpg`}
-        alt={data.destAirport.split(" - ")[0]}
+        src={`/flight-routes/${data.destinationAirport.split(" - ")[1]}.jpg`}
+        alt={data.destinationAirport.split(" - ")[0]}
         className="-z-10 h-[400px] w-full object-cover"
       />
 
@@ -19,7 +16,7 @@ const Banner: React.FC<BannerProps> = ({ data }) => {
         </p>
 
         <p className="text-heading-2 mt-2 text-green-700">
-          {data.destAirport.split(" - ")[0]}
+          {data.destinationAirport.split(" - ")[0]}
         </p>
       </div>
     </div>

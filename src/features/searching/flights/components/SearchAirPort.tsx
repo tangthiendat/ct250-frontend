@@ -1,13 +1,11 @@
 import { AutoComplete, Form, Input } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 import removeAccents from "remove-accents";
-
-interface SearchAirPortProps {
-  departure: string;
-  setDeparture: React.Dispatch<React.SetStateAction<string>>;
-  destination: string;
-  setDestination: React.Dispatch<React.SetStateAction<string>>;
-}
+import useSearchData from "../../../booking/hooks/useSearchData";
+import {
+  setDepartureAirport,
+  setDestinationAirport,
+} from "../../../../redux/slices/flightSearchSlice";
 
 const airPortOptions = [
   {
@@ -66,28 +64,29 @@ const airPortOptions = [
   },
 ];
 
-const SearchAirPort: React.FC<SearchAirPortProps> = ({
-  departure,
-  setDeparture,
-  destination,
-  setDestination,
-}) => {
-  const handleDepartureChange = (value: string) => {
-    setDeparture(value);
+const SearchAirPort: React.FC = () => {
+  const { flightSearch, dispatch } = useSearchData();
+
+  const handleDepartureAirportChange = (value: string) => {
+    dispatch(setDepartureAirport(value));
   };
 
-  const handleDestinationChange = (value: string) => {
-    setDestination(value);
+  const handleDestinationAirportChange = (value: string) => {
+    dispatch(setDestinationAirport(value));
   };
 
   const filteredDepartureOptions = airPortOptions.map((group) => ({
     ...group,
-    options: group.options.filter((option) => option.value !== destination),
+    options: group.options.filter(
+      (option) => option.value !== flightSearch.destinationAirport,
+    ),
   }));
 
   const filteredDestinationOptions = airPortOptions.map((group) => ({
     ...group,
-    options: group.options.filter((option) => option.value !== departure),
+    options: group.options.filter(
+      (option) => option.value !== flightSearch.departureAirport,
+    ),
   }));
 
   return (
@@ -110,7 +109,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
               removeAccents(inputValue.toUpperCase()),
             ) !== -1
           }
-          onChange={handleDepartureChange}
+          onChange={handleDepartureAirportChange}
         >
           <Input
             className="h-10"
@@ -138,7 +137,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
               removeAccents(inputValue.toUpperCase()),
             ) !== -1
           }
-          onChange={handleDestinationChange}
+          onChange={handleDestinationAirportChange}
         >
           <Input
             className="h-10"

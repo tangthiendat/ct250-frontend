@@ -5,31 +5,18 @@ import { PiAirplaneInFlightFill } from "react-icons/pi";
 
 import useStickyScroll from "../hooks/useStickyScroll";
 import ModifyButton from "./ExpansionButton";
+import useSearchData from "../hooks/useSearchData";
 
 interface FlightRecapProps {
-  data: {
-    typeTrip: string;
-    departAirport: string;
-    destAirport: string;
-    departureDate: string;
-    returnDate?: string;
-    passengers: {
-      adult: number;
-      children: number;
-      infant: number;
-    };
-    couponCode?: string;
-  };
-
   showModifyForm: boolean;
   setShowModifyForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FlightRecap: React.FC<FlightRecapProps> = ({
-  data,
   showModifyForm,
   setShowModifyForm,
 }) => {
+  const { flightSearch: data } = useSearchData();
   const isSticky = useStickyScroll();
 
   return (
@@ -42,7 +29,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
             <div className="flex flex-col items-center">
               <div className="flex items-center">
                 <p className="text-lg font-bold">
-                  {data.departAirport.split(" - ")[1]}
+                  {data.departureAirport.split(" - ")[1]}
                 </p>
 
                 <div>
@@ -74,16 +61,16 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                 </div>
 
                 <p className="text-lg font-bold">
-                  {data.destAirport.split(" - ")[1]}
+                  {data.destinationAirport.split(" - ")[1]}
                 </p>
               </div>
 
               <div className="flex w-full justify-between">
                 <p className="max-w-20 text-left text-sm text-gray-500">
-                  {data.departAirport.split(" - ")[0]}
+                  {data.departureAirport.split(" - ")[0]}
                 </p>
                 <p className="max-w-20 text-right text-sm text-gray-500">
-                  {data.destAirport.split(" - ")[0]}
+                  {data.destinationAirport.split(" - ")[0]}
                 </p>
               </div>
             </div>
@@ -105,7 +92,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                   <p className="text-flights_recap_heading text-lg font-bold">
                     Ngày về
                   </p>
-                  <p className="text-sm text-gray-500">{data.returnDate}</p>
+                  <p className="text-sm text-gray-500">{data.flightRange[1]}</p>
                 </div>
               </>
             )}

@@ -3,25 +3,14 @@ import CustomNextArrow from "../../../common/CustomNextArrow";
 import CustomPrevArrow from "../../../common/CustomPrevArrow";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
+import useSearchData from "../hooks/useSearchData";
 
 interface CalendarPanelProps {
-  data: {
-    typeTrip: string;
-    departAirport: string;
-    destAirport: string;
-    departureDate: string;
-    returnDate?: string;
-    passengers: {
-      adult: number;
-      children: number;
-      infant: number;
-    };
-    couponCode?: string;
-  };
   show: boolean;
 }
 
-const CalendarPanel: React.FC<CalendarPanelProps> = ({ data, show }) => {
+const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
+  const { flightSearch: data } = useSearchData();
   const calculateHeight = (price: number) => {
     const maxPrice = cellsContent.reduce(
       (max, cell) => (cell.price > max ? cell.price : max),

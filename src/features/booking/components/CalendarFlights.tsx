@@ -1,24 +1,10 @@
 import { useState } from "react";
 import CalendarPanel from "./CalendarPanel";
 import ExpansionButton from "./ExpansionButton";
+import useSearchData from "../hooks/useSearchData";
 
-interface CalendarFlightsProps {
-  data: {
-    typeTrip: string;
-    departAirport: string;
-    destAirport: string;
-    departureDate: string;
-    returnDate?: string;
-    passengers: {
-      adult: number;
-      children: number;
-      infant: number;
-    };
-    couponCode?: string;
-  };
-}
-
-const CalendarFlights: React.FC<CalendarFlightsProps> = ({ data }) => {
+const CalendarFlights: React.FC = () => {
+  const { flightSearch: data } = useSearchData();
   const [showPanel, setShowPanel] = useState<boolean>(true);
 
   return (
@@ -41,7 +27,7 @@ const CalendarFlights: React.FC<CalendarFlightsProps> = ({ data }) => {
         setShowForm={setShowPanel}
       />
 
-      <CalendarPanel data={data} show={showPanel} />
+      <CalendarPanel show={showPanel} />
     </div>
   );
 };

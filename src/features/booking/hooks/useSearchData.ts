@@ -1,22 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { RootState } from "../../../redux/store";
 
 const useSearchData = () => {
-  const location = useLocation();
-  const searchData = location.state as {
-    typeTrip: string;
-    departAirport: string;
-    destAirport: string;
-    departureDate: string;
-    returnDate?: string;
-    passengers: {
-      adult: number;
-      children: number;
-      infant: number;
-    };
-    couponCode?: string;
-  };
+  const flightSearch = useAppSelector((state: RootState) => state.flightSearch);
+  const dispatch = useAppDispatch();
 
-  return searchData;
+  return { flightSearch, dispatch };
 };
 
 export default useSearchData;
