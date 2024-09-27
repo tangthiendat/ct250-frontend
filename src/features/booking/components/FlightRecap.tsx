@@ -122,7 +122,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                 Hành khách
               </p>
               <p className="text-sm text-gray-500">
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center gap-4">
                   <FaUsers />
                   {data.passengers.adult +
                     data.passengers.children +

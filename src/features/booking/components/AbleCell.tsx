@@ -13,7 +13,7 @@ interface AbleCellProps {
 const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
   const { flightSearch: data, dispatch } = useSearchData();
   const choosenDate = data.departureDate.split("-").reverse().join("/");
-  console.log(choosenDate);
+  // console.log(choosenDate);
 
   return (
     <div className="flex h-44 flex-col items-center justify-end rounded-lg text-[10px] transition-all duration-500 md:text-sm">
