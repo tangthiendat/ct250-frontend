@@ -39,7 +39,10 @@ const BusinessClass: React.FC<BusinessClassProps> = ({
       <div className="space-y-4 p-4 text-sm">
         <div className="flex items-center">
           <FaCheckCircle className="mr-2 inline-block text-sm text-green-700" />
-          <p>Hành lý xách tay: {features.handBaggage}kg</p>
+          <p>
+            Hành lý xách tay: {features.handBaggagePiece} kiện,{" "}
+            {features.handBaggage}kg/kiện
+          </p>
         </div>
 
         {features.checkedBaggage > 0 ? (
