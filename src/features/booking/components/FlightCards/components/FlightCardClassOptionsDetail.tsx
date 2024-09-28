@@ -19,7 +19,7 @@ const FlightCardClassOptionsDetail: React.FC<
 }) => {
   return (
     <div
-      className={`${showDetailClass ? "h-96 opacity-100" : "h-0 opacity-0"} relative overflow-hidden bg-slate-100 transition-all duration-500`}
+      className={`${showDetailClass ? "h-[590px] opacity-100" : "h-0 opacity-0"} relative flex flex-col overflow-hidden bg-slate-100 transition-all duration-500`}
     >
       <div className="relative">
         <EconomyClassOptions show={showEconomyClass} />
