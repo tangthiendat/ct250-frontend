@@ -25,7 +25,7 @@ const EconomyClass: React.FC<EconomyClassProps> = ({
 }) => {
   return (
     <div
-      className={`${name === choosenClass && "border-green-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200 hover:border-green-700`}
+      className={`${name === choosenClass && "border-x-green-700 border-y-green-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200 hover:border-green-700`}
       onClick={() => setChoosenClass(name)}
     >
       <div

@@ -20,19 +20,19 @@ const detailsClassEconomy = [
       freeSeatSelection: false,
     },
   },
-  {
-    price: 3050000,
-    name: "Economy Flex",
-    features: {
-      handBaggage: 7,
-      checkedBaggage: 20,
-      refundBefore: 300000,
-      refundAfter: 300000,
-      changeBefore: 0,
-      changeAfter: 0,
-      freeSeatSelection: true,
-    },
-  },
+  // {
+  //   price: 3050000,
+  //   name: "Economy Flex",
+  //   features: {
+  //     handBaggage: 7,
+  //     checkedBaggage: 20,
+  //     refundBefore: 300000,
+  //     refundAfter: 300000,
+  //     changeBefore: 0,
+  //     changeAfter: 0,
+  //     freeSeatSelection: true,
+  //   },
+  // },
 ];
 
 const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({ show }) => {
@@ -66,7 +66,11 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({ show }) => {
             : "Vui lòng chọn giá vé để tiếp tục"}
       </p>
 
-      <Button className="mt-5 bg-blue-600 p-5" type="primary">
+      <Button
+        className="mt-5 bg-blue-600 p-5"
+        type="primary"
+        disabled={choosenClass === ""}
+      >
         Xác nhận để tiếp tục
       </Button>
     </div>

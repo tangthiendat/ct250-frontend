@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ISearchFlights } from "../../interfaces";
 
 const initialState: ISearchFlights = {
-  typeTrip: "one-way",
+  typeTrip: "round-trip",
   departureAirport: "",
   destinationAirport: "",
   departureDate: "",
@@ -13,7 +13,7 @@ const initialState: ISearchFlights = {
     infant: 0,
   },
   couponCode: "",
-  cabinClass: "economy",
+  cabinClass: "",
 };
 
 const flightSearchSlice = createSlice({

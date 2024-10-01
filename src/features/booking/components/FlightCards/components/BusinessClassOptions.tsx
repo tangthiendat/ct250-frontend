@@ -21,20 +21,20 @@ const detailsClassBusiness = [
       freeSeatSelection: true,
     },
   },
-  {
-    price: 6050000,
-    name: "Business Flex",
-    features: {
-      handBaggagePiece: 2,
-      handBaggage: 7,
-      checkedBaggage: 40,
-      refundBefore: 300000,
-      refundAfter: 300000,
-      changeBefore: 0,
-      changeAfter: 0,
-      freeSeatSelection: true,
-    },
-  },
+  // {
+  //   price: 6050000,
+  //   name: "Business Flex",
+  //   features: {
+  //     handBaggagePiece: 2,
+  //     handBaggage: 7,
+  //     checkedBaggage: 40,
+  //     refundBefore: 300000,
+  //     refundAfter: 300000,
+  //     changeBefore: 0,
+  //     changeAfter: 0,
+  //     freeSeatSelection: true,
+  //   },
+  // },
 ];
 
 const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
@@ -70,7 +70,11 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
             : "Vui lòng chọn giá vé để tiếp tục"}
       </p>
 
-      <Button className="mt-5 bg-blue-600 p-5" type="primary">
+      <Button
+        className="mt-5 bg-blue-600 p-5"
+        type="primary"
+        disabled={choosenClass === ""}
+      >
         Xác nhận để tiếp tục
       </Button>
     </div>
