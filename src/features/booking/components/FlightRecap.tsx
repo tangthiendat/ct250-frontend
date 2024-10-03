@@ -1,11 +1,12 @@
 import { Button, Divider } from "antd";
 import React from "react";
-import { FaShoppingCart, FaUsers } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
 
+import useSearchData from "../hooks/useSearchData";
 import useStickyScroll from "../hooks/useStickyScroll";
 import ModifyButton from "./ExpansionButton";
-import useSearchData from "../hooks/useSearchData";
+import PassengersDetail from "./PassengersDetail";
 
 interface FlightRecapProps {
   showModifyForm: boolean;
@@ -117,19 +118,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
 
             <Divider type="vertical" className="h-7 bg-black" />
 
-            <div className="text-center">
-              <p className="text-flights_recap_heading text-lg font-bold">
-                Hành khách
-              </p>
-              <p className="text-sm text-gray-500">
-                <div className="flex items-center justify-center gap-4">
-                  <FaUsers />
-                  {data.passengers.adult +
-                    data.passengers.children +
-                    data.passengers.infant}
-                </div>
-              </p>
-            </div>
+            <PassengersDetail />
           </div>
 
           <Button
