@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CalendarPanel from "./CalendarPanel";
-import ExpansionButton from "./ExpansionButton";
-import useSearchData from "../hooks/useSearchData";
+import useSearchData from "../../hooks/useSearchData";
+import ExpansionButton from "../ExpansionButton";
 
 const CalendarFlights: React.FC = () => {
   const { flightSearch: data } = useSearchData();

@@ -4,8 +4,8 @@ import FlightRecap from "./components/FlightRecap";
 import ModifySearchFlightsForm from "./components/ModifySearchFlightsForm";
 import useSearchData from "./hooks/useSearchData";
 import Banner from "./components/Banner";
-import CalendarFlights from "./components/CalendarFlights";
 import FlightCards from "./components/FlightCards/FlightCards";
+import CalendarFlights from "./components/Calendar/CalendarFlights";
 
 const AvailableFlights: React.FC = () => {
   const { flightSearch: searchData } = useSearchData();

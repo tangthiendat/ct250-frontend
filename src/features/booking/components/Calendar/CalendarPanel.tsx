@@ -1,8 +1,8 @@
 import { Carousel } from "antd";
-import CustomNextArrow from "../../../common/CustomNextArrow";
-import CustomPrevArrow from "../../../common/CustomPrevArrow";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
+import CustomPrevArrow from "../../../../common/CustomPrevArrow";
+import CustomNextArrow from "../../../../common/CustomNextArrow";
 
 interface CalendarPanelProps {
   show: boolean;
