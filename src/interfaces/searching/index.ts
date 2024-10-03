@@ -3,13 +3,13 @@ export interface ISearchFlights {
   departureAirport: string;
   destinationAirport: string;
   departureDate: string;
-  returnDate?: string;
+  flightRange: string[];
   passengers: {
     adult: number;
     children: number;
     infant: number;
   };
-  couponCode: string;
+  couponCode?: string;
   cabinClass: string;
 }
 

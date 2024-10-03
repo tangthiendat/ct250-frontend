@@ -48,7 +48,7 @@ const AccountMenu: React.FC = () => {
   ];
 
   return (
-    <div className="flex items-center">
+    <div className="flex cursor-pointer items-center">
       {loggedInUser && (
         <>
           <Dropdown

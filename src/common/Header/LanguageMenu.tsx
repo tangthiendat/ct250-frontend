@@ -31,7 +31,7 @@ const LanguageMenu: React.FC = () => {
   return (
     <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={["click"]}>
       <a onClick={(e) => e.preventDefault()}>
-        <Space>
+        <Space className="cursor-pointer">
           <Language language={currentLanguage} />
         </Space>
       </a>

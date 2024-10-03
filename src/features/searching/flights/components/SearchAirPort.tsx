@@ -2,13 +2,6 @@ import { AutoComplete, Form, Input } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 import removeAccents from "remove-accents";
 
-interface SearchAirPortProps {
-  departure: string;
-  setDeparture: React.Dispatch<React.SetStateAction<string>>;
-  destination: string;
-  setDestination: React.Dispatch<React.SetStateAction<string>>;
-}
-
 const airPortOptions = [
   {
     label: "Trong nước",
@@ -66,28 +59,39 @@ const airPortOptions = [
   },
 ];
 
+interface SearchAirPortProps {
+  departureAirport: string;
+  setDepartureAirport: React.Dispatch<React.SetStateAction<string>>;
+  destinationAirport: string;
+  setDestinationAirport: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const SearchAirPort: React.FC<SearchAirPortProps> = ({
-  departure,
-  setDeparture,
-  destination,
-  setDestination,
+  departureAirport,
+  setDepartureAirport,
+  destinationAirport,
+  setDestinationAirport,
 }) => {
-  const handleDepartureChange = (value: string) => {
-    setDeparture(value);
+  const handleDepartureAirportChange = (value: string) => {
+    setDepartureAirport(value);
   };
 
-  const handleDestinationChange = (value: string) => {
-    setDestination(value);
+  const handleDestinationAirportChange = (value: string) => {
+    setDestinationAirport(value);
   };
 
   const filteredDepartureOptions = airPortOptions.map((group) => ({
     ...group,
-    options: group.options.filter((option) => option.value !== destination),
+    options: group.options.filter(
+      (option) => option.value !== destinationAirport,
+    ),
   }));
 
   const filteredDestinationOptions = airPortOptions.map((group) => ({
     ...group,
-    options: group.options.filter((option) => option.value !== departure),
+    options: group.options.filter(
+      (option) => option.value !== departureAirport,
+    ),
   }));
 
   return (
@@ -101,6 +105,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
             message: "Vui lòng chọn điểm đi",
           },
         ]}
+        initialValue={departureAirport}
       >
         <AutoComplete
           size="large"
@@ -110,7 +115,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
               removeAccents(inputValue.toUpperCase()),
             ) !== -1
           }
-          onChange={handleDepartureChange}
+          onChange={handleDepartureAirportChange}
         >
           <Input
             className="h-10"
@@ -129,6 +134,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
             message: "Vui lòng chọn điểm đến",
           },
         ]}
+        initialValue={destinationAirport}
       >
         <AutoComplete
           size="large"
@@ -138,7 +144,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
               removeAccents(inputValue.toUpperCase()),
             ) !== -1
           }
-          onChange={handleDestinationChange}
+          onChange={handleDestinationAirportChange}
         >
           <Input
             className="h-10"

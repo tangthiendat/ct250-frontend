@@ -1,9 +1,13 @@
 import { Avatar, Card, Descriptions } from "antd";
+import { useState } from "react";
 import { useAvatarUrl } from "../../auth/hooks/UseAvatarUrl";
 import { useLoggedInUser } from "../../auth/hooks/UseLoggedInUser";
+import ResetPasswordButton from "./ResetPasswordButton";
+import { CiEdit } from "react-icons/ci";
 
 const PersonalInfo: React.FC = () => {
   const { user: userInfo } = useLoggedInUser();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const avatarUrl = useAvatarUrl(userInfo ?? null);
   const personalInfo = {
@@ -14,7 +18,6 @@ const PersonalInfo: React.FC = () => {
     email: userInfo?.email,
     nationality: userInfo?.country.countryName,
   };
-  // console.log(avatarUrl);
 
   return (
     <>
@@ -22,6 +25,15 @@ const PersonalInfo: React.FC = () => {
         className="flex-1 shadow-lg md:shadow-md"
         title={<p className="">Thông tin cá nhân</p>}
         bordered={true}
+        extra={
+          <button
+            className="flex items-center gap-2 hover:text-blue-500 focus:outline-none"
+            onClick={() => setIsModalVisible(true)}
+          >
+            <CiEdit className="text-xl" />
+            Đổi mật khẩu
+          </button>
+        }
       >
         <div className="flex flex-col gap-5">
           <div className="flex items-center justify-center">
@@ -69,6 +81,11 @@ const PersonalInfo: React.FC = () => {
           </Descriptions>
         </div>
       </Card>
+
+      <ResetPasswordButton
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
     </>
   );
 };

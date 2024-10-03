@@ -1,7 +1,8 @@
-import { UserOutlined } from "@ant-design/icons";
 import type { DropdownProps, MenuProps } from "antd";
-import { Button, Dropdown, Tooltip } from "antd";
+import { Button, Dropdown, Form, Tooltip } from "antd";
 import React, { useState } from "react";
+
+import { UserOutlined } from "@ant-design/icons";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { FaBabyCarriage, FaUser } from "react-icons/fa";
 import { FaChild } from "react-icons/fa6";
@@ -98,11 +99,13 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
   ];
 
   return (
-    <Dropdown menu={{ items }} onOpenChange={handleOpenChange} open={open}>
-      <Button className="w-full" size="large">
-        <UserOutlined /> Hành khách: {adult + children + infant} người
-      </Button>
-    </Dropdown>
+    <Form.Item name="passengers">
+      <Dropdown menu={{ items }} onOpenChange={handleOpenChange} open={open}>
+        <Button className="w-full" size="large">
+          <UserOutlined /> Hành khách: {adult + children + infant} người
+        </Button>
+      </Dropdown>
+    </Form.Item>
   );
 };
 
