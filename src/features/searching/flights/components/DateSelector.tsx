@@ -1,16 +1,23 @@
 import { DatePicker, Form } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import {
-  setDepartureDate,
-  setReturnDate,
-} from "../../../../redux/slices/flightSearchSlice";
-import useSearchData from "../../../booking/hooks/useSearchData";
 
 const { RangePicker } = DatePicker;
 
-const DateSelector: React.FC = () => {
-  const { flightSearch, dispatch } = useSearchData();
+interface DateSelectorProps {
+  typeTrip: string;
+  departureDate: string;
+  setDepartureDate: React.Dispatch<React.SetStateAction<string>>;
+  flightRange: string[];
+  setFlightRange: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
+const DateSelector: React.FC<DateSelectorProps> = ({
+  typeTrip,
+  departureDate,
+  setDepartureDate,
+  flightRange,
+  setFlightRange,
+}) => {
   const dateValidation = (date: Date) => {
     const currentDate = new Date();
     return date.getTime() <= currentDate.getTime();
@@ -18,7 +25,7 @@ const DateSelector: React.FC = () => {
 
   return (
     <>
-      {flightSearch.typeTrip === "one-way" && (
+      {typeTrip === "one-way" && (
         <Form.Item
           name="departureDate"
           rules={[{ required: true, message: "Vui lòng chọn ngày đi" }]}
@@ -26,6 +33,7 @@ const DateSelector: React.FC = () => {
             value: value && dayjs(value),
           })}
           normalize={(value: Dayjs) => value && value.tz().format("YYYY-MM-DD")}
+          initialValue={departureDate}
         >
           <DatePicker
             className="w-full"
@@ -33,14 +41,15 @@ const DateSelector: React.FC = () => {
             format={"DD/MM/YYYY"}
             placeholder="Chọn ngày đi"
             onChange={(date) => {
-              dispatch(setDepartureDate(date?.tz().format("YYYY-MM-DD")));
+              setDepartureDate(date?.tz().format("YYYY-MM-DD"));
+              setFlightRange([date?.tz().format("YYYY-MM-DD")]);
             }}
             disabledDate={(date) => dateValidation(date.toDate())}
           />
         </Form.Item>
       )}
 
-      {flightSearch.typeTrip === "round-trip" && (
+      {typeTrip === "round-trip" && (
         <div className="flex-1">
           <Form.Item
             name="flightRange"
@@ -64,6 +73,7 @@ const DateSelector: React.FC = () => {
                   ]
                 : [];
             }}
+            initialValue={flightRange}
           >
             <RangePicker
               className="w-full"
@@ -74,12 +84,11 @@ const DateSelector: React.FC = () => {
                 if (dates) {
                   const [departureDate, returnDate] = dates;
                   if (departureDate && returnDate) {
-                    dispatch(
-                      setDepartureDate(departureDate.tz().format("YYYY-MM-DD")),
-                    );
-                    dispatch(
-                      setReturnDate(returnDate.tz().format("YYYY-MM-DD")),
-                    );
+                    setDepartureDate(departureDate.tz().format("YYYY-MM-DD"));
+                    setFlightRange([
+                      departureDate.tz().format("YYYY-MM-DD"),
+                      returnDate.tz().format("YYYY-MM-DD"),
+                    ]);
                   }
                 }
               }}

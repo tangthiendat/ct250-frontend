@@ -1,14 +1,11 @@
-import React, { useState } from "react";
 import type { DropdownProps, MenuProps } from "antd";
 import { Button, Dropdown, Form, Tooltip } from "antd";
+import React, { useState } from "react";
 
 import { UserOutlined } from "@ant-design/icons";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { FaBabyCarriage, FaUser } from "react-icons/fa";
 import { FaChild } from "react-icons/fa6";
-
-import useSearchData from "../../../booking/hooks/useSearchData";
-import { setPassengers } from "../../../../redux/slices/flightSearchSlice";
 
 interface ItemMenuProps {
   label: string;
@@ -49,40 +46,24 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
   );
 };
 
-const PassengerSelector: React.FC = () => {
-  const { flightSearch, dispatch } = useSearchData();
-  const { adult, children, infant } = flightSearch.passengers;
+interface PassengerSelectorProps {
+  adult: number;
+  setAdult: React.Dispatch<React.SetStateAction<number>>;
+  children: number;
+  setChildren: React.Dispatch<React.SetStateAction<number>>;
+  infant: number;
+  setInfant: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const PassengerSelector: React.FC<PassengerSelectorProps> = ({
+  adult,
+  setAdult,
+  children,
+  setChildren,
+  infant,
+  setInfant,
+}) => {
   const [open, setOpen] = useState(false);
-
-  const setAdult: React.Dispatch<React.SetStateAction<number>> = (value) => {
-    dispatch(
-      setPassengers({
-        adult: typeof value === "function" ? value(adult) : value,
-        children,
-        infant,
-      }),
-    );
-  };
-
-  const setChildren: React.Dispatch<React.SetStateAction<number>> = (value) => {
-    dispatch(
-      setPassengers({
-        adult,
-        children: typeof value === "function" ? value(children) : value,
-        infant,
-      }),
-    );
-  };
-
-  const setInfant: React.Dispatch<React.SetStateAction<number>> = (value) => {
-    dispatch(
-      setPassengers({
-        adult,
-        children,
-        infant: typeof value === "function" ? value(infant) : value,
-      }),
-    );
-  };
 
   const handleOpenChange: DropdownProps["onOpenChange"] = (nextOpen, info) => {
     if (info.source === "trigger" || nextOpen) {

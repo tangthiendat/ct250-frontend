@@ -1,7 +1,5 @@
 import { ConfigProvider, Form, Segmented } from "antd";
 import { TbArrowNarrowRight, TbArrowsRightLeft } from "react-icons/tb";
-import useSearchData from "../../../booking/hooks/useSearchData";
-import { setTripType } from "../../../../redux/slices/flightSearchSlice";
 
 const typeTripOptions = [
   {
@@ -24,9 +22,15 @@ const typeTripOptions = [
   },
 ];
 
-const TypeTripSelector: React.FC = () => {
-  const { dispatch } = useSearchData();
+interface TypeTripSelectorProps {
+  typeTrip: string;
+  setTypeTrip: React.Dispatch<React.SetStateAction<string>>;
+}
 
+const TypeTripSelector: React.FC<TypeTripSelectorProps> = ({
+  typeTrip,
+  setTypeTrip,
+}) => {
   return (
     <ConfigProvider
       theme={{
@@ -38,12 +42,12 @@ const TypeTripSelector: React.FC = () => {
         },
       }}
     >
-      <Form.Item name="typeTrip">
+      <Form.Item name="typeTrip" initialValue={typeTrip}>
         <Segmented
           size="large"
           options={typeTripOptions}
           onChange={(typeTrip) => {
-            dispatch(setTripType(typeTrip));
+            setTypeTrip(typeTrip);
           }}
         />
       </Form.Item>

@@ -1,11 +1,6 @@
 import { AutoComplete, Form, Input } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 import removeAccents from "remove-accents";
-import useSearchData from "../../../booking/hooks/useSearchData";
-import {
-  setDepartureAirport,
-  setDestinationAirport,
-} from "../../../../redux/slices/flightSearchSlice";
 
 const airPortOptions = [
   {
@@ -64,28 +59,38 @@ const airPortOptions = [
   },
 ];
 
-const SearchAirPort: React.FC = () => {
-  const { flightSearch, dispatch } = useSearchData();
+interface SearchAirPortProps {
+  departureAirport: string;
+  setDepartureAirport: React.Dispatch<React.SetStateAction<string>>;
+  destinationAirport: string;
+  setDestinationAirport: React.Dispatch<React.SetStateAction<string>>;
+}
 
+const SearchAirPort: React.FC<SearchAirPortProps> = ({
+  departureAirport,
+  setDepartureAirport,
+  destinationAirport,
+  setDestinationAirport,
+}) => {
   const handleDepartureAirportChange = (value: string) => {
-    dispatch(setDepartureAirport(value));
+    setDepartureAirport(value);
   };
 
   const handleDestinationAirportChange = (value: string) => {
-    dispatch(setDestinationAirport(value));
+    setDestinationAirport(value);
   };
 
   const filteredDepartureOptions = airPortOptions.map((group) => ({
     ...group,
     options: group.options.filter(
-      (option) => option.value !== flightSearch.destinationAirport,
+      (option) => option.value !== destinationAirport,
     ),
   }));
 
   const filteredDestinationOptions = airPortOptions.map((group) => ({
     ...group,
     options: group.options.filter(
-      (option) => option.value !== flightSearch.departureAirport,
+      (option) => option.value !== departureAirport,
     ),
   }));
 
@@ -100,6 +105,7 @@ const SearchAirPort: React.FC = () => {
             message: "Vui lòng chọn điểm đi",
           },
         ]}
+        initialValue={departureAirport}
       >
         <AutoComplete
           size="large"
@@ -128,6 +134,7 @@ const SearchAirPort: React.FC = () => {
             message: "Vui lòng chọn điểm đến",
           },
         ]}
+        initialValue={destinationAirport}
       >
         <AutoComplete
           size="large"
