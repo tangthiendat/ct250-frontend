@@ -20,6 +20,9 @@ const flightSearchSlice = createSlice({
   name: "flightSearch",
   initialState,
   reducers: {
+    setFlightSearchInfo: (state, action: PayloadAction<ISearchFlights>) => {
+      return action.payload;
+    },
     setTripType: (state, action: PayloadAction<string>) => {
       state.typeTrip = action.payload;
     },
@@ -53,6 +56,7 @@ const flightSearchSlice = createSlice({
 });
 
 export const {
+  setFlightSearchInfo,
   setTripType,
   setDepartureAirport,
   setDestinationAirport,
