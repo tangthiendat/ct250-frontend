@@ -10,78 +10,58 @@ interface CalendarPanelProps {
 
 const cellsContent = [
   {
-    date: "24/09/2024",
+    date: "01/10/2024",
     price: 888000,
     availableFlight: true,
   },
   {
-    date: "25/09/2024",
+    date: "02/10/2024",
     price: 2000000,
     availableFlight: true,
   },
   {
-    date: "26/09/2024",
-    price: 1000000,
-    availableFlight: false,
-  },
-  {
-    date: "27/09/2024",
-    price: 2500000,
-    availableFlight: true,
-  },
-  {
-    date: "28/09/2024",
-    price: 3000000,
-    availableFlight: true,
-  },
-  {
-    date: "29/09/2024",
-    price: 1100000,
-    availableFlight: false,
-  },
-  {
-    date: "30/09/2024",
-    price: 1200000,
-    availableFlight: true,
-  },
-  {
-    date: "01/10/2024",
-    price: 1300000,
-    availableFlight: true,
-  },
-  {
-    date: "02/10/2024",
-    price: 1400000,
-    availableFlight: true,
-  },
-  {
     date: "03/10/2024",
-    price: 1500000,
+    price: 1000000,
     availableFlight: false,
   },
   {
     date: "04/10/2024",
-    price: 1700000,
+    price: 2500000,
     availableFlight: true,
   },
   {
     date: "05/10/2024",
-    price: 1000000,
+    price: 3000000,
     availableFlight: true,
   },
   {
     date: "06/10/2024",
-    price: 1000000,
-    availableFlight: true,
+    price: 1100000,
+    availableFlight: false,
   },
   {
     date: "07/10/2024",
-    price: 1000000,
+    price: 2000000,
     availableFlight: true,
   },
   {
     date: "08/10/2024",
-    price: 1000000,
+    price: 1300000,
+    availableFlight: true,
+  },
+  {
+    date: "09/10/2024",
+    price: 1400000,
+    availableFlight: true,
+  },
+  {
+    date: "10/10/2024",
+    price: 1500000,
+    availableFlight: false,
+  },
+  {
+    date: "11/10/2024",
+    price: 1700000,
     availableFlight: true,
   },
 ];
