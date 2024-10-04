@@ -3,4 +3,5 @@ export * from "./auth";
 export * from "./booking";
 export * from "./common";
 export * from "./country";
+export * from "./flight";
 export * from "./searching";

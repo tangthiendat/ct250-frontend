@@ -1,7 +1,8 @@
-import { AutoComplete, Form, Input } from "antd";
+import { ConfigProvider, Form, Select } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 import removeAccents from "remove-accents";
 import useAirport from "../hooks/useAirport";
+
 interface SearchAirPortProps {
   departureAirport: string;
   setDepartureAirport: React.Dispatch<React.SetStateAction<string>>;
@@ -15,11 +16,10 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
   destinationAirport,
   setDestinationAirport,
 }) => {
-  const {
-    filteredDepartureOptions,
-    filteredDestinationOptions,
-    validateAirport,
-  } = useAirport(departureAirport, destinationAirport);
+  const { filteredDepartureOptions, filteredDestinationOptions } = useAirport(
+    departureAirport,
+    destinationAirport,
+  );
 
   const handleDepartureAirportChange = (value: string) => {
     setDepartureAirport(value);
@@ -30,82 +30,68 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
   };
 
   return (
-    <div className="flex flex-1 gap-2">
-      <Form.Item
-        className="flex-1"
-        name="departureAirport"
-        rules={[
-          {
-            required: true,
-            message: "Vui lòng chọn điểm đi",
+    <div className="flex flex-1 flex-col gap-2 min-[530px]:flex-row">
+      <ConfigProvider
+        theme={{
+          token: {
+            fontSizeIcon: 14,
           },
-          {
-            validator: async (_, value) => {
-              if (!validateAirport(value) && value !== "") {
-                return Promise.reject("Điểm đi không hợp lệ");
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
-        initialValue={departureAirport}
+        }}
       >
-        <AutoComplete
-          allowClear
-          size="large"
-          options={filteredDepartureOptions}
-          filterOption={(inputValue, option) =>
-            removeAccents(option!.label.toString().toUpperCase()).indexOf(
-              removeAccents(inputValue.toUpperCase()),
-            ) !== -1
-          }
-          onChange={handleDepartureAirportChange}
+        <Form.Item
+          className="flex-1"
+          name="departureAirport"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn điểm đi",
+            },
+          ]}
+          initialValue={departureAirport || undefined}
         >
-          <Input
-            className="h-10"
-            prefix={<MdFlightTakeoff />}
-            placeholder="Địa điểm đi"
+          <Select
+            allowClear
+            showSearch
+            size="large"
+            options={filteredDepartureOptions}
+            filterOption={(inputValue, option) =>
+              removeAccents(
+                option?.label?.toString().toUpperCase() ?? "",
+              ).indexOf(removeAccents(inputValue.toUpperCase())) !== -1
+            }
+            onChange={handleDepartureAirportChange}
+            suffixIcon={<MdFlightTakeoff className="text-black" />}
+            placeholder="Điểm đi"
           />
-        </AutoComplete>
-      </Form.Item>
+        </Form.Item>
 
-      <Form.Item
-        className="flex-1"
-        name="destinationAirport"
-        rules={[
-          {
-            required: true,
-            message: "Vui lòng chọn điểm đến",
-          },
-          {
-            validator: async (_, value) => {
-              if (!validateAirport(value) && value !== "") {
-                return Promise.reject("Điểm đến không hợp lệ");
-              }
-              return Promise.resolve();
+        <Form.Item
+          className="flex-1"
+          name="destinationAirport"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn điểm đến",
             },
-          },
-        ]}
-        initialValue={destinationAirport}
-      >
-        <AutoComplete
-          allowClear
-          size="large"
-          options={filteredDestinationOptions}
-          filterOption={(inputValue, option) =>
-            removeAccents(option!.label.toString().toUpperCase()).indexOf(
-              removeAccents(inputValue.toUpperCase()),
-            ) !== -1
-          }
-          onChange={handleDestinationAirportChange}
+          ]}
+          initialValue={destinationAirport || undefined}
         >
-          <Input
-            className="h-10"
-            prefix={<MdFlightLand />}
-            placeholder="Địa điểm đến"
+          <Select
+            allowClear
+            showSearch
+            size="large"
+            options={filteredDestinationOptions}
+            filterOption={(inputValue, option) =>
+              removeAccents(
+                option?.label?.toString().toUpperCase() ?? "",
+              ).indexOf(removeAccents(inputValue.toUpperCase())) !== -1
+            }
+            onChange={handleDestinationAirportChange}
+            suffixIcon={<MdFlightLand className="text-black" />}
+            placeholder="Điểm đến"
           />
-        </AutoComplete>
-      </Form.Item>
+        </Form.Item>
+      </ConfigProvider>
     </div>
   );
 };

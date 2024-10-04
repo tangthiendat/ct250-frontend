@@ -1,74 +1,63 @@
+import { useQuery } from "@tanstack/react-query";
+import { airportService } from "../../../../services/airport-service";
+
 export const useAirport = (
   departureAirport: string,
   destinationAirport: string,
 ) => {
-  const airPortOptions = [
-    {
-      label: "Trong nước",
-      options: [
-        {
-          airportID: 43,
-          label: "Thành phố Hồ Chí Minh - SGN",
-          value: "Thành phố Hồ Chí Minh - SGN",
-        },
-        {
-          airportID: 44,
-          label: "Thành phố Hà Nội - HAN",
-          value: "Thành phố Hà Nội - HAN",
-        },
-      ],
-    },
-    {
-      label: "Châu Á",
-      options: [
-        {
-          airportID: 31,
-          label: "Thành phố Bangkok - BKK",
-          value: "Thành phố Bangkok - BKK",
-        },
-        {
-          airportID: 19,
-          label: "Thành phố Singapore - SIN",
-          value: "Thành phố Singapore - SIN",
-        },
-      ],
-    },
-    {
-      label: "Châu Đại Dương",
-      options: [
-        {
-          airportID: 30,
-          label: "Thành phố Sydney - SYD",
-          value: "Thành phố Sydney - SYD",
-        },
-      ],
-    },
-  ];
+  const { data: airportOptionsData } = useQuery({
+    queryKey: ["airports"],
+    queryFn: airportService.getAll,
+  });
 
-  const filteredDepartureOptions = airPortOptions.map((group) => ({
+  const airportOptions =
+    airportOptionsData?.payload?.map((airport) => ({
+      countryID: airport.country.countryId,
+      label: airport.country.countryName,
+      options: [
+        {
+          airportID: airport.airportId,
+          label: `${airport.cityName} - ${airport.airportCode}`,
+          // label: <AirportOption airport={airport} />,
+          value: `${airport.cityName} - ${airport.airportCode}`,
+        },
+      ],
+    })) || [];
+
+  const airportsByCountry = airportOptions.reduce(
+    (acc, group) => {
+      const existingGroup = acc.find(
+        (existing) => existing.countryID === group.countryID,
+      );
+
+      if (existingGroup) {
+        existingGroup.options.push(...group.options);
+      } else {
+        acc.push(group);
+      }
+
+      return acc;
+    },
+    [] as typeof airportOptions,
+  );
+
+  const filteredDepartureOptions = airportsByCountry.map((group) => ({
     ...group,
     options: group.options.filter(
       (option) => option.value !== destinationAirport,
     ),
   }));
 
-  const filteredDestinationOptions = airPortOptions.map((group) => ({
+  const filteredDestinationOptions = airportsByCountry.map((group) => ({
     ...group,
     options: group.options.filter(
       (option) => option.value !== departureAirport,
     ),
   }));
 
-  const validateAirport = (airport: string) => {
-    return airPortOptions.some((group) =>
-      group.options.some((option) => option.value === airport),
-    );
-  };
-
   return {
     filteredDepartureOptions,
     filteredDestinationOptions,
-    validateAirport,
   };
 };
 
