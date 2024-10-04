@@ -41,8 +41,18 @@ const ContactFields: React.FC = () => {
         ]}
       >
         <Select
+          showSearch
           placeholder="Vui lòng chọn quốc tịch"
           options={countryOptions}
+          optionFilterProp="label"
+          filterOption={(input, option) =>
+            option?.label.toLowerCase().includes(input.toLowerCase()) ?? false
+          }
+          filterSort={(optionA, optionB) =>
+            (optionA?.label ?? "")
+              .toLowerCase()
+              .localeCompare((optionB?.label ?? "").toLowerCase())
+          }
         />
       </Form.Item>
     </div>
