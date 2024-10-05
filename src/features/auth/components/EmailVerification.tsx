@@ -1,9 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../../../common/Loading";
-import { authService } from "../../../services/auth-service";
-import { useMutation } from "@tanstack/react-query";
+import { authService } from "../../../services";
 
 const EmailVerification: React.FC = () => {
   const navigate = useNavigate();

@@ -1,6 +1,11 @@
 import { AxiosInstance } from "axios";
-import { ApiResponse, IAuthRequest, IAuthResponse, IUser } from "../interfaces";
-import { createApiClient } from "./api-client";
+import {
+  ApiResponse,
+  IAuthRequest,
+  IAuthResponse,
+  IUser,
+} from "../../interfaces";
+import { createApiClient } from "../api-client";
 
 const apiClient: AxiosInstance = createApiClient("auth", { auth: false });
 

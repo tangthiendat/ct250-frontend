@@ -11,7 +11,7 @@ import PassengerSelector from "./components/PassengerSelector";
 import SearchAirPort from "./components/SearchAirPort";
 import TypeTripSelector from "./components/TypeTripSelector";
 import { useQuery } from "@tanstack/react-query";
-import { airportService } from "../../../services/airport-service";
+import { airportService } from "../../../services";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 

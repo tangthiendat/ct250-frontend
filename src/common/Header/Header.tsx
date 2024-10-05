@@ -8,7 +8,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../../interfaces";
-import { userService } from "../../services/user-service";
+import { userService } from "../../services";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
 import Menu from "./Menu";

@@ -2,7 +2,7 @@ import { Button, Form, FormInstance, Input } from "antd";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLoggedInUser } from "../../auth/hooks/UseLoggedInUser";
-import { userService } from "../../../services/user-service";
+import { userService } from "../../../services";
 import NewPasswordFields from "./NewPasswordFields"; // Import the new component
 
 interface IResetPasswordForm {
