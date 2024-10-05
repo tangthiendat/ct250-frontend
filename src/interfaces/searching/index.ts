@@ -1,7 +1,9 @@
+import { IAirport } from "../flight";
+
 export interface ISearchFlights {
   typeTrip: string;
-  departureAirport: string;
-  destinationAirport: string;
+  departureAirport?: IAirport;
+  arrivalAirport?: IAirport;
   departureDate: string;
   flightRange: string[];
   passengers: {

@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISearchFlights } from "../../interfaces";
+import { ISearchFlights, IAirport } from "../../interfaces";
 
 const initialState: ISearchFlights = {
   typeTrip: "round-trip",
-  departureAirport: "",
-  destinationAirport: "",
   departureDate: "",
   flightRange: [],
   passengers: {
@@ -21,16 +19,16 @@ const flightSearchSlice = createSlice({
   initialState,
   reducers: {
     setFlightSearchInfo: (state, action: PayloadAction<ISearchFlights>) => {
-      return action.payload;
+      return { ...state, ...action.payload };
     },
     setTripType: (state, action: PayloadAction<string>) => {
       state.typeTrip = action.payload;
     },
-    setDepartureAirport: (state, action: PayloadAction<string>) => {
+    setDepartureAirport: (state, action: PayloadAction<IAirport>) => {
       state.departureAirport = action.payload;
     },
-    setDestinationAirport: (state, action: PayloadAction<string>) => {
-      state.destinationAirport = action.payload;
+    setArrivalAirport: (state, action: PayloadAction<IAirport>) => {
+      state.arrivalAirport = action.payload;
     },
     setDepartureDate: (state, action: PayloadAction<string>) => {
       state.departureDate = action.payload;
@@ -59,7 +57,7 @@ export const {
   setFlightSearchInfo,
   setTripType,
   setDepartureAirport,
-  setDestinationAirport,
+  setArrivalAirport,
   setDepartureDate,
   setReturnDate,
   setPassengers,

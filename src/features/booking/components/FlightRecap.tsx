@@ -30,7 +30,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
             <div className="flex flex-col items-center">
               <div className="flex items-center">
                 <p className="text-lg font-bold">
-                  {data.departureAirport.split(" - ")[1]}
+                  {data.departureAirport?.airportCode}
                 </p>
 
                 <div>
@@ -62,16 +62,16 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                 </div>
 
                 <p className="text-lg font-bold">
-                  {data.destinationAirport.split(" - ")[1]}
+                  {data.arrivalAirport?.airportCode}
                 </p>
               </div>
 
               <div className="flex w-full justify-between">
                 <p className="max-w-20 text-left text-sm text-gray-500">
-                  {data.departureAirport.split(" - ")[0]}
+                  {data.departureAirport?.cityName}
                 </p>
                 <p className="max-w-20 text-right text-sm text-gray-500">
-                  {data.destinationAirport.split(" - ")[0]}
+                  {data.arrivalAirport?.cityName}
                 </p>
               </div>
             </div>

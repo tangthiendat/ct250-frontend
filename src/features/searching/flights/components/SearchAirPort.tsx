@@ -1,32 +1,56 @@
-import { ConfigProvider, Form, Select } from "antd";
+import { ConfigProvider, Form, FormInstance, Select } from "antd";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
-import removeAccents from "remove-accents";
-import useAirport from "../hooks/useAirport";
+import { IAirport, ISearchFlights } from "../../../../interfaces";
+import { groupBy } from "../../../../utils";
+import AirportOption from "./AirportOption";
+import { SelectProps } from "antd/lib";
 
 interface SearchAirPortProps {
-  departureAirport: string;
-  setDepartureAirport: React.Dispatch<React.SetStateAction<string>>;
-  destinationAirport: string;
-  setDestinationAirport: React.Dispatch<React.SetStateAction<string>>;
+  airports: IAirport[];
+  form: FormInstance<ISearchFlights>;
 }
 
-const SearchAirPort: React.FC<SearchAirPortProps> = ({
-  departureAirport,
-  setDepartureAirport,
-  destinationAirport,
-  setDestinationAirport,
-}) => {
-  const { filteredDepartureOptions, filteredDestinationOptions } = useAirport(
-    departureAirport,
-    destinationAirport,
+const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
+  const airportsByCountry: Map<string, IAirport[]> = groupBy(
+    airports,
+    (airport) => airport.country.countryName,
   );
 
-  const handleDepartureAirportChange = (value: string) => {
-    setDepartureAirport(value);
-  };
+  const airportOptions = Array.from(airportsByCountry.entries()).map(
+    ([countryName, airports]) => ({
+      label: <span className="text-sm">{countryName}</span>,
+      options: airports.map((airport) => ({
+        value: airport.airportId,
+        label: <AirportOption airport={airport} />,
+        searchLabel: `${airport.airportName} (${airport.airportCode})`,
+      })),
+    }),
+  );
 
-  const handleDestinationAirportChange = (value: string) => {
-    setDestinationAirport(value);
+  const filteredDepartureOptions = airportOptions.map((group) => ({
+    ...group,
+    options: group.options.filter(
+      (airport) =>
+        airport.value !== form.getFieldValue("arrivalAirport")?.airportId,
+    ),
+  }));
+
+  const filteredArrivalOptions = airportOptions.map((group) => ({
+    ...group,
+    options: group.options.filter(
+      (airport) =>
+        airport.value !== form.getFieldValue("departureAirport")?.airportId,
+    ),
+  }));
+
+  const labelRender: SelectProps["labelRender"] = (props) => {
+    const { label } = props;
+    if (label) {
+      const selectedAirport = (label as React.JSX.Element).props
+        .airport as IAirport;
+      return `${selectedAirport?.cityName} (${selectedAirport?.airportCode})`;
+    }
+    return null;
   };
 
   return (
@@ -40,26 +64,32 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
       >
         <Form.Item
           className="flex-1"
-          name="departureAirport"
+          name={["departureAirport", "airportId"]}
           rules={[
             {
               required: true,
               message: "Vui lòng chọn điểm đi",
             },
           ]}
-          initialValue={departureAirport || undefined}
         >
           <Select
             allowClear
             showSearch
             size="large"
             options={filteredDepartureOptions}
-            filterOption={(inputValue, option) =>
-              removeAccents(
-                option?.label?.toString().toUpperCase() ?? "",
-              ).indexOf(removeAccents(inputValue.toUpperCase())) !== -1
-            }
-            onChange={handleDepartureAirportChange}
+            labelRender={labelRender}
+            filterOption={(input, option) => {
+              if (option && option.options) {
+                return false; //ignore group label
+              }
+              const airport = option?.label.props.airport as IAirport;
+              return (
+                airport.airportCode
+                  .toLowerCase()
+                  .includes(input.toLowerCase()) ||
+                airport.cityName.toLowerCase().includes(input.toLowerCase())
+              );
+            }}
             suffixIcon={<MdFlightTakeoff className="text-black" />}
             placeholder="Điểm đi"
           />
@@ -67,26 +97,32 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({
 
         <Form.Item
           className="flex-1"
-          name="destinationAirport"
+          name={["arrivalAirport", "airportId"]}
           rules={[
             {
               required: true,
               message: "Vui lòng chọn điểm đến",
             },
           ]}
-          initialValue={destinationAirport || undefined}
         >
           <Select
             allowClear
             showSearch
             size="large"
-            options={filteredDestinationOptions}
-            filterOption={(inputValue, option) =>
-              removeAccents(
-                option?.label?.toString().toUpperCase() ?? "",
-              ).indexOf(removeAccents(inputValue.toUpperCase())) !== -1
-            }
-            onChange={handleDestinationAirportChange}
+            options={filteredArrivalOptions}
+            labelRender={labelRender}
+            filterOption={(input, option) => {
+              if (option && option.options) {
+                return false; //ignore group label
+              }
+              const airport = option?.label.props.airport as IAirport;
+              return (
+                airport.airportCode
+                  .toLowerCase()
+                  .includes(input.toLowerCase()) ||
+                airport.cityName.toLowerCase().includes(input.toLowerCase())
+              );
+            }}
             suffixIcon={<MdFlightLand className="text-black" />}
             placeholder="Điểm đến"
           />
