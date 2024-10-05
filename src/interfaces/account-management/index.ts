@@ -11,3 +11,8 @@ export interface ITransaction {
   additionalServices: string[];
   totalPrice: number;
 }
+
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}

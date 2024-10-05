@@ -2,6 +2,8 @@ import { Button, Form, FormInstance, Input } from "antd";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLoggedInUser } from "../../auth/hooks/UseLoggedInUser";
+import { userService } from "../../../services/user-service";
+import NewPasswordFields from "./NewPasswordFields"; // Import the new component
 
 interface IResetPasswordForm {
   currentPassword: string;
@@ -19,80 +21,43 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   onCancel,
 }) => {
   const [currentPassword, setCurrentPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
 
   const { user: userInfo } = useLoggedInUser();
 
-  const handleChangePassword = () => {
-    if (currentPassword !== "") {
-      toast.error("Mật khẩu hiện tại không đúng");
+  const handleChangePassword = async () => {
+    if (!userInfo) {
+      toast.error("Người dùng không tồn tại");
       return;
-    } else {
-      //logic to change password
-      console.log(userInfo?.userId);
+    }
+
+    if (currentPassword === "") {
+      toast.error("Vui lòng nhập mật khẩu hiện tại");
+      return;
+    }
+
+    try {
+      await userService.changePassword(userInfo.userId, {
+        currentPassword,
+        newPassword: form.getFieldValue("newPassword"),
+      });
 
       toast.success("Đổi mật khẩu thành công");
-      return;
+      onCancel();
+    } catch {
+      toast.error("Đổi mật khẩu thất bại");
     }
   };
 
   return (
     <>
-      <Form layout="vertical">
+      <Form layout="vertical" form={form}>
         <Form.Item label="Mật khẩu hiện tại" name="currentPassword">
           <Input.Password
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
         </Form.Item>
-        <Form.Item
-          name="newPassword"
-          label="Mật khẩu mới"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập mật khẩu mới",
-            },
-            {
-              min: 6,
-              message: "Mật khẩu phải có ít nhất 6 ký tự",
-            },
-          ]}
-        >
-          <Input.Password
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item
-          name="confirmNewPassword"
-          label="Xác nhận mật khẩu mới"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng xác nhận mật khẩu mới",
-            },
-            {
-              validator: (rule, value) => {
-                if (
-                  value !== newPassword &&
-                  newPassword !== "" &&
-                  value !== ""
-                ) {
-                  return Promise.reject("Mật khẩu không khớp");
-                }
-                return Promise.resolve();
-              },
-            },
-          ]}
-        >
-          <Input.Password
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-        </Form.Item>
-
+        <NewPasswordFields /> {/* Use the new component */}
         <Form.Item className="flex justify-end">
           <Button className="mr-2" onClick={onCancel}>
             Hủy
