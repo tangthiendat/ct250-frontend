@@ -6,7 +6,7 @@ interface IAirportService {
   getAll(): Promise<ApiResponse<IAirport[]>>;
 }
 
-const apiClient: AxiosInstance = createApiClient("airports");
+const apiClient: AxiosInstance = createApiClient("airports", { auth: false });
 
 class AirportService implements IAirportService {
   async getAll(): Promise<ApiResponse<IAirport[]>> {

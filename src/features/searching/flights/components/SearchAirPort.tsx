@@ -1,20 +1,26 @@
-import { ConfigProvider, Form, FormInstance, Select } from "antd";
+import { ConfigProvider, Form, Select } from "antd";
+import { SelectProps } from "antd/lib";
+import { useState } from "react";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
-import { IAirport, ISearchFlights } from "../../../../interfaces";
+import { IAirport } from "../../../../interfaces";
 import { groupBy } from "../../../../utils";
 import AirportOption from "./AirportOption";
-import { SelectProps } from "antd/lib";
 
 interface SearchAirPortProps {
   airports: IAirport[];
-  form: FormInstance<ISearchFlights>;
 }
 
-const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
+const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports }) => {
   const airportsByCountry: Map<string, IAirport[]> = groupBy(
     airports,
     (airport) => airport.country.countryName,
   );
+  const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<
+    number | undefined
+  >(undefined);
+  const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<
+    number | undefined
+  >(undefined);
 
   const airportOptions = Array.from(airportsByCountry.entries()).map(
     ([countryName, airports]) => ({
@@ -30,16 +36,14 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
   const filteredDepartureOptions = airportOptions.map((group) => ({
     ...group,
     options: group.options.filter(
-      (airport) =>
-        airport.value !== form.getFieldValue("arrivalAirport")?.airportId,
+      (airport) => airport.value !== selectedArrivalAirport,
     ),
   }));
 
   const filteredArrivalOptions = airportOptions.map((group) => ({
     ...group,
     options: group.options.filter(
-      (airport) =>
-        airport.value !== form.getFieldValue("departureAirport")?.airportId,
+      (airport) => airport.value !== selectedDepartureAirport,
     ),
   }));
 
@@ -77,6 +81,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
             showSearch
             size="large"
             options={filteredDepartureOptions}
+            onChange={setSelectedDepartureAirport}
             labelRender={labelRender}
             filterOption={(input, option) => {
               if (option && option.options) {
@@ -109,6 +114,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
             allowClear
             showSearch
             size="large"
+            onChange={setSelectedArrivalAirport}
             options={filteredArrivalOptions}
             labelRender={labelRender}
             filterOption={(input, option) => {

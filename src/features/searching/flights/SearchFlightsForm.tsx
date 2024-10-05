@@ -70,8 +70,7 @@ const SearchFlightsForm: React.FC = () => {
         airport.airportId ===
         searchFlightForm.getFieldValue("arrivalAirport")?.airportId,
     );
-    console.log("departureAirport", departureAirport);
-    console.log("arrivalAirport", arrivalAirport);
+
     dispatch(
       setFlightSearchInfo({
         typeTrip,
@@ -105,10 +104,7 @@ const SearchFlightsForm: React.FC = () => {
       <div className="justify-centr flex flex-col gap-2">
         <div className="flex flex-col gap-2 lg:flex-row">
           <div className="flex-1">
-            <SearchAirPort
-              form={searchFlightForm}
-              airports={airportsData?.payload || []}
-            />
+            <SearchAirPort airports={airportsData?.payload || []} />
           </div>
           <DateSelector
             typeTrip={typeTrip}
