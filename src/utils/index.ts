@@ -23,3 +23,20 @@ export function nonAccentVietnamese(str: string) {
   str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
+
+export function groupBy<T, K>(
+  list: T[],
+  keyGetter: (item: T) => K,
+): Map<K, T[]> {
+  const map = new Map<K, T[]>();
+  list.forEach((item) => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
+}

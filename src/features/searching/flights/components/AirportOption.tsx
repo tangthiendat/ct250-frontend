@@ -7,15 +7,12 @@ interface AirportOptionProps {
 
 const AirportOption: React.FC<AirportOptionProps> = ({ airport }) => {
   return (
-    <div className="px-1 py-2">
+    <div className="p-1">
       <div className="flex flex-wrap justify-between font-semibold">
-        <div className="text-wrap text-base">{airport.cityName}</div>
+        <div className="text-wrap">{airport.cityName}</div>
         <Tag color="blue" bordered={false} className="text-base font-semibold">
           {airport.airportCode}
         </Tag>
-      </div>
-      <div>
-        <span>{airport.airportName}</span>
       </div>
     </div>
   );

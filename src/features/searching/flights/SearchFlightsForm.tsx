@@ -1,5 +1,5 @@
 import { Button, Form } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ISearchFlights } from "../../../interfaces";
 import useSearchData from "../../booking/hooks/useSearchData";
@@ -10,24 +10,27 @@ import DateSelector from "./components/DateSelector";
 import PassengerSelector from "./components/PassengerSelector";
 import SearchAirPort from "./components/SearchAirPort";
 import TypeTripSelector from "./components/TypeTripSelector";
+import { useQuery } from "@tanstack/react-query";
+import { airportService } from "../../../services/airport-service";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const SearchFlightsForm: React.FC = () => {
-  const [form] = Form.useForm<ISearchFlights>();
+  const [searchFlightForm] = Form.useForm<ISearchFlights>();
   const navigate = useNavigate();
   const { flightSearch, dispatch } = useSearchData();
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
 
+  useEffect(() => {
+    if (flightSearch) {
+      searchFlightForm.setFieldsValue(flightSearch);
+    }
+  }, [flightSearch, searchFlightForm]);
+
   const [typeTrip, setTypeTrip] = useState<string>(flightSearch.typeTrip || "");
-  const [departureAirport, setDepartureAirport] = useState<string>(
-    flightSearch.departureAirport || "",
-  );
-  const [destinationAirport, setDestinationAirport] = useState<string>(
-    flightSearch.destinationAirport || "",
-  );
+
   const [departureDate, setDepartureDate] = useState<string>(
     flightSearch.departureDate || "",
   );
@@ -47,16 +50,33 @@ const SearchFlightsForm: React.FC = () => {
     flightSearch.couponCode || "",
   );
 
+  const { data: airportsData } = useQuery({
+    queryKey: ["airports"],
+    queryFn: airportService.getAll,
+  });
+
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
   };
 
   const onSubmit = () => {
+    const departureAirport = airportsData?.payload?.find(
+      (airport) =>
+        airport.airportId ===
+        searchFlightForm.getFieldValue("departureAirport")?.airportId,
+    );
+    const arrivalAirport = airportsData?.payload?.find(
+      (airport) =>
+        airport.airportId ===
+        searchFlightForm.getFieldValue("arrivalAirport")?.airportId,
+    );
+    console.log("departureAirport", departureAirport);
+    console.log("arrivalAirport", arrivalAirport);
     dispatch(
       setFlightSearchInfo({
         typeTrip,
         departureAirport,
-        destinationAirport,
+        arrivalAirport,
         departureDate,
         flightRange,
         passengers: {
@@ -73,7 +93,7 @@ const SearchFlightsForm: React.FC = () => {
 
   return (
     <Form
-      form={form}
+      form={searchFlightForm}
       onFinish={onSubmit}
       initialValues={{ size: componentSize }}
       onValuesChange={onFormLayoutChange}
@@ -86,10 +106,8 @@ const SearchFlightsForm: React.FC = () => {
         <div className="flex flex-col gap-2 lg:flex-row">
           <div className="flex-1">
             <SearchAirPort
-              departureAirport={departureAirport}
-              setDepartureAirport={setDepartureAirport}
-              destinationAirport={destinationAirport}
-              setDestinationAirport={setDestinationAirport}
+              form={searchFlightForm}
+              airports={airportsData?.payload || []}
             />
           </div>
           <DateSelector

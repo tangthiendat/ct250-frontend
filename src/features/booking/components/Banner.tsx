@@ -5,8 +5,8 @@ const Banner: React.FC = () => {
   return (
     <div className="relative">
       <img
-        src={`/flight-routes/${data.destinationAirport.split(" - ")[1]}.jpg`}
-        alt={data.destinationAirport.split(" - ")[0]}
+        src={`/flight-routes/${data.arrivalAirport?.airportCode}.jpg`}
+        alt={data.arrivalAirport?.airportName}
         className="-z-10 h-[400px] w-full object-cover"
       />
 
@@ -16,7 +16,7 @@ const Banner: React.FC = () => {
         </p>
 
         <p className="text-heading-2 mt-2 text-green-700">
-          {data.destinationAirport.split(" - ")[0]}
+          {data.arrivalAirport?.cityName}
         </p>
       </div>
     </div>
