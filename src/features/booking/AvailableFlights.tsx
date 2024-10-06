@@ -9,7 +9,7 @@ const AvailableFlights: React.FC = () => {
   const [showModifyForm, setShowModifyForm] = useState<boolean>(false);
 
   return (
-    <>
+    <div className="pb-10">
       <FlightRecap
         showModifyForm={showModifyForm}
         setShowModifyForm={setShowModifyForm}
@@ -19,7 +19,7 @@ const AvailableFlights: React.FC = () => {
       {/* logic kiểm tra chuyến bay có sẵn hay không */}
       <CalendarFlights /> {/* nếu có */}
       <FlightCards /> {/* nếu có */}
-    </>
+    </div>
   );
 };
 

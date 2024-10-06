@@ -6,7 +6,7 @@ const Banner: React.FC = () => {
     <div className="relative">
       <img
         src={`/flight-routes/${data.arrivalAirport?.airportCode}.jpg`}
-        alt={data.arrivalAirport?.airportName}
+        alt={data.arrivalAirport?.cityName}
         className="-z-10 h-[400px] w-full object-cover"
       />
 

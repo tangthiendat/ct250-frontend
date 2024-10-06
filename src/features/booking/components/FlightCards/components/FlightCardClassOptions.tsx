@@ -1,6 +1,8 @@
 import { MdExpandMore } from "react-icons/md";
+import { IFlightSchedule } from "../../../../../interfaces";
 
 interface FlightCardClassOptionsProps {
+  flightCardData: IFlightSchedule;
   showEconomyClass: boolean;
   showBusinessClass: boolean;
   handleShowEconomyClass: () => void;
@@ -9,16 +11,18 @@ interface FlightCardClassOptionsProps {
 }
 
 const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
+  flightCardData,
   showEconomyClass,
   showBusinessClass,
   handleShowEconomyClass,
   handleShowBusinessClass,
   handleCloseDetailClass,
 }) => {
+  console.log(flightCardData.seatAvailability);
   return (
     <>
       <div
-        className="flex-1 cursor-pointer bg-green-700"
+        className="relative flex-1 cursor-pointer bg-green-700"
         onClick={() => {
           if (showEconomyClass === false) {
             handleShowEconomyClass();
@@ -28,10 +32,17 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
         }}
       >
         <div className="flex flex-col items-center py-2 text-white">
+          <div className="absolute -top-[24px] rounded-t-md bg-blue-900 px-2 py-1">
+            <p className="text-xs">{/* {flightCardData.availableSeats} */}</p>
+          </div>
+
           <p className="font-bold">Economy</p>
+
           <div className="my-2 flex flex-col items-center">
             <p>từ</p>
-            <p className="text-xl font-bold">1.565.000</p>
+            <p className="text-xl font-bold">
+              {flightCardData.flightPricing[0].ticketPrice}
+            </p>
             <p>VND</p>
           </div>
 
@@ -42,7 +53,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
       </div>
 
       <div
-        className="flex-1 cursor-pointer bg-blue-800"
+        className={`${showBusinessClass || showEconomyClass ? "rounded-tr-lg" : "rounded-r-lg"} relative flex-1 cursor-pointer bg-blue-800 transition-all duration-500`}
         onClick={() => {
           if (showBusinessClass === false) {
             handleShowBusinessClass();
@@ -52,10 +63,17 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
         }}
       >
         <div className="flex flex-col items-center py-2 text-white">
+          <div className="absolute -top-[24px] rounded-t-md bg-green-900 px-2 py-1">
+            <p className="text-xs">{/* {flightCardData.seatAvailability} */}</p>
+          </div>
           <p className="font-bold">Business</p>
+
           <div className="my-2 flex flex-col items-center">
             <p>từ</p>
-            <p className="text-xl font-bold">3.565.000</p>
+            {/* props */}
+            <p className="text-xl font-bold">
+              {flightCardData.flightPricing[0].ticketPrice}
+            </p>
             <p>VND</p>
           </div>
 
