@@ -1,16 +1,25 @@
-import { ConfigProvider, Form, Select } from "antd";
+import {
+  Button,
+  ConfigProvider,
+  Form,
+  FormInstance,
+  Select,
+  Space,
+} from "antd";
 import { SelectProps } from "antd/lib";
 import { useState } from "react";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
-import { IAirport } from "../../../../interfaces";
+import { LuArrowLeftRight } from "react-icons/lu";
+import { IAirport, ISearchFlights } from "../../../../interfaces";
 import { groupBy } from "../../../../utils";
 import AirportOption from "./AirportOption";
 
 interface SearchAirPortProps {
   airports: IAirport[];
+  form: FormInstance<ISearchFlights>;
 }
 
-const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports }) => {
+const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
   const airportsByCountry: Map<string, IAirport[]> = groupBy(
     airports,
     (airport) => airport.country.countryName,
@@ -57,6 +66,19 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports }) => {
     return null;
   };
 
+  const reverseAirports = () => {
+    form.setFieldsValue({
+      departureAirport: {
+        airportId: selectedArrivalAirport,
+      },
+      arrivalAirport: {
+        airportId: selectedDepartureAirport,
+      },
+    });
+    setSelectedDepartureAirport(selectedArrivalAirport);
+    setSelectedArrivalAirport(selectedDepartureAirport);
+  };
+
   return (
     <div className="flex flex-1 flex-col gap-2 min-[530px]:flex-row">
       <ConfigProvider
@@ -66,73 +88,81 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports }) => {
           },
         }}
       >
-        <Form.Item
-          className="flex-1"
-          name={["departureAirport", "airportId"]}
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn điểm đi",
-            },
-          ]}
-        >
-          <Select
-            allowClear
-            showSearch
-            size="large"
-            options={filteredDepartureOptions}
-            onChange={setSelectedDepartureAirport}
-            labelRender={labelRender}
-            filterOption={(input, option) => {
-              if (option && option.options) {
-                return false; //ignore group label
-              }
-              const airport = option?.label.props.airport as IAirport;
-              return (
-                airport.airportCode
-                  .toLowerCase()
-                  .includes(input.toLowerCase()) ||
-                airport.cityName.toLowerCase().includes(input.toLowerCase())
-              );
-            }}
-            suffixIcon={<MdFlightTakeoff className="text-black" />}
-            placeholder="Điểm đi"
-          />
-        </Form.Item>
+        <Space.Compact block>
+          <Form.Item
+            className="flex-1"
+            name={["departureAirport", "airportId"]}
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng chọn điểm đi",
+              },
+            ]}
+          >
+            <Select
+              allowClear
+              showSearch
+              size="large"
+              options={filteredDepartureOptions}
+              onChange={setSelectedDepartureAirport}
+              labelRender={labelRender}
+              filterOption={(input, option) => {
+                if (option && option.options) {
+                  return false; //ignore group label
+                }
+                const airport = option?.label.props.airport as IAirport;
+                return (
+                  airport.airportCode
+                    .toLowerCase()
+                    .includes(input.toLowerCase()) ||
+                  airport.cityName.toLowerCase().includes(input.toLowerCase())
+                );
+              }}
+              suffixIcon={<MdFlightTakeoff className="text-black" />}
+              placeholder="Điểm đi"
+            />
+          </Form.Item>
 
-        <Form.Item
-          className="flex-1"
-          name={["arrivalAirport", "airportId"]}
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn điểm đến",
-            },
-          ]}
-        >
-          <Select
-            allowClear
-            showSearch
+          <Button
             size="large"
-            onChange={setSelectedArrivalAirport}
-            options={filteredArrivalOptions}
-            labelRender={labelRender}
-            filterOption={(input, option) => {
-              if (option && option.options) {
-                return false; //ignore group label
-              }
-              const airport = option?.label.props.airport as IAirport;
-              return (
-                airport.airportCode
-                  .toLowerCase()
-                  .includes(input.toLowerCase()) ||
-                airport.cityName.toLowerCase().includes(input.toLowerCase())
-              );
-            }}
-            suffixIcon={<MdFlightLand className="text-black" />}
-            placeholder="Điểm đến"
+            icon={<LuArrowLeftRight />}
+            onClick={reverseAirports}
           />
-        </Form.Item>
+
+          <Form.Item
+            className="flex-1"
+            name={["arrivalAirport", "airportId"]}
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng chọn điểm đến",
+              },
+            ]}
+          >
+            <Select
+              allowClear
+              showSearch
+              size="large"
+              onChange={setSelectedArrivalAirport}
+              options={filteredArrivalOptions}
+              labelRender={labelRender}
+              filterOption={(input, option) => {
+                if (option && option.options) {
+                  return false; //ignore group label
+                }
+                const airport = option?.label.props.airport as IAirport;
+                return (
+                  airport.airportCode
+                    .toLowerCase()
+                    .includes(input.toLowerCase()) ||
+                  airport.cityName.toLowerCase().includes(input.toLowerCase())
+                );
+              }}
+              suffixIcon={<MdFlightLand className="text-black" />}
+              placeholder="Điểm đến"
+            />
+          </Form.Item>
+        </Space.Compact>
       </ConfigProvider>
     </div>
   );
