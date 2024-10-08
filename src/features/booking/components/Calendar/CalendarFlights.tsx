@@ -10,9 +10,7 @@ const CalendarFlights: React.FC = () => {
   return (
     <div className="mx-auto lg:max-w-screen-xl">
       <p className="text-heading-2 text-center text-blue-900">
-        {new Date(
-          data.departureDate.split("/").reverse().join("/"),
-        ).toLocaleDateString("vi-VN", {
+        {new Date(data.departureDate).toLocaleDateString("vi-VN", {
           weekday: "long",
           year: "numeric",
           month: "long",

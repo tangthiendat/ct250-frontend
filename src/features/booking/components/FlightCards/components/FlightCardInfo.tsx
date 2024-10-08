@@ -81,7 +81,7 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           </div>
           <p>
             <span className="text font-semibold">
-              {flightCardData.flightName}
+              {/* {flightCardData.flightName} */}
             </span>{" "}
             được vận hành bởi DaViKa Airways.
           </p>

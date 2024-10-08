@@ -9,7 +9,7 @@ const DisableCell: React.FC<DisableCellProps> = ({ cell }) => {
   return (
     <div className="flex h-44 flex-col items-center justify-end text-[10px] md:text-sm">
       <div className="w-[90%] text-balance rounded-md bg-slate-400/60 pb-1 pt-3 text-center font-normal md:px-1">
-        {new Date(cell.date.split("/").reverse().join("/")) < new Date() ? (
+        {new Date(cell.date) < new Date() ? (
           <p>Đã qua</p>
         ) : (
           <p>Không có chuyến bay</p>

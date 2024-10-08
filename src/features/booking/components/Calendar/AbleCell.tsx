@@ -36,14 +36,11 @@ const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
         <div className="hidden sm:flex">
           {choosenDate === cell.date && <FaCheckCircle />}
         </div>
-        {new Date(cell.date.split("/").reverse().join("/")).toLocaleDateString(
-          "vi-VN",
-          {
-            weekday: "narrow",
-            day: "2-digit",
-            month: "2-digit",
-          },
-        )}
+        {new Date(cell.date).toLocaleDateString("vi-VN", {
+          weekday: "narrow",
+          day: "2-digit",
+          month: "2-digit",
+        })}
       </p>
     </div>
   );

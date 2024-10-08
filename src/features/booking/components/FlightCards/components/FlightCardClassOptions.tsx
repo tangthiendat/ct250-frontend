@@ -1,5 +1,6 @@
 import { MdExpandMore } from "react-icons/md";
-import { IFlightSchedule } from "../../../../../interfaces";
+import { IFlightSchedule, TicketClass } from "../../../../../interfaces";
+import { formatVietnameseCurrency } from "../../../../../utils";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
@@ -19,6 +20,16 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   handleCloseDetailClass,
 }) => {
   console.log(flightCardData.seatAvailability);
+  const availableEconomySeats = flightCardData.seatAvailability.filter(
+    (seatAvailability) =>
+      seatAvailability.seat.ticketClass === TicketClass.ECONOMY &&
+      seatAvailability.status === "AVAILABLE",
+  ).length;
+  const availableBusinessSeats = flightCardData.seatAvailability.filter(
+    (seatAvailability) =>
+      seatAvailability.seat.ticketClass === TicketClass.BUSINESS &&
+      seatAvailability.status === "AVAILABLE",
+  ).length;
   return (
     <>
       <div
@@ -32,8 +43,8 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
         }}
       >
         <div className="flex flex-col items-center py-2 text-white">
-          <div className="absolute -top-[24px] rounded-t-md bg-blue-900 px-2 py-1">
-            <p className="text-xs">{/* {flightCardData.availableSeats} */}</p>
+          <div className="absolute -top-[24px] rounded-t-md bg-green-900 px-2 py-1">
+            <p className="text-xs">{`Còn ${availableEconomySeats} chỗ`}</p>
           </div>
 
           <p className="font-bold">Economy</p>
@@ -41,7 +52,9 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
           <div className="my-2 flex flex-col items-center">
             <p>từ</p>
             <p className="text-xl font-bold">
-              {flightCardData.flightPricing[0].ticketPrice}
+              {formatVietnameseCurrency(
+                flightCardData.flightPricing[0].ticketPrice,
+              )}
             </p>
             <p>VND</p>
           </div>
@@ -63,8 +76,8 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
         }}
       >
         <div className="flex flex-col items-center py-2 text-white">
-          <div className="absolute -top-[24px] rounded-t-md bg-green-900 px-2 py-1">
-            <p className="text-xs">{/* {flightCardData.seatAvailability} */}</p>
+          <div className="absolute -top-[24px] rounded-t-md bg-blue-900 px-2 py-1">
+            <p className="text-xs">{`Còn ${availableBusinessSeats} chỗ`}</p>
           </div>
           <p className="font-bold">Business</p>
 
@@ -72,7 +85,9 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
             <p>từ</p>
             {/* props */}
             <p className="text-xl font-bold">
-              {flightCardData.flightPricing[0].ticketPrice}
+              {formatVietnameseCurrency(
+                flightCardData.flightPricing[1].ticketPrice,
+              )}
             </p>
             <p>VND</p>
           </div>

@@ -1,3 +1,4 @@
+import { RouteType, TicketClass } from "../common";
 import { ICountry } from "../country";
 
 export interface IAirport {
@@ -23,13 +24,11 @@ export interface IAirplane {
   status: string;
 }
 
-export interface IRoutes {
-  routeID: number;
+export interface IRoute {
+  routeId: number;
   departureAirport: IAirport;
   arrivalAirport: IAirport;
-  // distance: number;
-  // duration: number;
-  routeType: string;
+  routeType: RouteType;
 }
 
 export interface IFlightPrice {
@@ -40,30 +39,32 @@ export interface IFlightPrice {
 }
 
 export interface ISeat {
-  seatID: number;
-  seatClass: string;
+  seatId: number;
+  ticketClass: TicketClass;
   seatCode: string;
-  seatStatus: string;
-  seatPosition: string;
 }
 
-export interface IAvailableSeats {
-  // availableSeatsID: number;
-  totalAvailableSeats: number;
-  seats: ISeat[];
+export interface ISeatAvailability {
+  seatAvailabilityId: number;
+  seat: ISeat;
+  status: string;
 }
 
 export interface IFlightSchedule {
-  flightID: number;
-  flightName: string;
-  departureAirport: IAirport;
-  arrivalAirport: IAirport;
+  flightId: string;
   departureDateTime: string;
   arrivalDateTime: string;
   flightDuration: string;
   flightStatus: string;
-  route: IRoutes;
+  route: IRoute;
   flightPricing: IFlightPrice[];
-  seatAvailability: IAvailableSeats;
+  seatAvailability: ISeatAvailability[];
   airplane: IAirplane;
+}
+
+export interface FlightSearchCriteria {
+  departureLocation: number;
+  arrivalLocation: number;
+  departureDate: string;
+  arrivalDate?: string;
 }
