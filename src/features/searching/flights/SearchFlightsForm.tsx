@@ -15,7 +15,11 @@ import useSearchData from "../../booking/available-flights/hooks/useSearchData";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
-const SearchFlightsForm: React.FC = () => {
+interface SearchFlightsFormProps {
+  setShow?: (show: boolean) => void;
+}
+
+const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
   const [searchFlightForm] = Form.useForm<ISearchFlights>();
   const navigate = useNavigate();
   const { flightSearch, dispatch } = useSearchData();
@@ -142,6 +146,7 @@ const SearchFlightsForm: React.FC = () => {
             type="primary"
             size="large"
             className="w-40"
+            onClick={() => setShow && setShow(false)}
           >
             Tìm chuyến bay
           </Button>

@@ -14,7 +14,10 @@ const AvailableFlights: React.FC = () => {
         showModifyForm={showModifyForm}
         setShowModifyForm={setShowModifyForm}
       />
-      <ModifySearchFlightsForm show={showModifyForm} />
+      <ModifySearchFlightsForm
+        show={showModifyForm}
+        setShow={setShowModifyForm}
+      />
       <Banner />
       {/* logic kiểm tra chuyến bay có sẵn hay không */}
       <CalendarFlights /> {/* nếu có */}

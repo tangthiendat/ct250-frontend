@@ -2,10 +2,12 @@ import SearchFlightsForm from "../../../searching/flights/SearchFlightsForm";
 
 interface ModifySearchFlightsFormProps {
   show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModifySearchFlightsForm: React.FC<ModifySearchFlightsFormProps> = ({
   show,
+  setShow,
 }) => {
   return (
     <div
@@ -13,7 +15,7 @@ const ModifySearchFlightsForm: React.FC<ModifySearchFlightsFormProps> = ({
         show ? "z-10 -translate-y-0" : "z-0 -translate-y-20 opacity-0"
       }`}
     >
-      <SearchFlightsForm />
+      <SearchFlightsForm setShow={setShow} />
     </div>
   );
 };
