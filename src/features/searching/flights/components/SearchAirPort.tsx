@@ -13,6 +13,7 @@ import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 import { IAirport, ISearchFlights } from "../../../../interfaces";
 import { groupBy } from "../../../../utils";
 import AirportOption from "./AirportOption";
+import useSearchData from "../../../booking/available-flights/hooks/useSearchData";
 
 interface SearchAirPortProps {
   airports: IAirport[];
@@ -20,16 +21,18 @@ interface SearchAirPortProps {
 }
 
 const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
+  const { flightSearch } = useSearchData();
+  const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<
+    number | undefined
+  >(flightSearch.departureAirport?.airportId);
+  const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<
+    number | undefined
+  >(flightSearch.arrivalAirport?.airportId);
+
   const airportsByCountry: Map<string, IAirport[]> = groupBy(
     airports,
     (airport) => airport.country.countryName,
   );
-  const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<
-    number | undefined
-  >(undefined);
-  const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<
-    number | undefined
-  >(undefined);
 
   const airportOptions = Array.from(airportsByCountry.entries()).map(
     ([countryName, airports]) => ({
