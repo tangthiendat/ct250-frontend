@@ -8,8 +8,8 @@ import {
 } from "antd";
 import { SelectProps } from "antd/lib";
 import { useState } from "react";
+import { LuArrowRightLeft } from "react-icons/lu";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
-import { LuArrowLeftRight } from "react-icons/lu";
 import { IAirport, ISearchFlights } from "../../../../interfaces";
 import { groupBy } from "../../../../utils";
 import AirportOption from "./AirportOption";
@@ -125,7 +125,7 @@ const SearchAirPort: React.FC<SearchAirPortProps> = ({ airports, form }) => {
 
           <Button
             size="large"
-            icon={<LuArrowLeftRight />}
+            icon={<LuArrowRightLeft />}
             onClick={reverseAirports}
           />
 

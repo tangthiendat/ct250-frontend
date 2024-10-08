@@ -102,7 +102,8 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
     <Form.Item name="passengers">
       <Dropdown menu={{ items }} onOpenChange={handleOpenChange} open={open}>
         <Button className="w-full" size="large">
-          <UserOutlined /> Hành khách: {adult + children + infant} người
+          <UserOutlined />{" "}
+          {`Hành khách: ${[adult > 0 ? `${adult} người lớn` : "", children > 0 ? `${children} trẻ em` : "", infant > 0 ? `${infant} em bé` : ""].filter(Boolean).join(", ")}`}
         </Button>
       </Dropdown>
     </Form.Item>
