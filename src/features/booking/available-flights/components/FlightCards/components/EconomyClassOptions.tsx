@@ -8,40 +8,26 @@ interface EconomyClassOptionsProps {
   flightCardData: IFlightSchedule;
 }
 
-const detailsClassEconomy = [
-  {
-    price: 1565000,
-    name: "Economy",
-    features: {
-      handBaggage: 7,
-      checkedBaggage: 0,
-      refundBefore: 450000,
-      refundAfter: 600000,
-      changeBefore: 450000,
-      changeAfter: 600000,
-      freeSeatSelection: false,
-    },
-  },
-  // {
-  //   price: 3050000,
-  //   name: "Economy Flex",
-  //   features: {
-  //     handBaggage: 7,
-  //     checkedBaggage: 20,
-  //     refundBefore: 300000,
-  //     refundAfter: 300000,
-  //     changeBefore: 0,
-  //     changeAfter: 0,
-  //     freeSeatSelection: true,
-  //   },
-  // },
-];
-
 const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
   show,
   flightCardData,
 }) => {
   const [choosenClass, setChoosenClass] = useState<string>("");
+  const detailsClassEconomy = [
+    {
+      price: flightCardData.flightPricing[0].ticketPrice,
+      name: "Economy",
+      features: {
+        handBaggage: 7,
+        checkedBaggage: 0,
+        refundBefore: 450000,
+        refundAfter: 600000,
+        changeBefore: 450000,
+        changeAfter: 600000,
+        freeSeatSelection: false,
+      },
+    },
+  ];
 
   return (
     <div
@@ -54,7 +40,7 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
         {detailsClassEconomy.map((item, index) => (
           <ClassOption
             key={index}
-            price={flightCardData.flightPricing[0].ticketPrice}
+            price={item.price}
             name={item.name}
             features={item.features}
             choosenClass={choosenClass}

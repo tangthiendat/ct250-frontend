@@ -8,42 +8,27 @@ interface BusinessClassOptionsProps {
   flightCardData: IFlightSchedule;
 }
 
-const detailsClassBusiness = [
-  {
-    price: 3565000,
-    name: "Business",
-    features: {
-      handBaggagePiece: 2,
-      handBaggage: 7,
-      checkedBaggage: 40,
-      refundBefore: 450000,
-      refundAfter: 450000,
-      changeBefore: 300000,
-      changeAfter: 450000,
-      freeSeatSelection: true,
-    },
-  },
-  // {
-  //   price: 6050000,
-  //   name: "Business Flex",
-  //   features: {
-  //     handBaggagePiece: 2,
-  //     handBaggage: 7,
-  //     checkedBaggage: 40,
-  //     refundBefore: 300000,
-  //     refundAfter: 300000,
-  //     changeBefore: 0,
-  //     changeAfter: 0,
-  //     freeSeatSelection: true,
-  //   },
-  // },
-];
-
 const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
   show,
   flightCardData,
 }) => {
   const [choosenClass, setChoosenClass] = useState<string>("");
+  const detailsClassBusiness = [
+    {
+      price: flightCardData.flightPricing[1].ticketPrice,
+      name: "Business",
+      features: {
+        handBaggagePiece: 2,
+        handBaggage: 7,
+        checkedBaggage: 40,
+        refundBefore: 450000,
+        refundAfter: 450000,
+        changeBefore: 300000,
+        changeAfter: 450000,
+        freeSeatSelection: true,
+      },
+    },
+  ];
 
   return (
     <div
@@ -56,7 +41,7 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
         {detailsClassBusiness.map((item, index) => (
           <BusinessClass
             key={index}
-            price={flightCardData.flightPricing[1].ticketPrice}
+            price={item.price}
             name={item.name}
             features={item.features}
             choosenClass={choosenClass}
