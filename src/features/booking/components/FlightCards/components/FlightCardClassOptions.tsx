@@ -1,6 +1,5 @@
 import { MdExpandMore } from "react-icons/md";
 import { IFlightSchedule, TicketClass } from "../../../../../interfaces";
-import { formatVietnameseCurrency } from "../../../../../utils";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
@@ -52,9 +51,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
           <div className="my-2 flex flex-col items-center">
             <p>từ</p>
             <p className="text-xl font-bold">
-              {formatVietnameseCurrency(
-                flightCardData.flightPricing[0].ticketPrice,
-              )}
+              {flightCardData.flightPricing[0].ticketPrice.toLocaleString()}
             </p>
             <p>VND</p>
           </div>
@@ -85,9 +82,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
             <p>từ</p>
             {/* props */}
             <p className="text-xl font-bold">
-              {formatVietnameseCurrency(
-                flightCardData.flightPricing[1].ticketPrice,
-              )}
+              {flightCardData.flightPricing[1].ticketPrice.toLocaleString()}
             </p>
             <p>VND</p>
           </div>

@@ -1,17 +1,20 @@
 import { MdExpandLess } from "react-icons/md";
 import BusinessClassOptions from "./BusinessClassOptions";
 import EconomyClassOptions from "./EconomyClassOptions";
+import { IFlightSchedule } from "../../../../../interfaces";
 
 interface FlightCardClassOptionsDetailProps {
   showDetailClass: boolean;
   showEconomyClass: boolean;
   showBusinessClass: boolean;
   handleCloseDetailClass: () => void;
+  flightCardData: IFlightSchedule;
 }
 
 const FlightCardClassOptionsDetail: React.FC<
   FlightCardClassOptionsDetailProps
 > = ({
+  flightCardData,
   showDetailClass,
   showEconomyClass,
   showBusinessClass,
@@ -22,8 +25,14 @@ const FlightCardClassOptionsDetail: React.FC<
       className={`${showDetailClass ? "h-[590px] opacity-100" : "h-0 opacity-0"} relative flex flex-col overflow-hidden bg-slate-100 transition-all duration-500`}
     >
       <div className="relative">
-        <EconomyClassOptions show={showEconomyClass} />
-        <BusinessClassOptions show={showBusinessClass} />
+        <EconomyClassOptions
+          show={showEconomyClass}
+          flightCardData={flightCardData}
+        />
+        <BusinessClassOptions
+          show={showBusinessClass}
+          flightCardData={flightCardData}
+        />
       </div>
 
       <div

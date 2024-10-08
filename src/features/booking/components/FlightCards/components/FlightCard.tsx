@@ -38,6 +38,7 @@ const FlightCard: React.FC<FlightCardProps> = ({ flightCardData }) => {
       </div>
 
       <FlightCardClassOptionsDetail
+        flightCardData={flightCardData}
         showDetailClass={showDetailClass}
         showEconomyClass={showEconomyClass}
         showBusinessClass={showBusinessClass}

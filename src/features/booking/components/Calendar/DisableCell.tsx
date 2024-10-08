@@ -1,8 +1,7 @@
+import { IFlightOverview } from "../../../../interfaces";
+
 interface DisableCellProps {
-  cell: {
-    availableFlight: boolean;
-    date: string;
-  };
+  cell: IFlightOverview;
 }
 
 const DisableCell: React.FC<DisableCellProps> = ({ cell }) => {
@@ -16,14 +15,11 @@ const DisableCell: React.FC<DisableCellProps> = ({ cell }) => {
         )}
       </div>
       <p className="text-balance text-center font-normal text-black">
-        {new Date(cell.date.split("/").reverse().join("/")).toLocaleDateString(
-          "vi-VN",
-          {
-            weekday: "narrow",
-            day: "2-digit",
-            month: "2-digit",
-          },
-        )}
+        {new Date(cell.date).toLocaleDateString("vi-VN", {
+          weekday: "narrow",
+          day: "2-digit",
+          month: "2-digit",
+        })}
       </p>
     </div>
   );

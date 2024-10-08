@@ -31,7 +31,7 @@ export interface IRoute {
   routeType: RouteType;
 }
 
-export interface IFlightPrice {
+export interface IFlightPricing {
   flightPricingId: number;
   ticketPrice: number;
   validFrom: string;
@@ -57,7 +57,7 @@ export interface IFlightSchedule {
   flightDuration: string;
   flightStatus: string;
   route: IRoute;
-  flightPricing: IFlightPrice[];
+  flightPricing: IFlightPricing[];
   seatAvailability: ISeatAvailability[];
   airplane: IAirplane;
 }
@@ -67,4 +67,10 @@ export interface FlightSearchCriteria {
   arrivalLocation: number;
   departureDate: string;
   arrivalDate?: string;
+}
+
+export interface IFlightOverview {
+  date: string;
+  minPriceOfDay: number;
+  hasFlight: boolean;
 }

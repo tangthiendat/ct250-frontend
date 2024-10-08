@@ -1,15 +1,17 @@
-import { useState } from "react";
-import ClassOption from "./EconomyClass";
 import { Button } from "antd";
+import { useState } from "react";
+import { IFlightSchedule } from "../../../../../interfaces";
+import ClassOption from "./EconomyClass";
 
 interface EconomyClassOptionsProps {
   show: boolean;
+  flightCardData: IFlightSchedule;
 }
 
 const detailsClassEconomy = [
   {
     price: 1565000,
-    name: "Economy Smart",
+    name: "Economy",
     features: {
       handBaggage: 7,
       checkedBaggage: 0,
@@ -35,7 +37,10 @@ const detailsClassEconomy = [
   // },
 ];
 
-const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({ show }) => {
+const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
+  show,
+  flightCardData,
+}) => {
   const [choosenClass, setChoosenClass] = useState<string>("");
 
   return (
@@ -49,7 +54,7 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({ show }) => {
         {detailsClassEconomy.map((item, index) => (
           <ClassOption
             key={index}
-            price={item.price}
+            price={flightCardData.flightPricing[0].ticketPrice}
             name={item.name}
             features={item.features}
             choosenClass={choosenClass}
@@ -59,8 +64,8 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({ show }) => {
       </div>
 
       <p className="text-green-700">
-        {choosenClass === "Economy Smart"
-          ? "Bạn đã chọn hạng vé Economy Smart"
+        {choosenClass === "Economy"
+          ? "Bạn đã chọn hạng vé Economy"
           : choosenClass === "Economy Flex"
             ? "Bạn đã chọn hạng vé Economy Flex"
             : "Vui lòng chọn giá vé để tiếp tục"}

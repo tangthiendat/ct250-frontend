@@ -1,15 +1,17 @@
 import { useState } from "react";
 import BusinessClass from "./BusinessClass";
 import { Button } from "antd";
+import { IFlightSchedule } from "../../../../../interfaces";
 
 interface BusinessClassOptionsProps {
   show: boolean;
+  flightCardData: IFlightSchedule;
 }
 
 const detailsClassBusiness = [
   {
     price: 3565000,
-    name: "Business Smart",
+    name: "Business",
     features: {
       handBaggagePiece: 2,
       handBaggage: 7,
@@ -39,6 +41,7 @@ const detailsClassBusiness = [
 
 const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
   show,
+  flightCardData,
 }) => {
   const [choosenClass, setChoosenClass] = useState<string>("");
 
@@ -53,7 +56,7 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
         {detailsClassBusiness.map((item, index) => (
           <BusinessClass
             key={index}
-            price={item.price}
+            price={flightCardData.flightPricing[1].ticketPrice}
             name={item.name}
             features={item.features}
             choosenClass={choosenClass}
@@ -63,8 +66,8 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
       </div>
 
       <p className="text-blue-800">
-        {choosenClass === "Business Smart"
-          ? "Bạn đã chọn hạng vé Business Smart"
+        {choosenClass === "Business"
+          ? "Bạn đã chọn hạng vé Business"
           : choosenClass === "Business Flex"
             ? "Bạn đã chọn hạng vé Business Flex"
             : "Vui lòng chọn giá vé để tiếp tục"}

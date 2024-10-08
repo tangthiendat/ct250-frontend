@@ -1,33 +1,28 @@
 import { FaCheckCircle } from "react-icons/fa";
-import useSearchData from "../../hooks/useSearchData";
+import { IFlightOverview } from "../../../../interfaces";
 import { setDepartureDate } from "../../../../redux/slices/flightSearchSlice";
+import useSearchData from "../../hooks/useSearchData";
 
 interface AbleCellProps {
-  cell: {
-    date: string;
-    price: number;
-  };
+  cell: IFlightOverview;
   calculateHeight: (price: number) => number;
 }
 
 const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
   const { flightSearch: data, dispatch } = useSearchData();
-  const choosenDate = data.departureDate.split("-").reverse().join("/");
-  // console.log(choosenDate);
+  const choosenDate = data.departureDate;
 
   return (
     <div className="flex h-44 flex-col items-center justify-end rounded-lg text-[10px] transition-all duration-500 md:text-sm">
       <div
         className={`${choosenDate === cell.date ? "bg-blue-900 text-white" : "bg-blue-300/60"} w-[90%] cursor-pointer rounded-md px-0 pb-1 text-center md:px-1`}
         style={{
-          paddingTop: calculateHeight(cell.price),
+          paddingTop: calculateHeight(cell.minPriceOfDay),
         }}
-        onClick={() =>
-          dispatch(setDepartureDate(cell.date.split("/").reverse().join("-")))
-        }
+        onClick={() => dispatch(setDepartureDate(cell.date))}
       >
         <p className="text-price text-balance font-semibold">
-          {cell.price.toLocaleString()} VND
+          {cell.minPriceOfDay.toLocaleString()} VND
         </p>
       </div>
       <p

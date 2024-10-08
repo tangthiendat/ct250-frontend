@@ -3,79 +3,38 @@ import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
 import CustomPrevArrow from "../../../../common/CustomPrevArrow";
 import CustomNextArrow from "../../../../common/CustomNextArrow";
+import { useQuery } from "@tanstack/react-query";
+import useSearchData from "../../hooks/useSearchData";
+import dayjs from "dayjs";
+import { flightScheduleService } from "../../../../services";
 
 interface CalendarPanelProps {
   show: boolean;
 }
 
-const cellsContent = [
-  {
-    date: "01/10/2024",
-    price: 888000,
-    availableFlight: true,
-  },
-  {
-    date: "02/10/2024",
-    price: 2000000,
-    availableFlight: true,
-  },
-  {
-    date: "03/10/2024",
-    price: 1000000,
-    availableFlight: false,
-  },
-  {
-    date: "04/10/2024",
-    price: 2500000,
-    availableFlight: true,
-  },
-  {
-    date: "05/10/2024",
-    price: 3000000,
-    availableFlight: true,
-  },
-  {
-    date: "06/10/2024",
-    price: 1100000,
-    availableFlight: false,
-  },
-  {
-    date: "07/10/2024",
-    price: 2000000,
-    availableFlight: true,
-  },
-  {
-    date: "08/10/2024",
-    price: 1300000,
-    availableFlight: true,
-  },
-  {
-    date: "09/10/2024",
-    price: 1400000,
-    availableFlight: true,
-  },
-  {
-    date: "10/10/2024",
-    price: 1500000,
-    availableFlight: false,
-  },
-  {
-    date: "11/10/2024",
-    price: 1700000,
-    availableFlight: true,
-  },
-];
-
 const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
+  const { flightSearch } = useSearchData();
+  const startDate = dayjs(flightSearch.departureDate)
+    .add(-7, "day")
+    .format("YYYY-MM-DD");
+  const endDate = dayjs(flightSearch.departureDate)
+    .add(7, "day")
+    .format("YYYY-MM-DD");
+  const { data } = useQuery({
+    queryKey: ["flights", "overviews", { startDate, endDate }],
+    queryFn: () => flightScheduleService.getOverview(startDate, endDate),
+  });
+  const cellsContent = data?.payload || [];
+
   const calculateHeight = (price: number) => {
     const maxPrice = cellsContent.reduce(
-      (max, cell) => (cell.price > max ? cell.price : max),
-      cellsContent[0].price,
+      (max, cell) => (cell.minPriceOfDay > max ? cell.minPriceOfDay : max),
+      cellsContent[0].minPriceOfDay,
     );
 
     const minPrice = cellsContent.reduce(
-      (min, cell) => (cell.price < min ? cell.price : min),
-      cellsContent[0].price,
+      (min, cell) => (cell.minPriceOfDay < min ? cell.minPriceOfDay : min),
+      cellsContent[0].minPriceOfDay,
     );
 
     const height = Math.round(
@@ -105,8 +64,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
             >
               {cellsContent.map((cell, index) => (
                 <div key={index}>
-                  {new Date(cell.date.split("/").reverse().join("/")) <
-                    new Date() || !cell.availableFlight ? (
+                  {new Date(cell.date) < new Date() || !cell.hasFlight ? (
                     <DisableCell cell={cell} />
                   ) : (
                     <AbleCell cell={cell} calculateHeight={calculateHeight} />
