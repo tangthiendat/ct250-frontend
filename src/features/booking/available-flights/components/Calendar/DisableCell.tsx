@@ -1,4 +1,4 @@
-import { IFlightOverview } from "../../../../interfaces";
+import { IFlightOverview } from "../../../../../interfaces";
 
 interface DisableCellProps {
   cell: IFlightOverview;

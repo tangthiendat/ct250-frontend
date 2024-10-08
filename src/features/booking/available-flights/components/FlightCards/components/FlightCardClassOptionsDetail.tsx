@@ -1,7 +1,7 @@
 import { MdExpandLess } from "react-icons/md";
 import BusinessClassOptions from "./BusinessClassOptions";
 import EconomyClassOptions from "./EconomyClassOptions";
-import { IFlightSchedule } from "../../../../../interfaces";
+import { IFlightSchedule } from "../../../../../../interfaces";
 
 interface FlightCardClassOptionsDetailProps {
   showDetailClass: boolean;

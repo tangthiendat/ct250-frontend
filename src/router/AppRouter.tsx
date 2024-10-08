@@ -9,7 +9,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import MyAccount from "../features/account-management/MyAccount";
 import ResetPasswordForm from "../features/auth/ResetPasswordForm";
 import EmailVerification from "../features/auth/components/EmailVerification";
-import AvailableFlights from "../features/booking/AvailableFlights";
+import AvailableFlights from "../features/booking/available-flights/AvailableFlights";
 import TransactionHistory from "../features/account-management/TransactionHistory";
 
 import MainLayout from "../layouts/MainLayout";

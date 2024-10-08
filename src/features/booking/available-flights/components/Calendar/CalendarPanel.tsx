@@ -1,12 +1,12 @@
 import { Carousel } from "antd";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
-import CustomPrevArrow from "../../../../common/CustomPrevArrow";
-import CustomNextArrow from "../../../../common/CustomNextArrow";
+import CustomPrevArrow from "../../../../../common/CustomPrevArrow";
+import CustomNextArrow from "../../../../../common/CustomNextArrow";
 import { useQuery } from "@tanstack/react-query";
 import useSearchData from "../../hooks/useSearchData";
 import dayjs from "dayjs";
-import { flightScheduleService } from "../../../../services";
+import { flightScheduleService } from "../../../../../services";
 
 interface CalendarPanelProps {
   show: boolean;

@@ -1,7 +1,7 @@
 import { FaCheckCircle } from "react-icons/fa";
-import { IFlightOverview } from "../../../../interfaces";
-import { setDepartureDate } from "../../../../redux/slices/flightSearchSlice";
+import { IFlightOverview } from "../../../../../interfaces";
 import useSearchData from "../../hooks/useSearchData";
+import { setDepartureDate } from "../../../../../redux/slices/flightSearchSlice";
 
 interface AbleCellProps {
   cell: IFlightOverview;

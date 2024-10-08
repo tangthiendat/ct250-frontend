@@ -1,33 +1,35 @@
-import { Button } from "antd";
 import { useState } from "react";
-import { IFlightSchedule } from "../../../../../interfaces";
-import ClassOption from "./EconomyClass";
+import BusinessClass from "./BusinessClass";
+import { Button } from "antd";
+import { IFlightSchedule } from "../../../../../../interfaces";
 
-interface EconomyClassOptionsProps {
+interface BusinessClassOptionsProps {
   show: boolean;
   flightCardData: IFlightSchedule;
 }
 
-const detailsClassEconomy = [
+const detailsClassBusiness = [
   {
-    price: 1565000,
-    name: "Economy",
+    price: 3565000,
+    name: "Business",
     features: {
+      handBaggagePiece: 2,
       handBaggage: 7,
-      checkedBaggage: 0,
+      checkedBaggage: 40,
       refundBefore: 450000,
-      refundAfter: 600000,
-      changeBefore: 450000,
-      changeAfter: 600000,
-      freeSeatSelection: false,
+      refundAfter: 450000,
+      changeBefore: 300000,
+      changeAfter: 450000,
+      freeSeatSelection: true,
     },
   },
   // {
-  //   price: 3050000,
-  //   name: "Economy Flex",
+  //   price: 6050000,
+  //   name: "Business Flex",
   //   features: {
+  //     handBaggagePiece: 2,
   //     handBaggage: 7,
-  //     checkedBaggage: 20,
+  //     checkedBaggage: 40,
   //     refundBefore: 300000,
   //     refundAfter: 300000,
   //     changeBefore: 0,
@@ -37,7 +39,7 @@ const detailsClassEconomy = [
   // },
 ];
 
-const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
+const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
   show,
   flightCardData,
 }) => {
@@ -47,14 +49,14 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
     <div
       className={`${show ? "translate-y-0 opacity-100" : "invisible -translate-y-full opacity-0"} absolute left-0 right-0 flex flex-col items-center py-6 transition-all duration-500`}
     >
-      <p className="text-xl text-green-800">Chọn hạng vé</p>
-      <p className="text-green-800">Tiện ích với mỗi hành khách</p>
+      <p className="text-xl text-blue-800">Chọn hạng vé</p>
+      <p className="text-blue-800">Tiện ích với mỗi hành khách</p>
 
       <div className="my-4 flex gap-4">
-        {detailsClassEconomy.map((item, index) => (
-          <ClassOption
+        {detailsClassBusiness.map((item, index) => (
+          <BusinessClass
             key={index}
-            price={flightCardData.flightPricing[0].ticketPrice}
+            price={flightCardData.flightPricing[1].ticketPrice}
             name={item.name}
             features={item.features}
             choosenClass={choosenClass}
@@ -63,11 +65,11 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
         ))}
       </div>
 
-      <p className="text-green-700">
-        {choosenClass === "Economy"
-          ? "Bạn đã chọn hạng vé Economy"
-          : choosenClass === "Economy Flex"
-            ? "Bạn đã chọn hạng vé Economy Flex"
+      <p className="text-blue-800">
+        {choosenClass === "Business"
+          ? "Bạn đã chọn hạng vé Business"
+          : choosenClass === "Business Flex"
+            ? "Bạn đã chọn hạng vé Business Flex"
             : "Vui lòng chọn giá vé để tiếp tục"}
       </p>
 
@@ -82,4 +84,4 @@ const EconomyClassOptions: React.FC<EconomyClassOptionsProps> = ({
   );
 };
 
-export default EconomyClassOptions;
+export default BusinessClassOptions;

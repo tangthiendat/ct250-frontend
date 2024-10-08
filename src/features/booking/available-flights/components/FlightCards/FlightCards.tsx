@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import FlightCard from "./components/FlightCard";
-import { flightScheduleService } from "../../../../services";
 import useSearchData from "../../hooks/useSearchData";
-import { FlightSearchCriteria } from "../../../../interfaces";
+import { FlightSearchCriteria } from "../../../../../interfaces";
+import { flightScheduleService } from "../../../../../services";
 
 const FlightCards: React.FC = () => {
   const { flightSearch } = useSearchData();

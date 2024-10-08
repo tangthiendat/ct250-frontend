@@ -1,8 +1,8 @@
 import { Divider } from "antd";
 import { FaRegClock } from "react-icons/fa";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
-import { IFlightSchedule } from "../../../../../interfaces";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { IFlightSchedule } from "../../../../../../interfaces";
 
 interface FlightCardInfoProps {
   flightCardData: IFlightSchedule;

@@ -1,5 +1,5 @@
 import { MdExpandMore } from "react-icons/md";
-import { IFlightSchedule, TicketClass } from "../../../../../interfaces";
+import { IFlightSchedule, TicketClass } from "../../../../../../interfaces";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
