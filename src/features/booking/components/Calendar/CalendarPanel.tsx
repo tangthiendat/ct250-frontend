@@ -25,14 +25,29 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
     queryFn: () => flightScheduleService.getOverview(startDate, endDate),
   });
   const cellsContent = data?.payload || [];
+  let actualCellsContent = cellsContent;
+  if (cellsContent.length > 0) {
+    actualCellsContent = cellsContent
+      .map((cell) => {
+        if (dayjs(cell.date).isAfter(dayjs(flightSearch.flightRange[1]))) {
+          return {
+            ...cell,
+            minPriceOfDay: 0,
+            hasFlight: false,
+          };
+        }
+        return cell;
+      })
+      .filter(Boolean);
+  }
 
   const calculateHeight = (price: number) => {
-    const maxPrice = cellsContent.reduce(
+    const maxPrice = actualCellsContent.reduce(
       (max, cell) => (cell.minPriceOfDay > max ? cell.minPriceOfDay : max),
       cellsContent[0].minPriceOfDay,
     );
 
-    const minPrice = cellsContent.reduce(
+    const minPrice = actualCellsContent.reduce(
       (min, cell) => (cell.minPriceOfDay < min ? cell.minPriceOfDay : min),
       cellsContent[0].minPriceOfDay,
     );
@@ -62,7 +77,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
               nextArrow={<CustomNextArrow />}
               infinite={false}
             >
-              {cellsContent.map((cell, index) => (
+              {actualCellsContent.map((cell, index) => (
                 <div key={index}>
                   {new Date(cell.date) < new Date() || !cell.hasFlight ? (
                     <DisableCell cell={cell} />
