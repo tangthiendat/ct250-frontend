@@ -18,7 +18,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   handleShowBusinessClass,
   handleCloseDetailClass,
 }) => {
-  console.log(flightCardData.seatAvailability);
+  // console.log(flightCardData.seatAvailability);
   const availableEconomySeats = flightCardData.seatAvailability.filter(
     (seatAvailability) =>
       seatAvailability.seat.ticketClass === TicketClass.ECONOMY &&

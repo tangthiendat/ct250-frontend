@@ -1,6 +1,6 @@
-import useSearchData from "../hooks/useSearchData";
+import useSearchData from "../available-flights/hooks/useSearchData";
 
-const Banner: React.FC = () => {
+const Banner: React.FC<{ title: string }> = ({ title }) => {
   const { flightSearch: data } = useSearchData();
   return (
     <div className="relative">
@@ -11,9 +11,7 @@ const Banner: React.FC = () => {
       />
 
       <div className="absolute left-1/2 top-1/3 flex -translate-x-1/2 transform flex-col items-center justify-center text-balance rounded-md bg-white px-12 py-4 text-center">
-        <p className="text-heading-2 uppercase text-blue-800">
-          Vui lòng chọn chuyến bay đến
-        </p>
+        <p className="text-heading-2 uppercase text-blue-800">{title}</p>
 
         <p className="text-heading-2 mt-2 text-green-700">
           {data.arrivalAirport?.cityName}

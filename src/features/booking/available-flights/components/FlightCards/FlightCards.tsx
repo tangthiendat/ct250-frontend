@@ -17,7 +17,7 @@ const FlightCards: React.FC = () => {
   });
 
   const flights = flightsData?.payload || [];
-  console.log(flights);
+  // console.log(flights);
 
   return (
     <div className="mx-auto mt-10 max-w-screen-md transition-all duration-1000 xl:max-w-screen-lg">
