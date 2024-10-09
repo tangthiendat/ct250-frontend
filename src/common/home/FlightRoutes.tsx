@@ -1,4 +1,5 @@
 import BodyLayout from "../../layouts/BodyLayout";
+import HeadingTitle from "../HeadingTitle";
 
 const flightRoutes = [
   {
@@ -70,7 +71,7 @@ const flightRoutes = [
 const FlightRoutes: React.FC = () => {
   return (
     <BodyLayout>
-      <h1 className="text-heading">Các tuyến bay phổ biến của chúng tôi</h1>
+      <HeadingTitle level={1} title="Các tuyến bay phổ biến của chúng tôi" />
       <div className="">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {flightRoutes.map((route) => (
