@@ -1,5 +1,6 @@
 import { DatePicker, Form } from "antd";
 import dayjs, { Dayjs } from "dayjs";
+import { TripType } from "../../../../interfaces";
 
 const { RangePicker } = DatePicker;
 
@@ -25,7 +26,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
 
   return (
     <>
-      {typeTrip === "one-way" && (
+      {typeTrip === TripType.ONE_WAY && (
         <div className="basis-[25%]">
           <Form.Item
             name="departureDate"
@@ -53,7 +54,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
         </div>
       )}
 
-      {typeTrip === "round-trip" && (
+      {typeTrip === TripType.ROUND_TRIP && (
         <div className="flex-1">
           <Form.Item
             name="flightRange"

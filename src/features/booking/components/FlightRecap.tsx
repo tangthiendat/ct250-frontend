@@ -7,6 +7,7 @@ import useSearchData from "../hooks/useSearchData";
 import useStickyScroll from "../hooks/useStickyScroll";
 import ModifyButton from "./ExpansionButton";
 import PassengersDetail from "./PassengersDetail";
+import { TripType } from "../../../interfaces";
 
 interface FlightRecapProps {
   showModifyForm: boolean;
@@ -46,7 +47,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                     <PiAirplaneInFlightFill className="text-blue-800" />
                   </div>
 
-                  {data.typeTrip === "round-trip" && (
+                  {data.typeTrip === TripType.ROUND_TRIP && (
                     <div className="mx-2 flex h-3 items-center">
                       <PiAirplaneInFlightFill className="scale-x-[-1] transform text-blue-800" />
                       <div>
@@ -94,7 +95,7 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
               </p>
             </div>
 
-            {data.typeTrip === "round-trip" && (
+            {data.typeTrip === TripType.ROUND_TRIP && (
               <>
                 <Divider type="vertical" className="h-7 bg-black" />
 

@@ -1,24 +1,25 @@
 import { ConfigProvider, Form, Segmented } from "antd";
 import { TbArrowNarrowRight, TbArrowsRightLeft } from "react-icons/tb";
+import { TripType } from "../../../../interfaces";
 
 const typeTripOptions = [
   {
-    key: "round-trip",
+    key: TripType.ROUND_TRIP,
     label: (
       <div className="flex items-center gap-2">
         <TbArrowsRightLeft /> Khứ hồi
       </div>
     ),
-    value: "round-trip",
+    value: TripType.ROUND_TRIP,
   },
   {
-    key: "one-way",
+    key: TripType.ONE_WAY,
     label: (
       <div className="flex items-center gap-2">
         <TbArrowNarrowRight /> Một chiều
       </div>
     ),
-    value: "one-way",
+    value: TripType.ONE_WAY,
   },
 ];
 

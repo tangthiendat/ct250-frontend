@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISearchFlights, IAirport } from "../../interfaces";
+import { ISearchFlights, IAirport, TripType } from "../../interfaces";
 
 const initialState: ISearchFlights = {
-  typeTrip: "round-trip",
+  typeTrip: TripType.ROUND_TRIP,
   departureDate: "",
   flightRange: [],
   passengers: {
@@ -64,4 +64,4 @@ export const {
   setCouponCode,
 } = flightSearchSlice.actions;
 
-export default flightSearchSlice.reducer;
+export default flightSearchSlice;
