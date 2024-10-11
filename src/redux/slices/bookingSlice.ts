@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IFlightSchedule } from "../../interfaces";
+import { IBooking, IFlightSchedule, TicketClass } from "../../interfaces";
 
-interface IBookingSlice {
-  flights: IFlightSchedule[];
-}
-
-const initialState: IBookingSlice = {
-  flights: [],
+const initialState: IBooking = {
+  bookingFlights: [],
 };
 
 const bookingSlice = createSlice({
@@ -15,12 +11,22 @@ const bookingSlice = createSlice({
   reducers: {
     addFlight: (
       state,
-      action: PayloadAction<{ newFlight: IFlightSchedule; index: number }>,
+      action: PayloadAction<{
+        newFlight: IFlightSchedule;
+        flightIndex: number;
+        ticketClass: TicketClass;
+      }>,
     ) => {
-      state.flights[action.payload.index] = action.payload.newFlight;
+      state.bookingFlights[action.payload.flightIndex] = {
+        flight: action.payload.newFlight,
+        ticketClass: action.payload.ticketClass,
+      };
+    },
+    clearBooking: (state) => {
+      state.bookingFlights = [];
     },
   },
 });
 
-export const { addFlight } = bookingSlice.actions;
+export const { addFlight, clearBooking } = bookingSlice.actions;
 export default bookingSlice;

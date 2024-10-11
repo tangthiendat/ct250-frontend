@@ -1,7 +1,14 @@
 import { Button } from "antd";
 import { useFlightCard } from "../../../../../context/FlightCardContext";
-import { IFlightSchedule, TicketClass } from "../../../../../interfaces";
+import {
+  IFlightSchedule,
+  TicketClass,
+  TripType,
+} from "../../../../../interfaces";
 import ClassDetailsCard from "./ClassDetailsCard";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
+import { addFlight } from "../../../../../redux/slices/bookingSlice";
 
 interface EconomyClassDetailsProps {
   flightCardData: IFlightSchedule;
@@ -20,11 +27,45 @@ const features = {
 const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
   flightCardData,
 }) => {
-  const { selectedTicketClassOption } = useFlightCard();
+  const { selectedTicketClassOption, setSelectedTicketClassOption } =
+    useFlightCard();
   const show: boolean = selectedTicketClassOption === TicketClass.ECONOMY;
   const economyPrice = flightCardData.flightPricing.find(
     (pricing) => pricing.ticketClass === TicketClass.ECONOMY,
   )?.ticketPrice;
+
+  const flightIndex: number = Number(
+    useParams<{ flightIndex: string }>().flightIndex,
+  );
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const flightSearch = useAppSelector((state) => state.flightSearch);
+
+  function handleClick() {
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split("/");
+    if (flightSearch.typeTrip === TripType.ROUND_TRIP && flightIndex === 0) {
+      dispatch(
+        addFlight({
+          newFlight: flightCardData,
+          flightIndex,
+          ticketClass: TicketClass.ECONOMY,
+        }),
+      );
+      setSelectedTicketClassOption(undefined);
+      pathParts[pathParts.length - 1] = `${flightIndex + 1}`;
+      navigate(pathParts.join("/"));
+    } else {
+      dispatch(
+        addFlight({
+          newFlight: flightCardData,
+          flightIndex,
+          ticketClass: TicketClass.ECONOMY,
+        }),
+      );
+      console.log("Navigate to SHOPPING CART");
+    }
+  }
 
   return (
     <div
@@ -43,7 +84,11 @@ const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
 
       <p className="text-green-700">Bạn đã chọn hạng vé Economy</p>
 
-      <Button className="mt-5 bg-blue-600 p-5" type="primary">
+      <Button
+        className="mt-5 bg-blue-600 p-5"
+        type="primary"
+        onClick={handleClick}
+      >
         Xác nhận để tiếp tục
       </Button>
     </div>

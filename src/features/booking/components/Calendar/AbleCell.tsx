@@ -1,7 +1,11 @@
 import { FaCheckCircle } from "react-icons/fa";
 import { IFlightOverview } from "../../../../interfaces";
-import { setDepartureDate } from "../../../../redux/slices/flightSearchSlice";
+import {
+  setDepartureDate,
+  setReturnDate,
+} from "../../../../redux/slices/flightSearchSlice";
 import useSearchData from "../../hooks/useSearchData";
+import { useParams } from "react-router-dom";
 
 interface AbleCellProps {
   cell: IFlightOverview;
@@ -10,7 +14,15 @@ interface AbleCellProps {
 
 const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
   const { flightSearch: data, dispatch } = useSearchData();
-  const chosenDate = data.departureDate;
+  const flightIndex: number = Number(
+    useParams<{ flightIndex: string }>().flightIndex,
+  );
+  let chosenDate: string = "";
+  if (flightIndex === 0) {
+    chosenDate = data.departureDate;
+  } else if (flightIndex === 1) {
+    chosenDate = data.flightRange[1];
+  }
 
   return (
     <div className="flex h-44 flex-col items-center justify-end rounded-lg text-[10px] transition-all duration-500 md:text-sm">
@@ -19,7 +31,13 @@ const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
         style={{
           paddingTop: calculateHeight(cell.minPriceOfDay),
         }}
-        onClick={() => dispatch(setDepartureDate(cell.date))}
+        onClick={() => {
+          if (flightIndex === 0) {
+            dispatch(setDepartureDate(cell.date));
+          } else if (flightIndex === 1) {
+            dispatch(setReturnDate(cell.date));
+          }
+        }}
       >
         <p className="text-price text-balance font-semibold">
           {cell.minPriceOfDay.toLocaleString()} VND
