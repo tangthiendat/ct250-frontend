@@ -22,7 +22,7 @@ const ClassDetailsCard: React.FC<ClassDetailsCardProps> = ({
 }) => {
   return (
     <div
-      className={`${ticketClass === TicketClass.ECONOMY && "border-x-green-700 border-y-green-700 hover:border-green-700"} ${ticketClass === TicketClass.BUSINESS && "border-x-blue-700 border-y-blue-700 hover:border-blue-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200 hover:border-green-700`}
+      className={`${ticketClass === TicketClass.ECONOMY && "border-x-green-700 border-y-green-700 hover:border-green-700"} ${ticketClass === TicketClass.BUSINESS && "border-x-blue-700 border-y-blue-700 hover:border-blue-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200`}
     >
       <div
         className={`${ticketClass === TicketClass.ECONOMY && "bg-green-700"} ${ticketClass === TicketClass.BUSINESS && "bg-blue-700"} rounded-b-[40%] pb-2 pt-4 text-center text-white shadow-md transition-all duration-200`}

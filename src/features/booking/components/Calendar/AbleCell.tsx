@@ -10,12 +10,12 @@ interface AbleCellProps {
 
 const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
   const { flightSearch: data, dispatch } = useSearchData();
-  const choosenDate = data.departureDate;
+  const chosenDate = data.departureDate;
 
   return (
     <div className="flex h-44 flex-col items-center justify-end rounded-lg text-[10px] transition-all duration-500 md:text-sm">
       <div
-        className={`${choosenDate === cell.date ? "bg-blue-900 text-white" : "bg-blue-300/60"} w-[90%] cursor-pointer rounded-md px-0 pb-1 text-center md:px-1`}
+        className={`${chosenDate === cell.date ? "bg-blue-900 text-white" : "bg-blue-300/60"} w-[90%] cursor-pointer rounded-md px-0 pb-1 text-center md:px-1`}
         style={{
           paddingTop: calculateHeight(cell.minPriceOfDay),
         }}
@@ -26,10 +26,10 @@ const AbleCell: React.FC<AbleCellProps> = ({ cell, calculateHeight }) => {
         </p>
       </div>
       <p
-        className={`${choosenDate === cell.date ? "font-bold text-blue-900" : "font-normal text-black"} flex items-center justify-between gap-2 text-balance text-center`}
+        className={`${chosenDate === cell.date ? "font-bold text-blue-900" : "font-normal text-black"} flex items-center justify-between gap-2 text-balance text-center`}
       >
         <div className="hidden sm:flex">
-          {choosenDate === cell.date && <FaCheckCircle />}
+          {chosenDate === cell.date && <FaCheckCircle />}
         </div>
         {new Date(cell.date).toLocaleDateString("vi-VN", {
           weekday: "narrow",
