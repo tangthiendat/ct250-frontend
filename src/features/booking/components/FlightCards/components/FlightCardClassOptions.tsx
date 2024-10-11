@@ -1,24 +1,14 @@
 import { MdExpandMore } from "react-icons/md";
+import { useFlightCard } from "../../../../../context/FlightCardContext";
 import { IFlightSchedule, TicketClass } from "../../../../../interfaces";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
-  showEconomyClass: boolean;
-  showBusinessClass: boolean;
-  handleShowEconomyClass: () => void;
-  handleShowBusinessClass: () => void;
-  handleCloseDetailClass: () => void;
 }
 
 const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   flightCardData,
-  showEconomyClass,
-  showBusinessClass,
-  handleShowEconomyClass,
-  handleShowBusinessClass,
-  handleCloseDetailClass,
 }) => {
-  console.log(flightCardData.seatAvailability);
   const availableEconomySeats = flightCardData.seatAvailability.filter(
     (seatAvailability) =>
       seatAvailability.seat.ticketClass === TicketClass.ECONOMY &&
@@ -29,15 +19,22 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
       seatAvailability.seat.ticketClass === TicketClass.BUSINESS &&
       seatAvailability.status === "AVAILABLE",
   ).length;
+
+  const { selectedTicketClassOption, setSelectedTicketClassOption } =
+    useFlightCard();
+
+  const showEconomyClass = selectedTicketClassOption === TicketClass.ECONOMY;
+  const showBusinessClass = selectedTicketClassOption === TicketClass.BUSINESS;
+
   return (
     <>
       <div
         className="relative flex-1 cursor-pointer bg-green-700"
         onClick={() => {
-          if (showEconomyClass === false) {
-            handleShowEconomyClass();
+          if (!showEconomyClass) {
+            setSelectedTicketClassOption(TicketClass.ECONOMY);
           } else {
-            handleCloseDetailClass();
+            setSelectedTicketClassOption(undefined);
           }
         }}
       >
@@ -65,10 +62,10 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
       <div
         className={`${showBusinessClass || showEconomyClass ? "rounded-tr-lg" : "rounded-r-lg"} relative flex-1 cursor-pointer bg-blue-800 transition-all duration-500`}
         onClick={() => {
-          if (showBusinessClass === false) {
-            handleShowBusinessClass();
+          if (!showBusinessClass) {
+            setSelectedTicketClassOption(TicketClass.BUSINESS);
           } else {
-            handleCloseDetailClass();
+            setSelectedTicketClassOption(undefined);
           }
         }}
       >

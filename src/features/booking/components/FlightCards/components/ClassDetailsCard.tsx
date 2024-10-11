@@ -1,8 +1,9 @@
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { TicketClass } from "../../../../../interfaces";
 
-interface EconomyClassProps {
+interface ClassDetailsCardProps {
   price: number;
-  name: string;
+  ticketClass: TicketClass;
   features: {
     handBaggage: number;
     checkedBaggage: number;
@@ -12,27 +13,22 @@ interface EconomyClassProps {
     changeAfter: number;
     freeSeatSelection: boolean;
   };
-  choosenClass: string;
-  setChoosenClass: (value: string) => void;
 }
 
-const EconomyClass: React.FC<EconomyClassProps> = ({
+const ClassDetailsCard: React.FC<ClassDetailsCardProps> = ({
   price,
-  name,
+  ticketClass,
   features,
-  choosenClass,
-  setChoosenClass,
 }) => {
   return (
     <div
-      className={`${name === choosenClass && "border-x-green-700 border-y-green-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200 hover:border-green-700`}
-      onClick={() => setChoosenClass(name)}
+      className={`${ticketClass === TicketClass.ECONOMY && "border-x-green-700 border-y-green-700 hover:border-green-700"} ${ticketClass === TicketClass.BUSINESS && "border-x-blue-700 border-y-blue-700 hover:border-blue-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200 hover:border-green-700`}
     >
       <div
-        className={`${name === choosenClass ? "bg-green-700 text-white" : "bg-white text-green-800"} rounded-b-[40%] pb-2 pt-4 text-center shadow-md transition-all duration-200`}
+        className={`${ticketClass === TicketClass.ECONOMY && "bg-green-700"} ${ticketClass === TicketClass.BUSINESS && "bg-blue-700"} rounded-b-[40%] pb-2 pt-4 text-center text-white shadow-md transition-all duration-200`}
       >
         <p className="text-xl font-bold">{price.toLocaleString()} VND</p>
-        <p className="font-bold">{name}</p>
+        <p className="font-bold">{ticketClass}</p>
       </div>
 
       <div className="space-y-4 p-4 text-sm">
@@ -110,4 +106,4 @@ const EconomyClass: React.FC<EconomyClassProps> = ({
   );
 };
 
-export default EconomyClass;
+export default ClassDetailsCard;

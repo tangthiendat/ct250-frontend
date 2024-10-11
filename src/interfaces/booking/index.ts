@@ -1,12 +1,11 @@
-export interface IFlightCard {
-  flightCardData: {
-    id: number;
-    departureTime: string;
-    arrivalTime: string;
-    departureAirportCode: string;
-    destinationAirportCode: string;
-    flightDuration: string;
-    departureTerminal: string;
-    destinationTerminal: string;
-  };
+import { TicketClass } from "../common";
+import { IFlightSchedule } from "../flight";
+
+export interface IBooking {
+  bookingFlights: IBookingFlight[];
+}
+
+export interface IBookingFlight {
+  flight: IFlightSchedule;
+  ticketClass: TicketClass;
 }

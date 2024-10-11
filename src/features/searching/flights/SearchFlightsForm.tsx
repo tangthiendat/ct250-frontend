@@ -87,7 +87,7 @@ const SearchFlightsForm: React.FC = () => {
         cabinClass: "",
       }),
     );
-    navigate("/booking/flights/0");
+    navigate("/book/availability/0");
   };
 
   return (
