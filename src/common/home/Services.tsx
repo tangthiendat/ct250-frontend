@@ -1,7 +1,7 @@
 import { Carousel } from "antd";
 import Title from "antd/es/typography/Title";
-import CustomNextArrow from "../CustomNextArrow";
-import CustomPrevArrow from "../CustomPrevArrow";
+import CustomArrow from "../CustomArrow";
+import HeadingTitle from "../HeadingTitle";
 
 const services = [
   {
@@ -44,16 +44,18 @@ const services = [
 const Services: React.FC = () => {
   return (
     <div className="py-10">
-      <h1 className="text-heading text-center">
-        Các dịch vụ khác của chúng tôi
-      </h1>
+      <HeadingTitle
+        className="text-center"
+        level={1}
+        title="Các dịch vụ khác của chúng tôi"
+      />
 
       <Carousel
         autoplay
         effect="scrollx"
         arrows={true}
-        prevArrow={<CustomPrevArrow />}
-        nextArrow={<CustomNextArrow />}
+        prevArrow={<CustomArrow direction="left" />}
+        nextArrow={<CustomArrow direction="right" />}
         dots={false}
         autoplaySpeed={5000}
         speed={2000}

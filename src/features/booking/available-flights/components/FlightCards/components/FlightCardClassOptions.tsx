@@ -1,22 +1,13 @@
 import { MdExpandMore, MdNotInterested } from "react-icons/md";
 import { IFlightSchedule, TicketClass } from "../../../../../../interfaces";
+import { useFlightCard } from "../../../../../../context/FlightCardContext";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
-  showEconomyClass: boolean;
-  showBusinessClass: boolean;
-  handleShowEconomyClass: () => void;
-  handleShowBusinessClass: () => void;
-  handleCloseDetailClass: () => void;
 }
 
 const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   flightCardData,
-  showEconomyClass,
-  showBusinessClass,
-  handleShowEconomyClass,
-  handleShowBusinessClass,
-  handleCloseDetailClass,
 }) => {
   // console.log(flightCardData.seatAvailability);
   const availableEconomySeats = flightCardData.seatAvailability.filter(
@@ -29,6 +20,13 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
       seatAvailability.seat.ticketClass === TicketClass.BUSINESS &&
       seatAvailability.status === "AVAILABLE",
   ).length;
+
+  const { selectedTicketClassOption, setSelectedTicketClassOption } =
+    useFlightCard();
+
+  const showEconomyClass = selectedTicketClassOption === TicketClass.ECONOMY;
+  const showBusinessClass = selectedTicketClassOption === TicketClass.BUSINESS;
+
   return (
     <>
       {availableEconomySeats == 0 ? (
@@ -45,10 +43,10 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
         <div
           className="relative flex-1 cursor-pointer bg-green-700"
           onClick={() => {
-            if (showEconomyClass === false) {
-              handleShowEconomyClass();
+            if (!showEconomyClass) {
+              setSelectedTicketClassOption(TicketClass.ECONOMY);
             } else {
-              handleCloseDetailClass();
+              setSelectedTicketClassOption(undefined);
             }
           }}
         >
@@ -88,10 +86,10 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
         <div
           className="relative flex-1 cursor-pointer bg-blue-800"
           onClick={() => {
-            if (showBusinessClass === false) {
-              handleShowBusinessClass();
+            if (!showBusinessClass) {
+              setSelectedTicketClassOption(TicketClass.BUSINESS);
             } else {
-              handleCloseDetailClass();
+              setSelectedTicketClassOption(undefined);
             }
           }}
         >

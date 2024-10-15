@@ -3,12 +3,11 @@ import { Carousel } from "antd";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { TripType } from "../../../../../interfaces";
-import CustomNextArrow from "../../../../../common/CustomNextArrow";
-import CustomPrevArrow from "../../../../../common/CustomPrevArrow";
 import { flightScheduleService } from "../../../../../services";
 import useSearchData from "../../hooks/useSearchData";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
+import CustomArrow from "../../../../../common/CustomArrow";
 
 interface CalendarPanelProps {
   show: boolean;
@@ -85,8 +84,8 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
               slidesToShow={9}
               arrows
               dots={false}
-              prevArrow={<CustomPrevArrow />}
-              nextArrow={<CustomNextArrow />}
+              prevArrow={<CustomArrow direction="left" />}
+              nextArrow={<CustomArrow direction="right" />}
               infinite={false}
             >
               {actualCellsContent.map((cell, index) => (

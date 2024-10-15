@@ -1,17 +1,10 @@
-// <<<<<<< HEAD:src/features/booking/available-flights/components/FlightCards/FlightCards.tsx
-// import { useQuery } from "@tanstack/react-query";
-// import FlightCard from "./components/FlightCard";
-// import useSearchData from "../../hooks/useSearchData";
-// import { FlightSearchCriteria } from "../../../../../interfaces";
-// import { flightScheduleService } from "../../../../../services";
-// =======
 import { useParams } from "react-router-dom";
 import { FlightCardProvider } from "../../../../../context/FlightCardContext";
 import { FlightSearchCriteria } from "../../../../../interfaces";
 import { useFlights } from "../../hooks/useFlights";
 import useSearchData from "../../hooks/useSearchData";
 import FlightCard from "./components/FlightCard";
-// >>>>>>> 1176c1239bb3e06be167d284acdc2860f24f6c9f:src/features/booking/components/FlightCards/FlightCards.tsx
+import HeadingTitle from "../../../../../common/HeadingTitle";
 
 const FlightCards: React.FC = () => {
   const { flightSearch } = useSearchData();
@@ -19,10 +12,6 @@ const FlightCards: React.FC = () => {
     useParams<{ flightIndex: string }>().flightIndex,
   );
 
-  // <<<<<<< HEAD:src/features/booking/available-flights/components/FlightCards/FlightCards.tsx
-
-  // console.log(flights);
-  // =======
   let departureLocation: number = 0,
     arrivalLocation: number = 0,
     departureDate: string = "";
@@ -41,22 +30,20 @@ const FlightCards: React.FC = () => {
     departureDate,
   };
   const { flights: tempFlights } = useFlights(criteria);
-  // const flights = flightsData?.payload || [];
-  // const tempFlights = flightsData?.payload || [];
   const flights = tempFlights.filter(
     (flight) =>
       flight.seatAvailability.filter((seat) => seat.status === "AVAILABLE")
         .length > 0,
   );
-  // >>>>>>> 1176c1239bb3e06be167d284acdc2860f24f6c9f:src/features/booking/components/FlightCards/FlightCards.tsx
 
   return (
     <div className="mx-auto mt-10 max-w-screen-md transition-all duration-1000 xl:max-w-screen-lg">
       {flights.length === 0 && (
-        <div className="text-heading-2 text-gray-500">
-          😥Chuyến bay vào ngày bạn chọn đã hết chỗ. Vui lòng chọn ngày
-          khác!!!😊
-        </div>
+        <HeadingTitle
+          className="text-center text-gray-500"
+          level={2}
+          title="😥Chuyến bay vào ngày bạn chọn đã hết chỗ. Vui lòng chọn ngày khác!!!😊"
+        />
       )}
       {flights?.map((flight) => (
         <div className="mt-8">

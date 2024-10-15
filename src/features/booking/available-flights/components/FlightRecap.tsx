@@ -7,7 +7,7 @@ import useSearchData from "../hooks/useSearchData";
 import useStickyScroll from "../hooks/useStickyScroll";
 import ModifyButton from "./ExpansionButton";
 import PassengersDetail from "./PassengersDetail";
-import { TripType } from "../../../interfaces";
+import { TripType } from "../../../../interfaces";
 
 interface FlightRecapProps {
   showModifyForm: boolean;

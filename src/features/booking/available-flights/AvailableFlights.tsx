@@ -18,6 +18,13 @@ const AvailableFlights: React.FC = () => {
     dispatch(clearBooking());
   }
 
+  let title = "";
+  if (flightIndex === 0) {
+    title = "Vui lòng chọn chuyến bay đi";
+  } else if (flightIndex === 1) {
+    title = "Vui lòng chọn chuyến bay về";
+  }
+
   return (
     <div className="pb-10">
       <FlightRecap
@@ -28,10 +35,9 @@ const AvailableFlights: React.FC = () => {
         show={showModifyForm}
         setShow={setShowModifyForm}
       />
-      <Banner title="Vui lòng chọn chuyến bay đến" />
-      {/* logic kiểm tra chuyến bay có sẵn hay không */}
-      <CalendarFlights /> {/* nếu có */}
-      <FlightCards /> {/* nếu có */}
+      <Banner title={title} />
+      <CalendarFlights />
+      <FlightCards />
     </div>
   );
 };

@@ -9,10 +9,11 @@ const HeadingTitle: React.FC<HeadingTitleProps> = ({
   level,
   title,
 }) => {
+  const classNameMore = className || "";
+  const textLevel = `text-heading-${level}`;
+
   return (
-    <p className={`${className} text-heading-${level} text-blue-900`}>
-      {title}
-    </p>
+    <p className={`${classNameMore} ${textLevel} text-blue-900`}>{title}</p>
   );
 };
 
