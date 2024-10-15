@@ -10,17 +10,22 @@ export interface IAirport {
   country: ICountry;
 }
 
+export interface IModel {
+  modelID: number;
+  modelName: string;
+}
+
 export interface IAirplane {
   airplaneID: number;
-  modelName: string;
-  airplaneType: string;
+  registrationNumber: string;
+  model: IModel;
   manufacturer: string;
   maxDistance: number;
   velocity: number;
   numberOfSeats: number;
-  length: number;
-  height: number;
+  overallLength: number;
   wingspan: number;
+  height: number;
   status: string;
 }
 
@@ -55,7 +60,6 @@ export interface IFlightSchedule {
   flightId: string;
   departureDateTime: string;
   arrivalDateTime: string;
-  flightDuration: string;
   flightStatus: string;
   route: IRoute;
   flightPricing: IFlightPricing[];

@@ -31,7 +31,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
     <>
       {availableEconomySeats == 0 ? (
         <div className="relative flex flex-1 cursor-not-allowed items-center justify-center bg-gray-300">
-          <div className="flex flex-col items-center py-8 text-black opacity-70">
+          <div className="flex flex-col items-center space-y-3 py-6 text-black opacity-70">
             <p className="font-bold text-green-800">Economy</p>
 
             <MdNotInterested className="text-3xl" />
@@ -74,7 +74,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
       {availableBusinessSeats == 0 ? (
         <div className="relative flex flex-1 cursor-not-allowed items-center justify-center bg-gray-300">
-          <div className="flex flex-col items-center py-8 text-black opacity-70">
+          <div className="flex flex-col items-center space-y-3 py-6 text-black opacity-70">
             <p className="font-bold text-blue-800">Business</p>
 
             <MdNotInterested className="text-3xl" />

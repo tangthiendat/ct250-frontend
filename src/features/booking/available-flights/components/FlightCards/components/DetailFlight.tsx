@@ -1,0 +1,156 @@
+import { Button, Modal, Timeline } from "antd";
+import HeadingTitle from "../../../../../../common/HeadingTitle";
+import { IFlightSchedule } from "../../../../../../interfaces";
+import dayjs from "dayjs";
+import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
+
+interface DetailFlightProps {
+  flightData: IFlightSchedule;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+const DetailFlight: React.FC<DetailFlightProps> = ({
+  flightData,
+  open,
+  setOpen,
+}) => {
+  const durationInMinutes = dayjs(flightData.arrivalDateTime).diff(
+    dayjs(flightData.departureDateTime),
+    "minute",
+  );
+  const hours = Math.floor(durationInMinutes / 60);
+  const minutes = durationInMinutes % 60;
+  const formattedDuration =
+    minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+
+  return (
+    <>
+      <Modal
+        width={400}
+        centered
+        title={
+          <HeadingTitle
+            level={2}
+            title={
+              flightData.route.departureAirport.cityName +
+              " - " +
+              flightData.route.arrivalAirport.cityName
+            }
+          />
+        }
+        open={open}
+        onCancel={() => setOpen(false)}
+        onOk={() => setOpen(false)}
+        footer={[
+          <Button
+            type="primary"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Đóng
+          </Button>,
+        ]}
+      >
+        <div>
+          <div className="title-4">
+            <p>
+              Khởi hành lúc:{" "}
+              <span className="font-semibold text-blue-800">
+                {new Date(flightData.departureDateTime).toLocaleTimeString(
+                  "vi-VN",
+                  {
+                    year: "numeric",
+                    month: "short",
+                    weekday: "long",
+                    day: "2-digit",
+                    hour: "numeric",
+                    minute: "numeric",
+                  },
+                )}
+              </span>
+            </p>
+            <p>
+              Thời gian bay:{" "}
+              <span className="font-semibold text-blue-800">
+                {formattedDuration}
+              </span>
+            </p>
+            <p>
+              Số hiệu máy bay:{" "}
+              <span className="font-semibold text-blue-800">
+                {flightData.airplane.registrationNumber}
+              </span>
+            </p>
+            <p>
+              Model:{" "}
+              <span className="font-semibold text-blue-800">
+                {flightData.airplane.model.modelName}
+              </span>
+            </p>
+          </div>
+
+          <div className="flex w-full px-2">
+            <div className="flex w-[25%] items-center justify-center">
+              <p className="title-4 font-bold text-green-700">
+                {formattedDuration}
+              </p>
+            </div>
+            <Timeline
+              className="w-full"
+              items={[
+                {
+                  dot: <MdFlightTakeoff className="timeline-flight-icon" />,
+                  children: (
+                    <>
+                      <p className="text-heading-3 text-green-700">
+                        {new Date(
+                          flightData.departureDateTime,
+                        ).toLocaleTimeString("vi-VN", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}{" "}
+                        {flightData.route.departureAirport.cityName}
+                      </p>
+                      <p className="title-4">
+                        {flightData.route.departureAirport.airportName}
+                      </p>
+                    </>
+                  ),
+                  style: {
+                    marginTop: 35,
+                  },
+                },
+                {
+                  dot: <MdFlightLand className="timeline-flight-icon" />,
+                  children: (
+                    <>
+                      <p className="text-heading-3 text-green-700">
+                        {new Date(
+                          flightData.arrivalDateTime,
+                        ).toLocaleTimeString("vi-VN", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}{" "}
+                        {flightData.route.arrivalAirport.cityName}
+                      </p>
+                      <p className="title-4">
+                        {flightData.route.arrivalAirport.airportName}
+                      </p>
+                    </>
+                  ),
+                  style: {
+                    padding: 0,
+                  },
+                },
+              ]}
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+};
+
+export default DetailFlight;

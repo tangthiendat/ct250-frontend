@@ -6,7 +6,11 @@ const Destinations: React.FC = () => {
   return (
     <>
       <BodyLayout>
-        <HeadingTitle level={1} title="Điểm đến nội địa" />
+        <HeadingTitle
+          // className="text-heading-1"
+          level={1}
+          title="Điểm đến nội địa"
+        />
         <Destination
           linkTo="#"
           imgSrc="VietNam/VietNam.png"

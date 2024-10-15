@@ -1,29 +1,46 @@
 import { Divider } from "antd";
+import dayjs from "dayjs";
 import { FaRegClock } from "react-icons/fa";
-import { PiAirplaneInFlightFill } from "react-icons/pi";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { PiAirplaneInFlightFill } from "react-icons/pi";
+import HeadingTitle from "../../../../../../common/HeadingTitle";
 import { IFlightSchedule } from "../../../../../../interfaces";
+import DetailFlight from "./DetailFlight";
+import { useState } from "react";
 
 interface FlightCardInfoProps {
   flightCardData: IFlightSchedule;
 }
 
 const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
+  const durationInMinutes = dayjs(flightCardData.arrivalDateTime).diff(
+    dayjs(flightCardData.departureDateTime),
+    "minute",
+  );
+  const hours = Math.floor(durationInMinutes / 60);
+  const minutes = durationInMinutes % 60;
+  const formattedDuration =
+    minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+  const [showDetail, setShowDetail] = useState<boolean>(false);
+
   return (
     <>
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="flex flex-row items-center">
           <div>
-            <p>
-              {new Date(flightCardData.departureDateTime).toLocaleTimeString(
-                "vi-VN",
-                {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                },
-              )}
-            </p>
-            <p>{flightCardData.route.departureAirport.cityName}</p>
+            <HeadingTitle
+              level={3}
+              title={new Date(
+                flightCardData.departureDateTime,
+              ).toLocaleTimeString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            />
+            <HeadingTitle
+              level={3}
+              title={flightCardData.route.departureAirport.cityName}
+            />
           </div>
 
           <div className="mx-2 flex h-3 items-center">
@@ -39,25 +56,22 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           </div>
 
           <div>
-            <p className="text-right">
-              {new Date(flightCardData.arrivalDateTime).toLocaleTimeString(
-                "vi-VN",
-                {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                },
-              )}
-            </p>
-            <p className="text-right">
-              {flightCardData.route.arrivalAirport.cityName}
-            </p>
+            <HeadingTitle
+              level={3}
+              title={new Date(
+                flightCardData.arrivalDateTime,
+              ).toLocaleTimeString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            />
+
+            <HeadingTitle
+              level={3}
+              title={flightCardData.route.arrivalAirport.cityName}
+            />
           </div>
         </div>
-
-        {/* <div className="flex flex-row justify-between">
-          <p>{flightCardData.departureTerminal}</p>
-          <p>{flightCardData.destinationTerminal}</p>
-        </div> */}
       </div>
 
       <Divider type="vertical" className="h-12 bg-black" />
@@ -67,11 +81,9 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           <div>
             <FaRegClock className="mr-2 text-xs text-blue-800" />
           </div>
-          <p>
+          <p className="title-4">
             Thời gian bay:{" "}
-            <span className="text font-semibold">
-              {flightCardData.flightDuration}
-            </span>
+            <span className="font-semibold">{formattedDuration}</span>
           </p>
         </p>
 
@@ -79,9 +91,9 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           <div>
             <PiAirplaneInFlightFill className="mr-2 text-xs text-blue-800" />
           </div>
-          <p>
-            <span className="text font-semibold">
-              {/* {flightCardData.flightName} */}
+          <p className="title-4">
+            <span className="font-semibold">
+              {flightCardData.airplane.model.modelName}
             </span>{" "}
             được vận hành bởi DaViKa Airways.
           </p>
@@ -91,9 +103,17 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           <div>
             <IoIosInformationCircleOutline className="mr-2 text-xs text-blue-800" />
           </div>
-          <p>Xem chi tiết chuyến bay</p>
+          <p className="title-4" onClick={() => setShowDetail(true)}>
+            Xem chi tiết chuyến bay
+          </p>
         </p>
       </div>
+
+      <DetailFlight
+        flightData={flightCardData}
+        open={showDetail}
+        setOpen={setShowDetail}
+      />
     </>
   );
 };
