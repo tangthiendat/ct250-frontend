@@ -91,7 +91,7 @@ const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
         cabinClass: "",
       }),
     );
-    navigate("/book/available-flights");
+    navigate("/book/availability/0");
   };
 
   return (

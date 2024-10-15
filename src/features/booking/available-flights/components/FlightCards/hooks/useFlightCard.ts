@@ -32,5 +32,3 @@ const useFlightCard = () => {
     handleCloseDetailClass,
   };
 };
-
-export default useFlightCard;

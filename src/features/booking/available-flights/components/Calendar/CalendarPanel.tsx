@@ -1,12 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
 import { Carousel } from "antd";
+import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
+import { TripType } from "../../../../../interfaces";
+import CustomNextArrow from "../../../../../common/CustomNextArrow";
+import CustomPrevArrow from "../../../../../common/CustomPrevArrow";
+import { flightScheduleService } from "../../../../../services";
+import useSearchData from "../../hooks/useSearchData";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
-import CustomPrevArrow from "../../../../../common/CustomPrevArrow";
-import CustomNextArrow from "../../../../../common/CustomNextArrow";
-import { useQuery } from "@tanstack/react-query";
-import useSearchData from "../../hooks/useSearchData";
-import dayjs from "dayjs";
-import { flightScheduleService } from "../../../../../services";
 
 interface CalendarPanelProps {
   show: boolean;
@@ -14,12 +16,18 @@ interface CalendarPanelProps {
 
 const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
   const { flightSearch } = useSearchData();
-  const startDate = dayjs(flightSearch.departureDate)
-    .add(-7, "day")
-    .format("YYYY-MM-DD");
-  const endDate = dayjs(flightSearch.departureDate)
-    .add(7, "day")
-    .format("YYYY-MM-DD");
+  const flightIndex: number = Number(
+    useParams<{ flightIndex: string }>().flightIndex,
+  );
+  let departureDate: string = "";
+  if (flightIndex === 0) {
+    departureDate = flightSearch.departureDate;
+  } else if (flightIndex === 1) {
+    departureDate = flightSearch.flightRange[1];
+  }
+
+  const startDate = dayjs(departureDate).add(-7, "day").format("YYYY-MM-DD");
+  const endDate = dayjs(departureDate).add(7, "day").format("YYYY-MM-DD");
   const { data } = useQuery({
     queryKey: ["flights", "overviews", { startDate, endDate }],
     queryFn: () => flightScheduleService.getOverview(startDate, endDate),
@@ -29,7 +37,11 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
   if (cellsContent.length > 0) {
     actualCellsContent = cellsContent
       .map((cell) => {
-        if (dayjs(cell.date).isAfter(dayjs(flightSearch.flightRange[1]))) {
+        if (
+          flightIndex === 0 &&
+          flightSearch.typeTrip === TripType.ROUND_TRIP &&
+          dayjs(cell.date).isAfter(dayjs(flightSearch.flightRange[1]))
+        ) {
           return {
             ...cell,
             minPriceOfDay: 0,

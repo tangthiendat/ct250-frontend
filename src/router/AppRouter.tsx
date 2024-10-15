@@ -63,12 +63,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/book/",
+    path: "/book",
     element: <BookingLayout />,
     errorElement: <NotFound />,
     children: [
       {
-        path: "available-flights",
+        path: "availability/:flightIndex",
         element: <AvailableFlights />,
       },
     ],

@@ -34,6 +34,7 @@ export interface IRoute {
 export interface IFlightPricing {
   flightPricingId: number;
   ticketPrice: number;
+  ticketClass: TicketClass;
   validFrom: string;
   validTo: string;
 }
