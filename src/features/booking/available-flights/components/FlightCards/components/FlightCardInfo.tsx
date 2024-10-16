@@ -27,7 +27,7 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="flex flex-row items-center">
           <div>
-            <p className="text-heading-3">
+            <p className="text-heading-3 text-blue-800">
               {new Date(flightCardData.departureDateTime).toLocaleTimeString(
                 "vi-VN",
                 {
@@ -36,7 +36,7 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
                 },
               )}
             </p>
-            <p className="text-heading-3">
+            <p className="text-heading-3 text-blue-800">
               {flightCardData.route.departureAirport.cityName}
             </p>
           </div>
@@ -54,7 +54,7 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           </div>
 
           <div>
-            <p className="text-heading-3">
+            <p className="text-heading-3 text-blue-800">
               {new Date(flightCardData.arrivalDateTime).toLocaleTimeString(
                 "vi-VN",
                 {
@@ -64,7 +64,7 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
               )}
             </p>
 
-            <p className="text-heading-3">
+            <p className="text-heading-3 text-blue-800">
               {flightCardData.route.arrivalAirport.cityName}
             </p>
           </div>

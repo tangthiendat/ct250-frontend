@@ -40,10 +40,8 @@ const PassengersDetail: React.FC = () => {
   return (
     <Dropdown menu={{ items }} placement="bottom" arrow>
       <div className="cursor-pointer text-center">
-        <p className="text-flights_recap_heading text-lg font-bold">
-          Hành khách
-        </p>
-        <p className="text-sm text-gray-500">
+        <p className="text-heading-3">Hành khách</p>
+        <p className="title-4 text-gray-500">
           <div className="flex items-center justify-center gap-2">
             <FaUsers />
             {flightSearch.passengers.adult +

@@ -1,13 +1,13 @@
-import { Button, Divider } from "antd";
+import { Divider } from "antd";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
 
+import { TripType } from "../../../../interfaces";
 import useSearchData from "../hooks/useSearchData";
 import useStickyScroll from "../hooks/useStickyScroll";
 import ModifyButton from "./ExpansionButton";
 import PassengersDetail from "./PassengersDetail";
-import { TripType } from "../../../../interfaces";
 
 interface FlightRecapProps {
   showModifyForm: boolean;
@@ -29,10 +29,8 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
         <div className="flex w-full items-center justify-between bg-white p-2">
           <div className="flex items-center gap-4">
             <div className="flex flex-col items-center">
-              <div className="flex items-center">
-                <p className="text-lg font-bold">
-                  {data.departureAirport?.airportCode}
-                </p>
+              <div className="text-heading-3 flex items-center">
+                <p>{data.departureAirport?.airportCode}</p>
 
                 <div>
                   <div className="mx-2 flex h-3 items-center">
@@ -62,16 +60,14 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                   )}
                 </div>
 
-                <p className="text-lg font-bold">
-                  {data.arrivalAirport?.airportCode}
-                </p>
+                <p>{data.arrivalAirport?.airportCode}</p>
               </div>
 
-              <div className="flex w-full justify-between">
-                <p className="max-w-20 text-left text-sm text-gray-500">
+              <div className="title-4 flex w-full justify-between text-gray-500">
+                <p className="max-w-20 text-left">
                   {data.departureAirport?.cityName}
                 </p>
-                <p className="max-w-20 text-right text-sm text-gray-500">
+                <p className="max-w-20 text-right">
                   {data.arrivalAirport?.cityName}
                 </p>
               </div>
@@ -80,10 +76,8 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
             <Divider type="vertical" className="h-7 bg-black" />
 
             <div className="text-center">
-              <p className="text-flights_recap_heading text-lg font-bold">
-                Ngày khởi hành
-              </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-heading-3">Ngày khởi hành</p>
+              <p className="title-4 text-gray-500">
                 {new Date(
                   data.flightRange[0].split("/").reverse().join("/"),
                 ).toLocaleDateString("vi-VN", {
@@ -100,10 +94,8 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
                 <Divider type="vertical" className="h-7 bg-black" />
 
                 <div className="text-center">
-                  <p className="text-flights_recap_heading text-lg font-bold">
-                    Ngày về
-                  </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-heading-3">Ngày về</p>
+                  <p className="title-4 text-gray-500">
                     {new Date(
                       data.flightRange[1].split("/").reverse().join("/"),
                     ).toLocaleDateString("vi-VN", {
@@ -122,13 +114,10 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
             <PassengersDetail />
           </div>
 
-          <Button
-            type="primary"
-            className="flex h-10 gap-2 rounded-lg text-white transition-colors duration-300"
-          >
+          <button className="text-heading-3 flex items-center gap-2 rounded-md bg-blue-700 px-3 py-2 text-white transition-colors duration-300 hover:bg-blue-800">
             <FaShoppingCart className="text-2xl" />
             Vé của bạn
-          </Button>
+          </button>
         </div>
       </div>
 

@@ -23,7 +23,7 @@ const ExpansionButton: React.FC<ExpansionButtonProps> = ({
         }
         setShowForm(!showForm);
       }}
-      className="absolute left-1/2 z-10 flex w-40 -translate-x-1/2 transform cursor-pointer items-center justify-center gap-2 rounded-b-full bg-white shadow-md hover:bg-white/50"
+      className="text-heading-3 absolute left-1/2 z-10 flex w-40 -translate-x-1/2 transform cursor-pointer items-center justify-center gap-2 rounded-b-full bg-white text-gray-600 shadow-md hover:bg-white/50"
     >
       {showForm ? (
         <>
