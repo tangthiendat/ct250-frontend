@@ -13,8 +13,7 @@ interface IFlightScheduleService {
     criteria: FlightSearchCriteria,
   ): Promise<ApiResponse<IFlightSchedule[]>>;
   getOverview(
-    startDate: string,
-    endDate: string,
+    criteria: FlightSearchCriteria,
   ): Promise<ApiResponse<IFlightOverview[]>>;
 }
 
@@ -37,12 +36,11 @@ class FlightScheduleService implements IFlightScheduleService {
     ).data;
   }
   async getOverview(
-    startDate: string,
-    endDate: string,
+    criteria: FlightSearchCriteria,
   ): Promise<ApiResponse<IFlightOverview[]>> {
     return (
       await apiClient.get("/overview", {
-        params: { startDate, endDate },
+        params: criteria,
       })
     ).data;
   }

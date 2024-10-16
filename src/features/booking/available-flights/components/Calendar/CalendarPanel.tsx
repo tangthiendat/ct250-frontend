@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Carousel } from "antd";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { TripType } from "../../../../../interfaces";
+import CustomArrow from "../../../../../common/CustomArrow";
+import { FlightSearchCriteria, TripType } from "../../../../../interfaces";
 import { flightScheduleService } from "../../../../../services";
 import useSearchData from "../../hooks/useSearchData";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
-import CustomArrow from "../../../../../common/CustomArrow";
 
 interface CalendarPanelProps {
   show: boolean;
@@ -19,17 +19,29 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
     useParams<{ flightIndex: string }>().flightIndex,
   );
   let departureDate: string = "";
+  let departureLocation: number = 0;
+  let arrivalLocation: number = 0;
   if (flightIndex === 0) {
     departureDate = flightSearch.departureDate;
+    departureLocation = flightSearch.departureAirport!.airportId;
+    arrivalLocation = flightSearch.arrivalAirport!.airportId;
   } else if (flightIndex === 1) {
     departureDate = flightSearch.flightRange[1];
+    departureLocation = flightSearch.arrivalAirport!.airportId;
+    arrivalLocation = flightSearch.departureAirport!.airportId;
   }
 
   const startDate = dayjs(departureDate).add(-7, "day").format("YYYY-MM-DD");
   const endDate = dayjs(departureDate).add(7, "day").format("YYYY-MM-DD");
+  const criteria: FlightSearchCriteria = {
+    departureLocation,
+    arrivalLocation,
+    departureDate: startDate,
+    arrivalDate: endDate,
+  };
   const { data } = useQuery({
-    queryKey: ["flights", "overviews", { startDate, endDate }],
-    queryFn: () => flightScheduleService.getOverview(startDate, endDate),
+    queryKey: ["flights", "overviews", criteria],
+    queryFn: () => flightScheduleService.getOverview(criteria),
   });
   const cellsContent = data?.payload || [];
   let actualCellsContent = cellsContent;
