@@ -1,4 +1,3 @@
-import HeadingTitle from "../../../common/HeadingTitle";
 import useSearchData from "../available-flights/hooks/useSearchData";
 import { useParams } from "react-router-dom";
 
@@ -27,17 +26,11 @@ const Banner: React.FC<{ title: string }> = ({ title }) => {
       />
 
       <div className="absolute left-1/2 top-1/3 flex -translate-x-1/2 transform flex-col items-center justify-center text-balance rounded-md bg-white px-12 py-4 text-center">
-        <HeadingTitle
-          className="uppercase text-blue-700"
-          level={2}
-          title={title}
-        />
+        <p className="text-heading-2 text-blue-700">{title}</p>
 
-        <HeadingTitle
-          className="text-green-700"
-          level={2}
-          title={departureCityName + " - " + arrivalCityName}
-        />
+        <p className="text-heading-2 text-green-700">
+          {departureCityName} - {arrivalCityName}
+        </p>
       </div>
     </div>
   );

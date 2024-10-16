@@ -3,7 +3,6 @@ import CalendarPanel from "./CalendarPanel";
 import useSearchData from "../../hooks/useSearchData";
 import ExpansionButton from "../ExpansionButton";
 import { useParams } from "react-router-dom";
-import HeadingTitle from "../../../../../common/HeadingTitle";
 
 const CalendarFlights: React.FC = () => {
   const { flightSearch } = useSearchData();
@@ -20,16 +19,14 @@ const CalendarFlights: React.FC = () => {
 
   return (
     <div className="mx-auto lg:max-w-screen-xl">
-      <HeadingTitle
-        className="text-center text-blue-900"
-        level={2}
-        title={new Date(departureDate).toLocaleDateString("vi-VN", {
+      <p className="text-heading-2 text-center text-blue-900">
+        {new Date(departureDate).toLocaleDateString("vi-VN", {
           weekday: "long",
           year: "numeric",
           month: "long",
           day: "numeric",
         })}
-      />
+      </p>
 
       <ExpansionButton
         titleOpen="Hiển thị ngày"

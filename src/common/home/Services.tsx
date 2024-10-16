@@ -1,7 +1,6 @@
 import { Carousel } from "antd";
 import Title from "antd/es/typography/Title";
 import CustomArrow from "../CustomArrow";
-import HeadingTitle from "../HeadingTitle";
 
 const services = [
   {
@@ -44,11 +43,9 @@ const services = [
 const Services: React.FC = () => {
   return (
     <div className="py-10">
-      <HeadingTitle
-        className="text-center"
-        level={1}
-        title="Các dịch vụ khác của chúng tôi"
-      />
+      <p className="text-heading-1 text-center text-blue-900">
+        Các dịch vụ khác của chúng tôi
+      </p>
 
       <Carousel
         autoplay

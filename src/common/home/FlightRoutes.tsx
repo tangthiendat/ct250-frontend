@@ -1,5 +1,4 @@
 import BodyLayout from "../../layouts/BodyLayout";
-import HeadingTitle from "../HeadingTitle";
 
 const flightRoutes = [
   {
@@ -71,7 +70,9 @@ const flightRoutes = [
 const FlightRoutes: React.FC = () => {
   return (
     <BodyLayout>
-      <HeadingTitle level={1} title="Các tuyến bay phổ biến của chúng tôi" />
+      <p className="text-heading-1 text-blue-900">
+        Các tuyến bay phổ biến của chúng tôi
+      </p>
       <div className="">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {flightRoutes.map((route) => (
@@ -83,7 +84,6 @@ const FlightRoutes: React.FC = () => {
                 <img
                   src={`/flight-routes/${route.key}.jpg`}
                   alt={route.key}
-                  //   className="h-52 w-full transition-transform duration-1000 hover:scale-105 md:h-72"
                   className="relative h-full w-full rounded-t-md object-cover object-center transition-all duration-1000 ease-in-out hover:scale-110"
                 />
               </div>

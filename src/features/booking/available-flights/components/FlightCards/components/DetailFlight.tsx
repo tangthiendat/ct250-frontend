@@ -1,5 +1,4 @@
-import { Button, Modal, Timeline } from "antd";
-import HeadingTitle from "../../../../../../common/HeadingTitle";
+import { Button, ConfigProvider, Modal, Timeline } from "antd";
 import { IFlightSchedule } from "../../../../../../interfaces";
 import dayjs from "dayjs";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
@@ -30,14 +29,10 @@ const DetailFlight: React.FC<DetailFlightProps> = ({
         width={400}
         centered
         title={
-          <HeadingTitle
-            level={2}
-            title={
-              flightData.route.departureAirport.cityName +
-              " - " +
-              flightData.route.arrivalAirport.cityName
-            }
-          />
+          <p className="text-heading-2 text-center text-blue-900">
+            {flightData.route.departureAirport.cityName} -{" "}
+            {flightData.route.arrivalAirport.cityName}
+          </p>
         }
         open={open}
         onCancel={() => setOpen(false)}
@@ -57,7 +52,7 @@ const DetailFlight: React.FC<DetailFlightProps> = ({
           <div className="title-4">
             <p>
               Khởi hành lúc:{" "}
-              <span className="font-semibold text-blue-800">
+              <span className="font-medium text-blue-800">
                 {new Date(flightData.departureDateTime).toLocaleTimeString(
                   "vi-VN",
                   {
@@ -73,19 +68,19 @@ const DetailFlight: React.FC<DetailFlightProps> = ({
             </p>
             <p>
               Thời gian bay:{" "}
-              <span className="font-semibold text-blue-800">
+              <span className="font-medium text-blue-800">
                 {formattedDuration}
               </span>
             </p>
             <p>
               Số hiệu máy bay:{" "}
-              <span className="font-semibold text-blue-800">
+              <span className="font-medium text-blue-800">
                 {flightData.airplane.registrationNumber}
               </span>
             </p>
             <p>
               Model:{" "}
-              <span className="font-semibold text-blue-800">
+              <span className="font-medium text-blue-800">
                 {flightData.airplane.model.modelName}
               </span>
             </p>
@@ -97,55 +92,66 @@ const DetailFlight: React.FC<DetailFlightProps> = ({
                 {formattedDuration}
               </p>
             </div>
-            <Timeline
-              className="w-full"
-              items={[
-                {
-                  dot: <MdFlightTakeoff className="timeline-flight-icon" />,
-                  children: (
-                    <>
-                      <p className="text-heading-3 text-green-700">
-                        {new Date(
-                          flightData.departureDateTime,
-                        ).toLocaleTimeString("vi-VN", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}{" "}
-                        {flightData.route.departureAirport.cityName}
-                      </p>
-                      <p className="title-4">
-                        {flightData.route.departureAirport.airportName}
-                      </p>
-                    </>
-                  ),
-                  style: {
-                    marginTop: 35,
+            <ConfigProvider
+              theme={{
+                components: {
+                  Timeline: {
+                    tailWidth: 3,
+                    tailColor: "#1677ff",
                   },
                 },
-                {
-                  dot: <MdFlightLand className="timeline-flight-icon" />,
-                  children: (
-                    <>
-                      <p className="text-heading-3 text-green-700">
-                        {new Date(
-                          flightData.arrivalDateTime,
-                        ).toLocaleTimeString("vi-VN", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}{" "}
-                        {flightData.route.arrivalAirport.cityName}
-                      </p>
-                      <p className="title-4">
-                        {flightData.route.arrivalAirport.airportName}
-                      </p>
-                    </>
-                  ),
-                  style: {
-                    padding: 0,
+              }}
+            >
+              <Timeline
+                className="w-full"
+                items={[
+                  {
+                    dot: <MdFlightTakeoff />,
+                    children: (
+                      <>
+                        <p className="text-heading-3 text-green-700">
+                          {new Date(
+                            flightData.departureDateTime,
+                          ).toLocaleTimeString("vi-VN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}{" "}
+                          {flightData.route.departureAirport.cityName}
+                        </p>
+                        <p className="title-4">
+                          {flightData.route.departureAirport.airportName}
+                        </p>
+                      </>
+                    ),
+                    style: {
+                      marginTop: 35,
+                    },
                   },
-                },
-              ]}
-            />
+                  {
+                    dot: <MdFlightLand className="timeline-flight-icon" />,
+                    children: (
+                      <>
+                        <p className="text-heading-3 text-green-700">
+                          {new Date(
+                            flightData.arrivalDateTime,
+                          ).toLocaleTimeString("vi-VN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}{" "}
+                          {flightData.route.arrivalAirport.cityName}
+                        </p>
+                        <p className="title-4">
+                          {flightData.route.arrivalAirport.airportName}
+                        </p>
+                      </>
+                    ),
+                    style: {
+                      padding: 0,
+                    },
+                  },
+                ]}
+              />
+            </ConfigProvider>
           </div>
         </div>
       </Modal>

@@ -4,7 +4,6 @@ import { FlightSearchCriteria } from "../../../../../interfaces";
 import { useFlights } from "../../hooks/useFlights";
 import useSearchData from "../../hooks/useSearchData";
 import FlightCard from "./components/FlightCard";
-import HeadingTitle from "../../../../../common/HeadingTitle";
 
 const FlightCards: React.FC = () => {
   const { flightSearch } = useSearchData();
@@ -39,11 +38,10 @@ const FlightCards: React.FC = () => {
   return (
     <div className="mx-auto mt-10 max-w-screen-md transition-all duration-1000 xl:max-w-screen-lg">
       {flights.length === 0 && (
-        <HeadingTitle
-          className="text-center text-gray-500"
-          level={2}
-          title="😥Chuyến bay vào ngày bạn chọn đã hết chỗ. Vui lòng chọn ngày khác!!!😊"
-        />
+        <p className="text-heading-2 text-center text-gray-500">
+          😥Chuyến bay vào ngày bạn chọn đã hết chỗ. Vui lòng chọn ngày
+          khác!!!😊
+        </p>
       )}
       {flights?.map((flight) => (
         <div className="mt-8">

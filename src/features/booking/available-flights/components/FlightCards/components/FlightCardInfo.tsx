@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { FaRegClock } from "react-icons/fa";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
-import HeadingTitle from "../../../../../../common/HeadingTitle";
 import { IFlightSchedule } from "../../../../../../interfaces";
 import DetailFlight from "./DetailFlight";
 import { useState } from "react";
@@ -28,19 +27,18 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="flex flex-row items-center">
           <div>
-            <HeadingTitle
-              level={3}
-              title={new Date(
-                flightCardData.departureDateTime,
-              ).toLocaleTimeString("vi-VN", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            />
-            <HeadingTitle
-              level={3}
-              title={flightCardData.route.departureAirport.cityName}
-            />
+            <p className="text-heading-3">
+              {new Date(flightCardData.departureDateTime).toLocaleTimeString(
+                "vi-VN",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              )}
+            </p>
+            <p className="text-heading-3">
+              {flightCardData.route.departureAirport.cityName}
+            </p>
           </div>
 
           <div className="mx-2 flex h-3 items-center">
@@ -56,20 +54,19 @@ const FlightCardInfo: React.FC<FlightCardInfoProps> = ({ flightCardData }) => {
           </div>
 
           <div>
-            <HeadingTitle
-              level={3}
-              title={new Date(
-                flightCardData.arrivalDateTime,
-              ).toLocaleTimeString("vi-VN", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            />
+            <p className="text-heading-3">
+              {new Date(flightCardData.arrivalDateTime).toLocaleTimeString(
+                "vi-VN",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              )}
+            </p>
 
-            <HeadingTitle
-              level={3}
-              title={flightCardData.route.arrivalAirport.cityName}
-            />
+            <p className="text-heading-3">
+              {flightCardData.route.arrivalAirport.cityName}
+            </p>
           </div>
         </div>
       </div>
