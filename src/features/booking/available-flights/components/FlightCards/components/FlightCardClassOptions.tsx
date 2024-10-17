@@ -1,6 +1,6 @@
 import { MdExpandMore, MdNotInterested } from "react-icons/md";
-import { IFlightSchedule, TicketClass } from "../../../../../../interfaces";
 import { useFlightCard } from "../../../../../../context/FlightCardContext";
+import { IFlightSchedule, TicketClassName } from "../../../../../../interfaces";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
@@ -12,20 +12,22 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   // console.log(flightCardData.seatAvailability);
   const availableEconomySeats = flightCardData.seatAvailability.filter(
     (seatAvailability) =>
-      seatAvailability.seat.ticketClass === TicketClass.ECONOMY &&
+      seatAvailability.seat.ticketClass === TicketClassName.ECONOMY &&
       seatAvailability.status === "AVAILABLE",
   ).length;
   const availableBusinessSeats = flightCardData.seatAvailability.filter(
     (seatAvailability) =>
-      seatAvailability.seat.ticketClass === TicketClass.BUSINESS &&
+      seatAvailability.seat.ticketClass === TicketClassName.BUSINESS &&
       seatAvailability.status === "AVAILABLE",
   ).length;
 
   const { selectedTicketClassOption, setSelectedTicketClassOption } =
     useFlightCard();
 
-  const showEconomyClass = selectedTicketClassOption === TicketClass.ECONOMY;
-  const showBusinessClass = selectedTicketClassOption === TicketClass.BUSINESS;
+  const showEconomyClass =
+    selectedTicketClassOption === TicketClassName.ECONOMY;
+  const showBusinessClass =
+    selectedTicketClassOption === TicketClassName.BUSINESS;
 
   return (
     <>
@@ -44,7 +46,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
           className="relative flex-1 cursor-pointer bg-green-700"
           onClick={() => {
             if (!showEconomyClass) {
-              setSelectedTicketClassOption(TicketClass.ECONOMY);
+              setSelectedTicketClassOption(TicketClassName.ECONOMY);
             } else {
               setSelectedTicketClassOption(undefined);
             }
@@ -87,7 +89,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
           className="relative flex-1 cursor-pointer bg-blue-800"
           onClick={() => {
             if (!showBusinessClass) {
-              setSelectedTicketClassOption(TicketClass.BUSINESS);
+              setSelectedTicketClassOption(TicketClassName.BUSINESS);
             } else {
               setSelectedTicketClassOption(undefined);
             }

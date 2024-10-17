@@ -1,4 +1,4 @@
-import { RouteType, TicketClass } from "../common";
+import { RouteType, TicketClassName } from "../common";
 import { ICountry } from "../country";
 
 export interface IAirport {
@@ -36,6 +36,18 @@ export interface IRoute {
   routeType: RouteType;
 }
 
+export interface TicketClass {
+  ticketClassId: number;
+  ticketClassName: string;
+  luggageAllowance: string;
+  checkedBaggageAllowance: string;
+  refundFeeBefore: number;
+  refundFeeAfter: number;
+  changeFeeBefore: number;
+  changeFeeAfter: number;
+  isSeatSelectionFree: boolean;
+}
+
 export interface IFlightPricing {
   flightPricingId: number;
   ticketPrice: number;
@@ -46,7 +58,7 @@ export interface IFlightPricing {
 
 export interface ISeat {
   seatId: number;
-  ticketClass: TicketClass;
+  ticketClass: TicketClassName;
   seatCode: string;
 }
 

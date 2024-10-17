@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFlightCard } from "../../../../../../context/FlightCardContext";
 import {
   IFlightSchedule,
-  TicketClass,
+  TicketClassName,
   TripType,
 } from "../../../../../../interfaces";
 import { useAppDispatch, useAppSelector } from "../../../../../../redux/hooks";
@@ -14,26 +14,16 @@ interface BusinessClassOptionsProps {
   flightCardData: IFlightSchedule;
 }
 
-const features = {
-  handBaggagePiece: 2,
-  handBaggage: 7,
-  checkedBaggage: 40,
-  refundBefore: 450000,
-  refundAfter: 450000,
-  changeBefore: 300000,
-  changeAfter: 450000,
-  freeSeatSelection: true,
-};
-
 const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
   flightCardData,
 }) => {
   const { selectedTicketClassOption, setSelectedTicketClassOption } =
     useFlightCard();
-  const show: boolean = selectedTicketClassOption === TicketClass.BUSINESS;
-  const businessPrice = flightCardData.flightPricing.find(
-    (pricing) => pricing.ticketClass === TicketClass.BUSINESS,
-  )?.ticketPrice;
+  const show: boolean = selectedTicketClassOption === TicketClassName.BUSINESS;
+  const businessPricing = flightCardData.flightPricing.find(
+    (pricing) =>
+      pricing.ticketClass.ticketClassName === TicketClassName.BUSINESS,
+  );
   const flightIndex: number = Number(
     useParams<{ flightIndex: string }>().flightIndex,
   );
@@ -49,7 +39,7 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
         addFlight({
           newFlight: flightCardData,
           flightIndex,
-          ticketClass: TicketClass.BUSINESS,
+          ticketClass: businessPricing!.ticketClass,
         }),
       );
       setSelectedTicketClassOption(undefined);
@@ -60,7 +50,10 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
         addFlight({
           newFlight: flightCardData,
           flightIndex,
-          ticketClass: TicketClass.BUSINESS,
+          ticketClass: flightCardData.flightPricing.find(
+            (pricing) =>
+              pricing.ticketClass.ticketClassName === TicketClassName.BUSINESS,
+          )!.ticketClass,
         }),
       );
       console.log("Navigate to SHOPPING CART");
@@ -75,11 +68,7 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
       <p className="text-blue-800">Tiện ích với mỗi hành khách</p>
 
       <div className="my-4 flex gap-4">
-        <ClassDetailsCard
-          price={businessPrice!}
-          ticketClass={TicketClass.BUSINESS}
-          features={features}
-        />
+        <ClassDetailsCard flightPricing={businessPricing!} />
       </div>
 
       <p className="text-blue-800">Bạn đã chọn hạng vé Business</p>

@@ -1,4 +1,4 @@
-export enum TicketClass {
+export enum TicketClassName {
   ECONOMY = "ECONOMY",
   BUSINESS = "BUSINESS",
 }

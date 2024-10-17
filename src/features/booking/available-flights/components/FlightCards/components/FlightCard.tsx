@@ -1,5 +1,4 @@
 import { IFlightSchedule } from "../../../../../../interfaces";
-// import useFlightCard from "../hooks/useFlightCard";
 import FlightCardClassOptions from "./FlightCardClassOptions";
 import FlightCardClassOptionsDetail from "./FlightCardClassOptionsDetail";
 import FlightCardInfo from "./FlightCardInfo";

@@ -1,16 +1,18 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { TicketClass } from "../interfaces";
+import { TicketClassName } from "../interfaces";
 
 interface FlightCardContextValue {
-  selectedTicketClassOption?: TicketClass;
-  setSelectedTicketClassOption: (ticketClass: TicketClass | undefined) => void;
+  selectedTicketClassOption?: TicketClassName;
+  setSelectedTicketClassOption: (
+    ticketClass: TicketClassName | undefined,
+  ) => void;
 }
 
 const FlightCardContext = createContext<FlightCardContextValue | null>(null);
 
 const FlightCardProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [selectedTicketClassOption, setSelectedTicketClassOption] =
-    useState<TicketClass>();
+    useState<TicketClassName>();
 
   return (
     <FlightCardContext.Provider

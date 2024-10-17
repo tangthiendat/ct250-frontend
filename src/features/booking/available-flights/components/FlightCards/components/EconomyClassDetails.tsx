@@ -1,38 +1,29 @@
 import { Button } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFlightCard } from "../../../../../../context/FlightCardContext";
 import {
   IFlightSchedule,
-  TicketClass,
+  TicketClassName,
   TripType,
 } from "../../../../../../interfaces";
-import ClassDetailsCard from "./ClassDetailsCard";
-import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../../../redux/hooks";
 import { addFlight } from "../../../../../../redux/slices/bookingSlice";
+import ClassDetailsCard from "./ClassDetailsCard";
 
 interface EconomyClassDetailsProps {
   flightCardData: IFlightSchedule;
 }
-
-const features = {
-  handBaggage: 7,
-  checkedBaggage: 0,
-  refundBefore: 450000,
-  refundAfter: 600000,
-  changeBefore: 450000,
-  changeAfter: 600000,
-  freeSeatSelection: false,
-};
 
 const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
   flightCardData,
 }) => {
   const { selectedTicketClassOption, setSelectedTicketClassOption } =
     useFlightCard();
-  const show: boolean = selectedTicketClassOption === TicketClass.ECONOMY;
-  const economyPrice = flightCardData.flightPricing.find(
-    (pricing) => pricing.ticketClass === TicketClass.ECONOMY,
-  )?.ticketPrice;
+  const show: boolean = selectedTicketClassOption === TicketClassName.ECONOMY;
+  const economyPricing = flightCardData.flightPricing.find(
+    (pricing) =>
+      pricing.ticketClass.ticketClassName === TicketClassName.ECONOMY,
+  );
 
   const flightIndex: number = Number(
     useParams<{ flightIndex: string }>().flightIndex,
@@ -49,7 +40,7 @@ const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
         addFlight({
           newFlight: flightCardData,
           flightIndex,
-          ticketClass: TicketClass.ECONOMY,
+          ticketClass: economyPricing!.ticketClass,
         }),
       );
       setSelectedTicketClassOption(undefined);
@@ -60,7 +51,7 @@ const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
         addFlight({
           newFlight: flightCardData,
           flightIndex,
-          ticketClass: TicketClass.ECONOMY,
+          ticketClass: economyPricing!.ticketClass,
         }),
       );
       console.log("Navigate to SHOPPING CART");
@@ -75,11 +66,7 @@ const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
       <p className="text-green-800">Tiện ích với mỗi hành khách</p>
 
       <div className="my-4 flex gap-4">
-        <ClassDetailsCard
-          price={economyPrice!}
-          ticketClass={TicketClass.ECONOMY}
-          features={features}
-        />
+        <ClassDetailsCard flightPricing={economyPricing!} />
       </div>
 
       <p className="text-green-700">Bạn đã chọn hạng vé Economy</p>
