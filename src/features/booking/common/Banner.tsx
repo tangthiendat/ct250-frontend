@@ -1,5 +1,5 @@
-import useSearchData from "../available-flights/hooks/useSearchData";
 import { useParams } from "react-router-dom";
+import useSearchData from "../available-flights/hooks/useSearchData";
 
 const Banner: React.FC<{ title: string }> = ({ title }) => {
   const { flightSearch: data } = useSearchData();
@@ -7,14 +7,14 @@ const Banner: React.FC<{ title: string }> = ({ title }) => {
     useParams<{ flightIndex: string }>().flightIndex,
   );
   let departureCityName, arrivalCityName, arrivalCityCode;
-  if (flightIndex === 0) {
-    departureCityName = data.departureAirport?.cityName || "";
-    arrivalCityName = data.arrivalAirport?.cityName || "";
-    arrivalCityCode = data.arrivalAirport?.airportCode || "";
-  } else if (flightIndex === 1) {
+  if (flightIndex === 1) {
     departureCityName = data.arrivalAirport?.cityName || "";
     arrivalCityName = data.departureAirport?.cityName || "";
     arrivalCityCode = data.departureAirport?.airportCode || "";
+  } else {
+    departureCityName = data.departureAirport?.cityName || "";
+    arrivalCityName = data.arrivalAirport?.cityName || "";
+    arrivalCityCode = data.arrivalAirport?.airportCode || "";
   }
 
   return (
