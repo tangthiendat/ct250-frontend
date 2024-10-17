@@ -3,13 +3,13 @@ import { IFlightSchedule } from "../../../../../../interfaces";
 import dayjs from "dayjs";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 
-interface DetailFlightProps {
+interface FlightDetailOverviewProps {
   flightData: IFlightSchedule;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const DetailFlight: React.FC<DetailFlightProps> = ({
+const FlightDetailOverview: React.FC<FlightDetailOverviewProps> = ({
   flightData,
   open,
   setOpen,
@@ -159,4 +159,4 @@ const DetailFlight: React.FC<DetailFlightProps> = ({
   );
 };
 
-export default DetailFlight;
+export default FlightDetailOverview;
