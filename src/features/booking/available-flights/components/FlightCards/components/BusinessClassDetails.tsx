@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFlightCard } from "../../../../../../context/FlightCardContext";
 import {
@@ -57,6 +56,7 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
         }),
       );
       console.log("Navigate to SHOPPING CART");
+      navigate("/book/shopping-cart");
     }
   }
 
@@ -73,13 +73,12 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
 
       <p className="text-blue-800">Bạn đã chọn hạng vé Business</p>
 
-      <Button
-        className="mt-5 bg-blue-600 p-5"
-        type="primary"
+      <button
+        className="mt-5 rounded-md bg-blue-700 px-3 py-2 font-medium text-white hover:bg-blue-800"
         onClick={handleClick}
       >
         Xác nhận để tiếp tục
-      </Button>
+      </button>
     </div>
   );
 };

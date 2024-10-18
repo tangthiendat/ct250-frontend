@@ -1,5 +1,4 @@
-import { TicketClass } from "../common";
-import { IFlightSchedule } from "../flight";
+import { IFlightSchedule, TicketClass } from "../flight";
 
 export interface IBooking {
   bookingFlights: IBookingFlight[];

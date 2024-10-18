@@ -66,6 +66,12 @@ const FlightDetailOverview: React.FC<FlightDetailOverviewProps> = ({
               </span>
             </p>
             <p>
+              Số hiệu chuyến bay:{" "}
+              <span className="font-medium text-blue-800">
+                {flightData.flightId}
+              </span>
+            </p>
+            <p>
               Số hiệu máy bay:{" "}
               <span className="font-medium text-blue-800">
                 {flightData.airplane.registrationNumber}

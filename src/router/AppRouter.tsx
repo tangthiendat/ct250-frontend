@@ -15,6 +15,7 @@ import TransactionHistory from "../features/account-management/TransactionHistor
 import MainLayout from "../layouts/MainLayout";
 import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
+import ShoppingCart from "../features/booking/shopping-cart/ShoppingCart";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: "availability/:flightIndex",
         element: <AvailableFlights />,
+      },
+      {
+        path: "shopping-cart",
+        element: <ShoppingCart />,
       },
     ],
   },
