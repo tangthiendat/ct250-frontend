@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import Banner from "../common/Banner";
 import Flight from "./components/flight/Flight";
-import Price from "./components/flight/components/Price";
+import Price from "./components/flight/components/price/Price";
 
 const ShoppingCart: React.FC = () => {
   const departData = useAppSelector((state) => state.booking.bookingFlights[0]);
@@ -37,7 +37,7 @@ const ShoppingCart: React.FC = () => {
           )}
         </div>
 
-        <Price departData={departData} returnData={returnData} />
+        <Price />
       </div>
     </>
   );

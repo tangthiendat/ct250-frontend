@@ -16,11 +16,11 @@ const Flight: React.FC<FlightProps> = ({ data, showExpand, setShowExpand }) => {
   return (
     <>
       <div
-        className={`${showExpand ? "h-[500px]" : "h-[150px]"} relative z-10 overflow-hidden rounded-lg p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-500`}
+        className={`${showExpand ? "h-[500px]" : "h-[140px]"} relative z-10 overflow-hidden rounded-lg p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-500`}
       >
         <CityAndTime data={data} />
 
-        <Divider type="horizontal" className="mb-5 mt-3 bg-slate-300" />
+        <Divider type="horizontal" className="my-5 bg-slate-300" />
 
         <div className="flex justify-between">
           <FlightInfo

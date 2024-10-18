@@ -1,16 +1,9 @@
-import { Modal } from "antd";
-import { IBookingFlight } from "../../../../../../interfaces";
-import { useCalculatePrice } from "../hooks/useCalculatePrice";
 import { useState } from "react";
-import { set } from "date-fns";
+import { useCalculatePrice } from "../../hooks/useCalculatePrice";
+import PricingDetail from "./PricingDetail";
 
-interface PriceProps {
-  departData: IBookingFlight;
-  returnData?: IBookingFlight;
-}
-
-const Price: React.FC<PriceProps> = ({ departData, returnData }) => {
-  const { totalPrice } = useCalculatePrice(departData, returnData);
+const Price: React.FC = () => {
+  const { totalPrice } = useCalculatePrice();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
@@ -35,14 +28,7 @@ const Price: React.FC<PriceProps> = ({ departData, returnData }) => {
           </span>
         </p>
 
-        <Modal
-          title="Chi tiết giá"
-          open={showModal}
-          onCancel={() => setShowModal(false)}
-          footer={null}
-        >
-          <p>Content</p>
-        </Modal>
+        <PricingDetail showModal={showModal} setShowModal={setShowModal} />
       </div>
     </>
   );
