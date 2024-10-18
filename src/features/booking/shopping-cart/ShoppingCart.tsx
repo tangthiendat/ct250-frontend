@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import Banner from "../common/Banner";
 import Flight from "./components/flight/Flight";
+import Price from "./components/flight/components/Price";
 
 const ShoppingCart: React.FC = () => {
   const departData = useAppSelector((state) => state.booking.bookingFlights[0]);
@@ -36,14 +37,7 @@ const ShoppingCart: React.FC = () => {
           )}
         </div>
 
-        <div className="mt-3 flex flex-col items-end text-blue-700">
-          <p className="title-4 text-blue-800">
-            Tổng giá cho các chuyến bay: 7.678.000VND
-          </p>
-          <p className="text-heading-3 mt-2 text-blue-900">
-            Tổng giá:7.678.000VND
-          </p>
-        </div>
+        <Price departData={departData} returnData={returnData} />
       </div>
     </>
   );

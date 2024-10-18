@@ -39,7 +39,7 @@ const Flight: React.FC<FlightProps> = ({ data, showExpand, setShowExpand }) => {
         </div>
 
         <div
-          className={`${showExpand ? "visible opacity-100" : "invisible opacity-0"} absolute bottom-0 left-0 right-0 flex cursor-pointer items-center justify-center border-t-[1px] border-t-black/10 bg-slate-100 py-2 transition-all duration-500 hover:bg-slate-200/40`}
+          className={`${showExpand ? "visible opacity-100" : "invisible opacity-0"} absolute bottom-0 left-0 right-0 flex cursor-pointer items-center justify-center border-t-[1px] border-t-black/10 bg-white py-2 transition-all duration-100 hover:bg-slate-200/40`}
           onClick={() => setShowExpand(false)}
         >
           <MdExpandLess />

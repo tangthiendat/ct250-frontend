@@ -15,7 +15,7 @@ const FlightInfo: React.FC<FlightInfoProps> = ({
 }) => {
   return (
     <>
-      <div className="flex w-[60%] flex-col items-center justify-center md:flex-row">
+      <div className="flex w-[80%] flex-col items-center justify-center md:flex-row">
         <FlightCardInfo flightCardData={data.flight} />
       </div>
 
