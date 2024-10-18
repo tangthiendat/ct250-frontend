@@ -1,8 +1,8 @@
-import dayjs from "dayjs";
 import { FaRegClock } from "react-icons/fa";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
 import { IFlightSchedule } from "../../../../../../interfaces";
+import { getFormattedDuration } from "../../../../../../utils";
 
 interface FlightDetailProps {
   flightCardData: IFlightSchedule;
@@ -13,14 +13,7 @@ const FlightDetail: React.FC<FlightDetailProps> = ({
   flightCardData,
   setShowDetail,
 }) => {
-  const durationInMinutes = dayjs(flightCardData.arrivalDateTime).diff(
-    dayjs(flightCardData.departureDateTime),
-    "minute",
-  );
-  const hours = Math.floor(durationInMinutes / 60);
-  const minutes = durationInMinutes % 60;
-  const formattedDuration =
-    minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+  const formattedDuration = getFormattedDuration(flightCardData.route.duration);
 
   return (
     <>
