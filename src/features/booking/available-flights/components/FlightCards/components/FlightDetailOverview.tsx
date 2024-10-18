@@ -1,7 +1,7 @@
 import { Button, ConfigProvider, Modal, Timeline } from "antd";
-import { IFlightSchedule } from "../../../../../../interfaces";
-import dayjs from "dayjs";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
+import { IFlightSchedule } from "../../../../../../interfaces";
+import { getFormattedDuration } from "../../../../../../utils";
 
 interface FlightDetailOverviewProps {
   flightData: IFlightSchedule;
@@ -14,14 +14,7 @@ const FlightDetailOverview: React.FC<FlightDetailOverviewProps> = ({
   open,
   setOpen,
 }) => {
-  const durationInMinutes = dayjs(flightData.arrivalDateTime).diff(
-    dayjs(flightData.departureDateTime),
-    "minute",
-  );
-  const hours = Math.floor(durationInMinutes / 60);
-  const minutes = durationInMinutes % 60;
-  const formattedDuration =
-    minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+  const formattedDuration = getFormattedDuration(flightData.route.duration);
 
   return (
     <>

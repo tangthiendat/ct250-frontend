@@ -40,3 +40,9 @@ export function groupBy<T, K>(
   });
   return map;
 }
+
+export function getFormattedDuration(durationInMinutes: number): string {
+  const hours = Math.floor(durationInMinutes / 60);
+  const minutes = durationInMinutes % 60;
+  return minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+}
