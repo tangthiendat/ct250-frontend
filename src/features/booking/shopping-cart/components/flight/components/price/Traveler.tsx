@@ -21,7 +21,7 @@ const Traveler: React.FC<TravelerProps> = ({
       className={`${showExpand ? "h-64" : "h-10"} overflow-hidden transition-all duration-200`}
     >
       <div
-        className="text-heading-3 flex cursor-pointer justify-between p-2 transition-all duration-200 hover:bg-slate-100"
+        className={`${showExpand ? "bg-gray-200" : "bg-gray-100"} text-heading-3 flex cursor-pointer justify-between rounded-sm p-2 transition-all duration-200 hover:bg-gray-300`}
         onClick={() => setShowExpand(!showExpand)}
       >
         <p className="text-blue-900">
@@ -43,7 +43,7 @@ const Traveler: React.FC<TravelerProps> = ({
         </div>
       </div>
 
-      <div className="px-7">
+      <div className={`${showExpand && "bg-gray-100"} rounded-b-sm px-7`}>
         <ItemsPricing type={type} />
       </div>
     </div>

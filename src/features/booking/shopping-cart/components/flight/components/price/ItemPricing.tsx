@@ -16,21 +16,19 @@ const ItemPricing: React.FC<ItemPricingProps> = ({ title, price, more }) => {
       {more && (
         <div className="pl-4 pr-0">
           <div className="flex justify-between">
-            <p className="title-4">
-              Phí dịch vụ hành khách chặng nội địa, Việt Nam
-            </p>
+            <p className="title-4">Phí dịch vụ hành khách</p>
             <p className="title-4">0 VND</p>
           </div>
 
           <div className="flex justify-between">
             <p className="title-4">
-              Phí soi chiếu an ninh hành khách và hành lý, Việt Nam
+              Phí soi chiếu an ninh hành khách và hành lý
             </p>
             <p className="title-4">0 VND</p>
           </div>
 
           <div className="flex justify-between">
-            <p className="title-4">Thuế giá trị gia tăng, Việt Nam</p>
+            <p className="title-4">Thuế giá trị gia tăng</p>
             <p className="title-4">0 VND</p>
           </div>
         </div>
