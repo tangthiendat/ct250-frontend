@@ -87,6 +87,10 @@ export interface FlightSearchCriteria {
   arrivalLocation: number;
   departureDate: string;
   arrivalDate?: string;
+  passengerQuantityTypeRequests: {
+    passengerType: string;
+    quantity: number;
+  }[];
 }
 
 export interface IFlightOverview {
