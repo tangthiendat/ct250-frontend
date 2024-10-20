@@ -2,14 +2,17 @@ import { FaUsers } from "react-icons/fa";
 import useSearchData from "../hooks/useSearchData";
 import { Dropdown } from "antd";
 import { MenuProps } from "antd/lib";
+import { PassengerType } from "../../../../interfaces";
 
 const PassengersDetail: React.FC = () => {
   const { flightSearch } = useSearchData();
-  const { adult, children, infant } = flightSearch.passengers;
+  const adult = flightSearch.passengers[PassengerType.ADULT];
+  const children = flightSearch.passengers[PassengerType.CHILD];
+  const infant = flightSearch.passengers[PassengerType.INFANT];
 
   const items: MenuProps["items"] = [
     {
-      key: "adult",
+      key: PassengerType.ADULT,
       label: (
         <div className="flex justify-between">
           <p>Người lớn</p>
@@ -18,7 +21,7 @@ const PassengersDetail: React.FC = () => {
       ),
     },
     {
-      key: "children",
+      key: PassengerType.CHILD,
       label: (
         <div className="flex justify-between">
           <p>Trẻ em</p>
@@ -27,7 +30,7 @@ const PassengersDetail: React.FC = () => {
       ),
     },
     {
-      key: "infant",
+      key: PassengerType.INFANT,
       label: (
         <div className="flex justify-between">
           <p>Em bé</p>
@@ -44,9 +47,7 @@ const PassengersDetail: React.FC = () => {
         <p className="title-4 text-gray-500">
           <div className="flex items-center justify-center gap-2">
             <FaUsers />
-            {flightSearch.passengers.adult +
-              flightSearch.passengers.children +
-              flightSearch.passengers.infant}
+            {adult + children + infant}
           </div>
         </p>
       </div>

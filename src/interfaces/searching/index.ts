@@ -1,3 +1,4 @@
+import { PassengerType } from "../common";
 import { IAirport } from "../flight";
 
 export interface ISearchFlights {
@@ -7,9 +8,9 @@ export interface ISearchFlights {
   departureDate: string;
   flightRange: string[];
   passengers: {
-    adult: number;
-    children: number;
-    infant: number;
+    [PassengerType.ADULT]: number;
+    [PassengerType.CHILD]: number;
+    [PassengerType.INFANT]: number;
   };
   couponCode?: string;
   cabinClass: string;

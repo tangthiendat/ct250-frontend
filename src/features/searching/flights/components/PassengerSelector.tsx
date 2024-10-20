@@ -6,6 +6,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { FaBabyCarriage, FaUser } from "react-icons/fa";
 import { FaChild } from "react-icons/fa6";
+import { PassengerType } from "../../../../interfaces";
 
 interface ItemMenuProps {
   label: string;
@@ -81,19 +82,19 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
           minCount={1}
         />
       ),
-      key: "adult",
+      key: PassengerType.ADULT,
       icon: <FaUser />,
     },
     {
       label: (
         <ItemMenu label="Trẻ em" count={children} setCount={setChildren} />
       ),
-      key: "children",
+      key: PassengerType.CHILD,
       icon: <FaChild />,
     },
     {
       label: <ItemMenu label="Em bé" count={infant} setCount={setInfant} />,
-      key: "infant",
+      key: PassengerType.INFANT,
       icon: <FaBabyCarriage />,
     },
   ];

@@ -27,6 +27,12 @@ const FlightCards: React.FC = () => {
     departureLocation,
     arrivalLocation,
     departureDate,
+    passengerQuantityTypeRequests: Object.entries(flightSearch.passengers)
+      .map(([key, value]) => ({
+        passengerType: key,
+        quantity: value,
+      }))
+      .filter((passenger) => passenger.quantity > 0),
   };
   const { flights: tempFlights } = useFlights(criteria);
   const flights = tempFlights.filter(

@@ -1,27 +1,18 @@
-import { TicketClassName } from "../../../../../../interfaces";
+import { PassengerType } from "../../../../../../interfaces";
 import { useAppSelector } from "../../../../../../redux/hooks";
+import { useFlightsData } from "./useFlightsData";
 
 export function useCalculatePrice() {
-  const departData = useAppSelector((state) => state.booking.bookingFlights[0]);
-  const returnData =
-    useAppSelector((state) => state.booking.bookingFlights[1]) || null;
+  const { departTicketPrice, returnTicketPrice } = useFlightsData();
 
-  const classDepart =
-    departData.ticketClass.ticketClassName === TicketClassName.ECONOMY ? 0 : 1;
-  const classReturn =
-    returnData?.ticketClass.ticketClassName === TicketClassName.ECONOMY ? 0 : 1;
-
-  const departTicketPrice =
-    departData.flight.flightPricing[classDepart].ticketPrice;
-  const returnTicketPrice =
-    returnData?.flight.flightPricing[classReturn].ticketPrice;
-
-  const adult = useAppSelector((state) => state.flightSearch.passengers.adult);
+  const adult = useAppSelector(
+    (state) => state.flightSearch.passengers[PassengerType.ADULT],
+  );
   const children = useAppSelector(
-    (state) => state.flightSearch.passengers.children,
+    (state) => state.flightSearch.passengers[PassengerType.CHILD],
   );
   const infant = useAppSelector(
-    (state) => state.flightSearch.passengers.infant,
+    (state) => state.flightSearch.passengers[PassengerType.INFANT],
   );
 
   const adultPriceDepart = departTicketPrice * adult;
@@ -33,7 +24,7 @@ export function useCalculatePrice() {
   const childrenPrice = childrenPriceDepart + childrenPriceReturn;
 
   const infantPriceDepart = 100000 * infant;
-  const infantPriceReturn = returnData ? 100000 * children : 0;
+  const infantPriceReturn = returnTicketPrice !== 0 ? 100000 * children : 0;
   const infantPrice = infantPriceDepart + infantPriceReturn;
 
   const totalPrice = adultPrice + childrenPrice + infantPrice;

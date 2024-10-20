@@ -2,6 +2,7 @@ import { Divider } from "antd";
 import { useState } from "react";
 import { useCalculatePrice } from "../../hooks/useCalculatePrice";
 import Traveler from "./Traveler";
+import { PassengerType } from "../../../../../../../interfaces";
 
 const TravelersPrice: React.FC = () => {
   const [showAdultExpand, setShowAdultExpand] = useState<boolean>(false);
@@ -13,7 +14,7 @@ const TravelersPrice: React.FC = () => {
   return (
     <>
       <Traveler
-        type="adult"
+        type={PassengerType.ADULT}
         numberOfTraveler={adult}
         pricing={adultPrice}
         showExpand={showAdultExpand}
@@ -24,7 +25,7 @@ const TravelersPrice: React.FC = () => {
         <>
           <Divider type="horizontal" className="my-1 bg-slate-400" />
           <Traveler
-            type="children"
+            type={PassengerType.CHILD}
             numberOfTraveler={children}
             pricing={childrenPrice}
             showExpand={showChildExpand}
@@ -37,7 +38,7 @@ const TravelersPrice: React.FC = () => {
         <>
           <Divider type="horizontal" className="my-1 bg-slate-400" />
           <Traveler
-            type="infant"
+            type={PassengerType.INFANT}
             numberOfTraveler={infant}
             pricing={infantPrice}
             showExpand={showInfantExpand}

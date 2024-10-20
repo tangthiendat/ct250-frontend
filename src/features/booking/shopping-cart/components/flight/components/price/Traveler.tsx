@@ -1,5 +1,6 @@
 import { MdExpandMore } from "react-icons/md";
 import ItemsPricing from "./ItemsPricing";
+import { PassengerType } from "../../../../../../../interfaces";
 
 interface TravelerProps {
   type: string;
@@ -26,7 +27,7 @@ const Traveler: React.FC<TravelerProps> = ({
       >
         <p className="text-blue-900">
           {numberOfTraveler}{" "}
-          {type === "adult"
+          {type === PassengerType.ADULT
             ? "Người lớn"
             : type === "children"
               ? "Trẻ em"

@@ -1,7 +1,7 @@
 import { Button, Form } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ISearchFlights } from "../../../interfaces";
+import { ISearchFlights, PassengerType } from "../../../interfaces";
 
 import { setFlightSearchInfo } from "../../../redux/slices/flightSearchSlice";
 import Coupon from "./components/Coupon";
@@ -42,13 +42,13 @@ const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
     flightSearch.flightRange || [],
   );
   const [adult, setAdult] = useState<number>(
-    flightSearch.passengers.adult || 1,
+    flightSearch.passengers[PassengerType.ADULT] || 1,
   );
   const [children, setChildren] = useState<number>(
-    flightSearch.passengers.children || 0,
+    flightSearch.passengers[PassengerType.CHILD] || 0,
   );
   const [infant, setInfant] = useState<number>(
-    flightSearch.passengers.infant || 0,
+    flightSearch.passengers[PassengerType.INFANT] || 0,
   );
   const [couponCode, setCouponCode] = useState<string>(
     flightSearch.couponCode || "",
@@ -83,9 +83,9 @@ const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
         departureDate,
         flightRange,
         passengers: {
-          adult,
-          children,
-          infant,
+          [PassengerType.ADULT]: adult,
+          [PassengerType.CHILD]: children,
+          [PassengerType.INFANT]: infant,
         },
         couponCode,
         cabinClass: "",
