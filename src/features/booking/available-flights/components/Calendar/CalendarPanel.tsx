@@ -8,6 +8,7 @@ import { flightScheduleService } from "../../../../../services";
 import useSearchData from "../../hooks/useSearchData";
 import AbleCell from "./AbleCell";
 import DisableCell from "./DisableCell";
+import { getFlightSearchFormData } from "../../../../../utils";
 
 interface CalendarPanelProps {
   show: boolean;
@@ -38,10 +39,17 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
     arrivalLocation,
     departureDate: startDate,
     arrivalDate: endDate,
+    passengerQuantityTypeRequests: Object.entries(flightSearch.passengers)
+      .map(([key, value]) => ({
+        passengerType: key,
+        quantity: value,
+      }))
+      .filter((passenger) => passenger.quantity > 0),
   };
+  const criteriaFormData = getFlightSearchFormData(criteria);
   const { data } = useQuery({
     queryKey: ["flights", "overviews", criteria],
-    queryFn: () => flightScheduleService.getOverview(criteria),
+    queryFn: () => flightScheduleService.getOverview(criteriaFormData),
   });
   const cellsContent = data?.payload || [];
   let actualCellsContent = cellsContent;
