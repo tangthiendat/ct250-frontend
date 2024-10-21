@@ -1,9 +1,11 @@
 import { PassengerType } from "../../../../../../interfaces";
 import { useAppSelector } from "../../../../../../redux/hooks";
-import { useFlightsData } from "./useFlightsData";
+// import { useFlightsData } from "./useFlightsData";
 
 export function useCalculatePrice() {
-  const { departTicketPrice, returnTicketPrice } = useFlightsData();
+  // const { departTicketPrice, returnTicketPrice } = useFlightsData();
+  const departTicketPrice = 0;
+  const returnTicketPrice = 0;
 
   const adult = useAppSelector(
     (state) => state.flightSearch.passengers[PassengerType.ADULT],

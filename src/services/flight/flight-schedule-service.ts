@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import {
   ApiResponse,
+  FlightSearchCriteria,
   IFlightOverview,
   IFlightSchedule,
 } from "../../interfaces";
@@ -8,8 +9,12 @@ import { createApiClient } from "../api-client";
 
 interface IFlightScheduleService {
   getAll(): Promise<ApiResponse<IFlightSchedule[]>>;
-  search(criteria: FormData): Promise<ApiResponse<IFlightSchedule[]>>;
-  getOverview(criteria: FormData): Promise<ApiResponse<IFlightOverview[]>>;
+  search(
+    criteria: FlightSearchCriteria,
+  ): Promise<ApiResponse<IFlightSchedule[]>>;
+  getOverview(
+    criteria: FlightSearchCriteria,
+  ): Promise<ApiResponse<IFlightOverview[]>>;
 }
 
 const apiClient: AxiosInstance = createApiClient("flights", {
@@ -21,11 +26,13 @@ class FlightScheduleService implements IFlightScheduleService {
     return (await apiClient.get("/all")).data;
   }
 
-  async search(criteria: FormData): Promise<ApiResponse<IFlightSchedule[]>> {
+  async search(
+    criteria: FlightSearchCriteria,
+  ): Promise<ApiResponse<IFlightSchedule[]>> {
     return (await apiClient.post("/search", criteria)).data;
   }
   async getOverview(
-    criteria: FormData,
+    criteria: FlightSearchCriteria,
   ): Promise<ApiResponse<IFlightOverview[]>> {
     return (await apiClient.post("/overview", criteria)).data;
   }

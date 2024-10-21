@@ -87,7 +87,7 @@ export interface FlightSearchCriteria {
   arrivalLocation: number;
   departureDate: string;
   arrivalDate?: string;
-  passengerQuantityTypeRequests: {
+  passengerTypeQuantityRequests: {
     passengerType: string;
     quantity: number;
   }[];

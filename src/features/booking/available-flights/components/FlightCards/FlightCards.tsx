@@ -27,7 +27,7 @@ const FlightCards: React.FC = () => {
     departureLocation,
     arrivalLocation,
     departureDate,
-    passengerQuantityTypeRequests: Object.entries(flightSearch.passengers)
+    passengerTypeQuantityRequests: Object.entries(flightSearch.passengers)
       .map(([key, value]) => ({
         passengerType: key,
         quantity: value,

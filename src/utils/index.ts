@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { FlightSearchCriteria } from "../interfaces";
 export function formatISODate(date: string) {
   return format(new Date(date), "yyyy-MM-dd'T'HH:mm:ss.SSS");
 }
@@ -46,35 +45,4 @@ export function getFormattedDuration(durationInMinutes: number): string {
   const hours = Math.floor(durationInMinutes / 60);
   const minutes = durationInMinutes % 60;
   return minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
-}
-
-export function getFlightSearchFormData(
-  flightSearchCriteria: FlightSearchCriteria,
-): FormData {
-  const formData = new FormData();
-
-  Object.keys(flightSearchCriteria).forEach((key: string) => {
-    const value = flightSearchCriteria[
-      key as keyof FlightSearchCriteria
-    ] as FlightSearchCriteria[keyof FlightSearchCriteria];
-    if (
-      key === "passengerQuantityTypeRequests" &&
-      value &&
-      Array.isArray(value)
-    ) {
-      value.forEach((passengerQuantityTypeRequest, index) => {
-        Object.keys(passengerQuantityTypeRequest).forEach((subKey: string) => {
-          formData.append(
-            `passengerQuantityTypeRequests[${index}].${subKey}`,
-            `${passengerQuantityTypeRequest[subKey as keyof typeof passengerQuantityTypeRequest]}`,
-          );
-        });
-      });
-    } else if (typeof value === "number") {
-      formData.append(key, `${value}`);
-    } else {
-      formData.append(key, value as string);
-    }
-  });
-  return formData;
 }
