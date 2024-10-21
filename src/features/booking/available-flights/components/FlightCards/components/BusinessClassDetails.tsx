@@ -55,7 +55,6 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
           )!.ticketClass,
         }),
       );
-      console.log("Navigate to SHOPPING CART");
       navigate("/book/shopping-cart");
     }
   }
@@ -68,7 +67,10 @@ const BusinessClassOptions: React.FC<BusinessClassOptionsProps> = ({
       <p className="text-blue-800">Tiện ích với mỗi hành khách</p>
 
       <div className="my-4 flex gap-4">
-        <ClassDetailsCard flightPricing={businessPricing!} />
+        <ClassDetailsCard
+          flight={flightCardData}
+          ticketClassName={TicketClassName.BUSINESS}
+        />
       </div>
 
       <p className="text-blue-800">Bạn đã chọn hạng vé Business</p>

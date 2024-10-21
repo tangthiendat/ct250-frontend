@@ -1,6 +1,8 @@
 import { MdExpandMore, MdNotInterested } from "react-icons/md";
 import { useFlightCard } from "../../../../../../context/FlightCardContext";
 import { IFlightSchedule, TicketClassName } from "../../../../../../interfaces";
+import useSearchData from "../../../hooks/useSearchData";
+import { getTotalTicketPrice } from "../../../../../../utils";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
@@ -9,7 +11,6 @@ interface FlightCardClassOptionsProps {
 const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   flightCardData,
 }) => {
-  // console.log(flightCardData.seatAvailability);
   const availableEconomySeats = flightCardData.seatAvailability.filter(
     (seatAvailability) =>
       seatAvailability.seat.ticketClass === TicketClassName.ECONOMY &&
@@ -23,6 +24,17 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
   const { selectedTicketClassOption, setSelectedTicketClassOption } =
     useFlightCard();
+  const { flightSearch } = useSearchData();
+  const economyTicketPrice = getTotalTicketPrice(
+    flightCardData,
+    flightSearch.passengers,
+    TicketClassName.ECONOMY,
+  );
+  const businessTicketPrice = getTotalTicketPrice(
+    flightCardData,
+    flightSearch.passengers,
+    TicketClassName.BUSINESS,
+  );
 
   const showEconomyClass =
     selectedTicketClassOption === TicketClassName.ECONOMY;
@@ -62,7 +74,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
             <div className="my-2 flex flex-col items-center">
               <p>từ</p>
               <p className="text-xl font-bold">
-                {flightCardData.flightPricing[0].ticketPrice.toLocaleString()}
+                {economyTicketPrice.toLocaleString()}
               </p>
               <p>VND</p>
             </div>
@@ -104,7 +116,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
             <div className="my-2 flex flex-col items-center">
               <p>từ</p>
               <p className="text-xl font-bold">
-                {flightCardData.flightPricing[1].ticketPrice.toLocaleString()}
+                {businessTicketPrice.toLocaleString()}
               </p>
               <p>VND</p>
             </div>

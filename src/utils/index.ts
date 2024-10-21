@@ -1,4 +1,10 @@
 import { format } from "date-fns";
+import {
+  IFlightSchedule,
+  ISearchFlights,
+  PassengerType,
+  TicketClassName,
+} from "../interfaces";
 export function formatISODate(date: string) {
   return format(new Date(date), "yyyy-MM-dd'T'HH:mm:ss.SSS");
 }
@@ -45,4 +51,62 @@ export function getFormattedDuration(durationInMinutes: number): string {
   const hours = Math.floor(durationInMinutes / 60);
   const minutes = durationInMinutes % 60;
   return minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+}
+
+//Làm tròn giá tiền theo hàng nghìn
+export function roundToThousands(num: number): number {
+  return Math.round(num / 1000) * 1000;
+}
+
+//Tính giá tiền của một loại hành khách theo hạng vé (vé + phí)
+export function getPassengerTotalFee(
+  flight: IFlightSchedule,
+  passengerType: PassengerType,
+  ticketClassName: TicketClassName,
+): number {
+  const basePrice: number = flight.flightPricing.filter(
+    (pricing) => pricing.ticketClass.ticketClassName === ticketClassName,
+  )[0].ticketPrice;
+
+  return flight.fees
+    .map((fee) => {
+      //Tính từng khoản phí theo loại hành khách và loại tuyến bay (kể cả giá vé)
+      return fee.feePricing
+        .filter(
+          (pricing) =>
+            pricing.passengerType === passengerType &&
+            pricing.routeType === flight.route.routeType,
+        )
+        .map((pricing) => {
+          if (pricing.isPercentage) {
+            return roundToThousands(basePrice * (pricing.feeAmount / 100));
+          } else {
+            return roundToThousands(pricing.feeAmount);
+          }
+        })
+        .reduce(
+          (totalFeePricing, currFeePricing) => totalFeePricing + currFeePricing,
+          0,
+        );
+    })
+    .reduce((totalFee, currFee) => totalFee + currFee, 0); //Tổng tất cả khoản phí của hành khách
+}
+
+//Tổng giá tiền phải trả cho các loại hành khách
+export function getTotalTicketPrice(
+  flight: IFlightSchedule,
+  passengers: ISearchFlights["passengers"],
+  ticketClassName: TicketClassName,
+): number {
+  return Object.entries(passengers)
+    .map(([passengerType, quantity]) => {
+      return (
+        getPassengerTotalFee(
+          flight,
+          passengerType as PassengerType,
+          ticketClassName,
+        ) * quantity
+      );
+    })
+    .reduce((totalPrice, currPrice) => totalPrice + currPrice, 0);
 }

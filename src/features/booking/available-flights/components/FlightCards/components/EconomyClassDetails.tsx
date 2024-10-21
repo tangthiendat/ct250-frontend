@@ -53,7 +53,6 @@ const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
           ticketClass: economyPricing!.ticketClass,
         }),
       );
-      console.log("Navigate to SHOPPING CART");
       navigate("/book/shopping-cart");
     }
   }
@@ -66,7 +65,10 @@ const EconomyClassDetails: React.FC<EconomyClassDetailsProps> = ({
       <p className="text-green-800">Tiện ích với mỗi hành khách</p>
 
       <div className="my-4 flex gap-4">
-        <ClassDetailsCard flightPricing={economyPricing!} />
+        <ClassDetailsCard
+          flight={flightCardData}
+          ticketClassName={TicketClassName.ECONOMY}
+        />
       </div>
 
       <p className="text-green-700">Bạn đã chọn hạng vé Economy</p>

@@ -1,5 +1,6 @@
 import { RouteType, TicketClassName } from "../common";
 import { ICountry } from "../country";
+import { IFee } from "../fee";
 
 export interface IAirport {
   airportId: number;
@@ -41,7 +42,7 @@ export interface IRoute {
 
 export interface TicketClass {
   ticketClassId: number;
-  ticketClassName: string;
+  ticketClassName: TicketClassName;
   luggageAllowance: string;
   checkedBaggageAllowance: string;
   refundFeeBefore: number;
@@ -78,6 +79,7 @@ export interface IFlightSchedule {
   flightStatus: string;
   route: IRoute;
   flightPricing: IFlightPricing[];
+  fees: IFee[];
   seatAvailability: ISeatAvailability[];
   airplane: IAirplane;
 }

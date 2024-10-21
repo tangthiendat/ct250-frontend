@@ -1,14 +1,26 @@
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { IFlightPricing, TicketClassName } from "../../../../../../interfaces";
+import { IFlightSchedule, TicketClassName } from "../../../../../../interfaces";
+import useSearchData from "../../../hooks/useSearchData";
+import { getTotalTicketPrice } from "../../../../../../utils";
 
 interface ClassDetailsCardProps {
-  flightPricing: IFlightPricing;
+  flight: IFlightSchedule;
+  ticketClassName: TicketClassName;
 }
 
 const ClassDetailsCard: React.FC<ClassDetailsCardProps> = ({
-  flightPricing,
+  flight,
+  ticketClassName,
 }) => {
-  const ticketClass = flightPricing.ticketClass;
+  const ticketClass = flight.flightPricing.find(
+    (pricing) => pricing.ticketClass.ticketClassName === ticketClassName,
+  )!.ticketClass;
+  const { flightSearch } = useSearchData();
+  const ticketPrice = getTotalTicketPrice(
+    flight,
+    flightSearch.passengers,
+    ticketClassName,
+  );
   return (
     <div
       className={`${ticketClass.ticketClassName === TicketClassName.ECONOMY && "border-x-green-700 border-y-green-700 hover:border-green-700"} ${ticketClass.ticketClassName === TicketClassName.BUSINESS && "border-x-blue-700 border-y-blue-700 hover:border-blue-700"} flex cursor-pointer flex-col overflow-hidden rounded-lg border-4 border-transparent bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200`}
@@ -16,9 +28,7 @@ const ClassDetailsCard: React.FC<ClassDetailsCardProps> = ({
       <div
         className={`${ticketClass.ticketClassName === TicketClassName.ECONOMY && "bg-green-700"} ${ticketClass.ticketClassName === TicketClassName.BUSINESS && "bg-blue-700"} rounded-b-[40%] pb-2 pt-4 text-center text-white shadow-md transition-all duration-200`}
       >
-        <p className="text-xl font-bold">
-          {flightPricing.ticketPrice.toLocaleString()} VND
-        </p>
+        <p className="text-xl font-bold">{ticketPrice.toLocaleString()} VND</p>
         <p className="font-bold">{ticketClass.ticketClassName}</p>
       </div>
 

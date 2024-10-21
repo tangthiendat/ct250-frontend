@@ -1,16 +1,23 @@
-import { PassengerType } from "../common";
+import { PassengerType, RouteType } from "../common";
 
 export interface IFeePricing {
-  feePricingID: number;
+  feePricingId: number;
   passengerType: PassengerType;
+  feeAmount: number;
+  isPercentage: boolean;
+  routeType: RouteType;
+}
+
+export interface IFeeGroup {
+  feeGroupId: number;
+  feeGroupName: string;
 }
 
 export interface IFee {
-  feeID: number;
+  feeId: number;
   feeName: string;
-  feeAmount: number;
-  isPercentage: boolean;
   feePricing: IFeePricing[];
+  feeGroup: IFeeGroup;
 }
 
 export interface IFees {
