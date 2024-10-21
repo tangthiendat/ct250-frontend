@@ -9,7 +9,7 @@ const CityAndTime: React.FC<CityAndTimeProps> = ({ data }) => {
     <div className="flex">
       <p className="title-4 font-semibold text-green-700">
         {data.flight.route.departureAirport.cityName}
-        <span className="title-4"> to </span>
+        <span className="title-4"> đến </span>
         {data.flight.route.arrivalAirport.cityName}
       </p>
 

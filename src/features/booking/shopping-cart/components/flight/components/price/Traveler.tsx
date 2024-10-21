@@ -1,22 +1,20 @@
 import { MdExpandMore } from "react-icons/md";
 import ItemsPricing from "./ItemsPricing";
 import { PassengerType } from "../../../../../../../interfaces";
+import { useTraveler } from "../../../../../../../context/TravelerContext";
 
 interface TravelerProps {
-  type: string;
+  passengerType: string;
   numberOfTraveler: number;
   pricing: number;
-  showExpand: boolean;
-  setShowExpand: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Traveler: React.FC<TravelerProps> = ({
-  type,
+  passengerType,
   numberOfTraveler,
   pricing,
-  showExpand,
-  setShowExpand,
 }) => {
+  const { showExpand, setShowExpand } = useTraveler();
   return (
     <div
       className={`${showExpand ? "h-64" : "h-10"} overflow-hidden transition-all duration-200`}
@@ -27,11 +25,9 @@ const Traveler: React.FC<TravelerProps> = ({
       >
         <p className="text-blue-900">
           {numberOfTraveler}{" "}
-          {type === PassengerType.ADULT
-            ? "Người lớn"
-            : type === "children"
-              ? "Trẻ em"
-              : "Em bé"}
+          {passengerType === PassengerType.ADULT && "Người lớn"}
+          {passengerType === PassengerType.CHILD && "Trẻ em"}
+          {passengerType === PassengerType.INFANT && "Em bé"}
         </p>
 
         <div className="flex items-center">
@@ -45,7 +41,7 @@ const Traveler: React.FC<TravelerProps> = ({
       </div>
 
       <div className={`${showExpand && "bg-gray-100"} rounded-b-sm px-7`}>
-        <ItemsPricing type={type} />
+        <ItemsPricing passengerType={passengerType} />
       </div>
     </div>
   );

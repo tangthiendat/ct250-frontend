@@ -1,18 +1,18 @@
 import { Modal } from "antd";
-import { useCalculatePrice } from "../../hooks/useCalculatePrice";
-import TravelerPrice from "./TravelersPrice";
 import { IoClose } from "react-icons/io5";
+import TravelerPrice from "./TravelersPrice";
 
 interface PricingDetailProps {
+  totalBookingPrice: number;
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PricingDetail: React.FC<PricingDetailProps> = ({
+  totalBookingPrice,
   showModal,
   setShowModal,
 }) => {
-  const { totalPrice } = useCalculatePrice();
   return (
     <>
       <Modal
@@ -38,7 +38,7 @@ const PricingDetail: React.FC<PricingDetailProps> = ({
         <div className="space-y-1 py-2">
           <div className="text-heading-2 m-0 flex justify-between text-blue-800">
             <p className="">Tổng giá</p>
-            <p>{totalPrice.toLocaleString()} VND</p>
+            <p>{totalBookingPrice.toLocaleString()} VND</p>
           </div>
 
           <p className="title-4">

@@ -1,8 +1,10 @@
 import { format } from "date-fns";
 import {
+  IFee,
   IFlightSchedule,
   ISearchFlights,
   PassengerType,
+  RouteType,
   TicketClassName,
 } from "../interfaces";
 export function formatISODate(date: string) {
@@ -67,29 +69,61 @@ export function getPassengerTotalFee(
   const basePrice: number = flight.flightPricing.filter(
     (pricing) => pricing.ticketClass.ticketClassName === ticketClassName,
   )[0].ticketPrice;
-
   return flight.fees
     .map((fee) => {
-      //Tính từng khoản phí theo loại hành khách và loại tuyến bay (kể cả giá vé)
-      return fee.feePricing
-        .filter(
-          (pricing) =>
-            pricing.passengerType === passengerType &&
-            pricing.routeType === flight.route.routeType,
-        )
-        .map((pricing) => {
-          if (pricing.isPercentage) {
-            return roundToThousands(basePrice * (pricing.feeAmount / 100));
-          } else {
-            return roundToThousands(pricing.feeAmount);
-          }
-        })
-        .reduce(
-          (totalFeePricing, currFeePricing) => totalFeePricing + currFeePricing,
-          0,
-        );
+      //Thuế VAT
+      if (fee.feeId === 5) {
+        const ticketFeePricing = flight.fees
+          .find((fee) => fee.feeId === 1)! //Giá vé cơ bản theo từng loại hành khách
+          .feePricing.find(
+            (pricing) =>
+              pricing.passengerType === passengerType &&
+              pricing.routeType === flight.route.routeType,
+          )!;
+        if (ticketFeePricing.isPercentage) {
+          return getFee(
+            fee,
+            passengerType,
+            flight.route.routeType,
+            roundToThousands(basePrice * (ticketFeePricing.feeAmount / 100)),
+          );
+        } else {
+          return getFee(
+            fee,
+            passengerType,
+            flight.route.routeType,
+            ticketFeePricing.feeAmount,
+          );
+        }
+      }
+      return getFee(fee, passengerType, flight.route.routeType, basePrice);
     })
     .reduce((totalFee, currFee) => totalFee + currFee, 0); //Tổng tất cả khoản phí của hành khách
+}
+
+//Tinh giá phí của một loại hành khách
+export function getFee(
+  fee: IFee,
+  passengerType: PassengerType,
+  routeType: RouteType,
+  basePrice: number,
+): number {
+  return fee.feePricing
+    .filter(
+      (pricing) =>
+        pricing.passengerType === passengerType &&
+        pricing.routeType === routeType,
+    )
+    .map((pricing) => {
+      if (pricing.isPercentage) {
+        return roundToThousands(basePrice * (pricing.feeAmount / 100));
+      }
+      return roundToThousands(pricing.feeAmount);
+    })
+    .reduce(
+      (totalFeePricing, currFeePricing) => totalFeePricing + currFeePricing,
+      0,
+    );
 }
 
 //Tổng giá tiền phải trả cho các loại hành khách
