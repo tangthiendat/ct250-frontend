@@ -17,7 +17,7 @@ const Traveler: React.FC<TravelerProps> = ({
   const { showExpand, setShowExpand } = useTraveler();
   return (
     <div
-      className={`${showExpand ? "h-64" : "h-10"} overflow-hidden transition-all duration-200`}
+      className={`${showExpand ? "h-[17.5rem]" : "h-10"} overflow-hidden transition-all duration-200`}
     >
       <div
         className={`${showExpand ? "bg-gray-200" : "bg-gray-100"} text-heading-3 flex cursor-pointer justify-between rounded-sm p-2 transition-all duration-200 hover:bg-gray-300`}
