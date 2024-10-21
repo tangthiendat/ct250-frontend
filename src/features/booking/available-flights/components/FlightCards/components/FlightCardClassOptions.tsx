@@ -11,6 +11,11 @@ interface FlightCardClassOptionsProps {
 const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   flightCardData,
 }) => {
+  const { flightSearch } = useSearchData();
+  const totalPassengers = Object.values(flightSearch.passengers).reduce(
+    (totalPassenger, quantity) => totalPassenger + quantity,
+    0,
+  );
   const availableEconomySeats = flightCardData.seatAvailability.filter(
     (seatAvailability) =>
       seatAvailability.seat.ticketClass === TicketClassName.ECONOMY &&
@@ -24,7 +29,6 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
   const { selectedTicketClassOption, setSelectedTicketClassOption } =
     useFlightCard();
-  const { flightSearch } = useSearchData();
   const economyTicketPrice = getTotalTicketPrice(
     flightCardData,
     flightSearch.passengers,
@@ -43,17 +47,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
   return (
     <>
-      {availableEconomySeats == 0 ? (
-        <div className="relative flex flex-1 cursor-not-allowed items-center justify-center bg-gray-300">
-          <div className="flex flex-col items-center space-y-3 py-6 text-black opacity-70">
-            <p className="font-bold text-green-800">Economy</p>
-
-            <MdNotInterested className="text-3xl" />
-
-            <p className="text-sm">Không còn chỗ</p>
-          </div>
-        </div>
-      ) : (
+      {availableEconomySeats > 0 && availableEconomySeats > totalPassengers ? (
         <div
           className="relative flex-1 cursor-pointer bg-green-700"
           onClick={() => {
@@ -84,19 +78,20 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
             />
           </div>
         </div>
-      )}
-
-      {availableBusinessSeats == 0 ? (
+      ) : (
         <div className="relative flex flex-1 cursor-not-allowed items-center justify-center bg-gray-300">
           <div className="flex flex-col items-center space-y-3 py-6 text-black opacity-70">
-            <p className="font-bold text-blue-800">Business</p>
+            <p className="font-bold text-green-800">Economy</p>
 
             <MdNotInterested className="text-3xl" />
 
             <p className="text-sm">Không còn chỗ</p>
           </div>
         </div>
-      ) : (
+      )}
+
+      {availableBusinessSeats > 0 &&
+      availableBusinessSeats > totalPassengers ? (
         <div
           className="relative flex-1 cursor-pointer bg-blue-800"
           onClick={() => {
@@ -124,6 +119,16 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
             <MdExpandMore
               className={`${showBusinessClass ? "rotate-180 text-3xl" : "rotate-0"} transform text-white duration-500`}
             />
+          </div>
+        </div>
+      ) : (
+        <div className="relative flex flex-1 cursor-not-allowed items-center justify-center bg-gray-300">
+          <div className="flex flex-col items-center space-y-3 py-6 text-black opacity-70">
+            <p className="font-bold text-blue-800">Business</p>
+
+            <MdNotInterested className="text-3xl" />
+
+            <p className="text-sm">Không còn chỗ</p>
           </div>
         </div>
       )}
