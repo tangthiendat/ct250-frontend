@@ -47,7 +47,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
   return (
     <>
-      {availableEconomySeats > 0 && availableEconomySeats > totalPassengers ? (
+      {availableEconomySeats > 0 && availableEconomySeats >= totalPassengers ? (
         <div
           className="relative flex-1 cursor-pointer bg-green-700"
           onClick={() => {
@@ -91,7 +91,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
       )}
 
       {availableBusinessSeats > 0 &&
-      availableBusinessSeats > totalPassengers ? (
+      availableBusinessSeats >= totalPassengers ? (
         <div
           className="relative flex-1 cursor-pointer bg-blue-800"
           onClick={() => {
