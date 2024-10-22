@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom";
 import { FlightCardProvider } from "../../../../../context/FlightCardContext";
-import { FlightSearchCriteria } from "../../../../../interfaces";
+import {
+  FlightSearchCriteria,
+  TicketClassName,
+} from "../../../../../interfaces";
 import { useFlights } from "../../hooks/useFlights";
 import useSearchData from "../../hooks/useSearchData";
 import FlightCard from "./components/FlightCard";
@@ -35,12 +38,30 @@ const FlightCards: React.FC = () => {
       }))
       .filter((passenger) => passenger.quantity > 0),
   };
-  const { flights: tempFlights, isLoading } = useFlights(criteria);
-  const flights = tempFlights.filter(
-    (flight) =>
-      flight.seatAvailability.filter((seat) => seat.status === "AVAILABLE")
-        .length > 0,
+
+  const totalPassengers = Object.values(flightSearch.passengers).reduce(
+    (totalPassenger, quantity) => totalPassenger + quantity,
+    0,
   );
+  const { flights: tempFlights, isLoading } = useFlights(criteria);
+  const flights = tempFlights.filter((flight) => {
+    const availableEconomySeats = flight.seatAvailability.filter(
+      (seatAvailability) =>
+        seatAvailability.seat.ticketClass === TicketClassName.ECONOMY &&
+        seatAvailability.status === "AVAILABLE",
+    ).length;
+    const availableBusinessSeats = flight.seatAvailability.filter(
+      (seatAvailability) =>
+        seatAvailability.seat.ticketClass === TicketClassName.BUSINESS &&
+        seatAvailability.status === "AVAILABLE",
+    ).length;
+    return (
+      flight.seatAvailability.filter((seat) => seat.status === "AVAILABLE")
+        .length > 0 &&
+      (availableEconomySeats >= totalPassengers ||
+        availableBusinessSeats >= totalPassengers)
+    );
+  });
 
   return (
     <div className="mx-auto mt-10 max-w-screen-md transition-all duration-1000 xl:max-w-screen-lg">
