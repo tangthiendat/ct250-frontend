@@ -92,8 +92,24 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-end gap-2">
-        {/* {label} */}
+      <div className="flex items-center justify-between">
+        {passengerType === PassengerType.ADULT ? (
+          <p className="text-heading-3 flex items-center gap-3 font-medium">
+            <FaUser />
+            Người lớn
+          </p>
+        ) : passengerType === PassengerType.CHILD ? (
+          <p className="text-heading-3 flex items-center gap-3 font-medium">
+            <FaChild />
+            Trẻ em
+          </p>
+        ) : (
+          <p className="text-heading-3 flex items-center gap-3 font-medium">
+            <FaBabyCarriage />
+            Em bé
+          </p>
+        )}
+
         <div className="flex items-center">
           <Tooltip title="Giảm">
             <Button
@@ -180,12 +196,7 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
         />
       ),
       key: PassengerType.ADULT,
-      icon: (
-        <div className="flex items-center gap-2">
-          <FaUser />
-          <p className="text-heading-3 font-medium">Người lớn</p>
-        </div>
-      ),
+      // icon: <FaUser />,
     },
     {
       label: (
@@ -199,12 +210,7 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
         />
       ),
       key: PassengerType.CHILD,
-      icon: (
-        <div className="flex items-center gap-2">
-          <FaChild />
-          <p className="text-heading-3 font-medium">Trẻ em</p>
-        </div>
-      ),
+      // icon: <FaChild />,
     },
     {
       label: (
@@ -218,12 +224,7 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
         />
       ),
       key: PassengerType.INFANT,
-      icon: (
-        <div className="flex items-center gap-2">
-          <FaBabyCarriage />
-          <p className="text-heading-3 font-medium">Em bé</p>
-        </div>
-      ),
+      // icon: <FaBabyCarriage />,
     },
   ];
 
