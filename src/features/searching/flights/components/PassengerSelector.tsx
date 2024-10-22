@@ -91,8 +91,8 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
   };
 
   return (
-    <>
-      <div className="flex items-center justify-between">
+    <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 items-center justify-between">
         {passengerType === PassengerType.ADULT ? (
           <p className="text-heading-3 flex items-center gap-3 font-medium">
             <FaUser />
@@ -134,7 +134,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       {error && passengerType === showError && (
         <p className="text-right text-red-600">{error}</p>
       )}
-    </>
+    </div>
   );
 };
 
