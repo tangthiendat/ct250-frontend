@@ -8,14 +8,15 @@ import ForgotPassword from "../pages/ForgotPassword";
 
 import MyAccount from "../features/account-management/MyAccount";
 import ResetPasswordForm from "../features/auth/ResetPasswordForm";
+import ShoppingCart from "../features/booking/shopping-cart/ShoppingCart";
 import EmailVerification from "../features/auth/components/EmailVerification";
-import AvailableFlights from "../features/booking/available-flights/AvailableFlights";
 import TransactionHistory from "../features/account-management/TransactionHistory";
+import AvailableFlights from "../features/booking/available-flights/AvailableFlights";
 
 import MainLayout from "../layouts/MainLayout";
 import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
-import ShoppingCart from "../features/booking/shopping-cart/ShoppingCart";
+import Traveler from "../features/booking/traveler/Traveler";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "shopping-cart",
         element: <ShoppingCart />,
+      },
+      {
+        path: "traveler/:travelerIndex",
+        element: <Traveler />,
       },
     ],
   },
