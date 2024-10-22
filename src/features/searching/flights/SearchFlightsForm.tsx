@@ -3,15 +3,24 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ISearchFlights, PassengerType } from "../../../interfaces";
 
+import { useQuery } from "@tanstack/react-query";
 import { setFlightSearchInfo } from "../../../redux/slices/flightSearchSlice";
+import {
+  setCurrentAdultIndex,
+  setCurrentChildIndex,
+  setCurrentInfantIndex,
+  setInputtingTravelerType,
+  setTotalAdult,
+  setTotalChildren,
+  setTotalInfant,
+} from "../../../redux/slices/passengersSlice";
+import { airportService } from "../../../services";
+import useSearchData from "../../booking/available-flights/hooks/useSearchData";
 import Coupon from "./components/Coupon";
 import DateSelector from "./components/DateSelector";
 import PassengerSelector from "./components/PassengerSelector";
 import SearchAirPort from "./components/SearchAirPort";
 import TypeTripSelector from "./components/TypeTripSelector";
-import { useQuery } from "@tanstack/react-query";
-import { airportService } from "../../../services";
-import useSearchData from "../../booking/available-flights/hooks/useSearchData";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -91,6 +100,15 @@ const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
         cabinClass: "",
       }),
     );
+
+    dispatch(setInputtingTravelerType(PassengerType.ADULT));
+    dispatch(setTotalAdult(adult));
+    dispatch(setTotalChildren(children));
+    dispatch(setTotalInfant(infant));
+    dispatch(setCurrentAdultIndex(0));
+    dispatch(setCurrentChildIndex(0));
+    dispatch(setCurrentInfantIndex(0));
+
     navigate("/book/availability/0");
   };
 
