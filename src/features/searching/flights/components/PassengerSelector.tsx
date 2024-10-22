@@ -42,8 +42,10 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       if (count > minCount) {
         setCount(count - 1);
         setError(null);
+        setShowError(undefined);
       } else if (count === 1) {
         setError(null);
+        setShowError(undefined);
       } else {
         setError(titleError.limitMinAdult);
         setShowError(PassengerType.ADULT);
@@ -52,6 +54,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       if (count > minCount) {
         setCount(count - 1);
         setError(null);
+        setShowError(undefined);
       }
     }
   };
@@ -61,6 +64,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       if (count < maxCount) {
         setCount(count + 1);
         setError(null);
+        setShowError(undefined);
       } else {
         setError(titleError.limitPassenger);
         setShowError(PassengerType.ADULT);
@@ -69,6 +73,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       if (count < maxCount) {
         setCount(count + 1);
         setError(null);
+        setShowError(undefined);
       } else {
         setError(titleError.limitPassenger);
         setShowError(PassengerType.CHILD);
@@ -77,6 +82,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       if (count < maxCount) {
         setCount(count + 1);
         setError(null);
+        setShowError(undefined);
       } else {
         setError(titleError.limitMaxInfant);
         setShowError(PassengerType.INFANT);
