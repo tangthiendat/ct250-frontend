@@ -9,41 +9,110 @@ import { FaChild } from "react-icons/fa6";
 import { PassengerType } from "../../../../interfaces";
 
 interface ItemMenuProps {
-  label: string;
+  // label: string;
+  passengerType: string;
+  showError: string | undefined;
+  setShowError: React.Dispatch<React.SetStateAction<string | undefined>>;
   count: number;
   setCount: React.Dispatch<React.SetStateAction<number>>;
   minCount?: number;
+  maxCount: number;
 }
 
 const ItemMenu: React.FC<ItemMenuProps> = ({
-  label,
+  // label,
+  passengerType,
+  showError,
+  setShowError,
   count,
   setCount,
   minCount = 0,
+  maxCount,
 }) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const titleError = {
+    limitPassenger: "Số hành khách không thể vượt quá 9",
+    limitMinAdult: "Số người lớn không thể nhỏ hơn số em bé",
+    limitMaxInfant: "Số em bé không thể vượt quá số người lớn",
+  };
+
+  const handleDecrease = () => {
+    if (passengerType === PassengerType.ADULT) {
+      if (count > minCount) {
+        setCount(count - 1);
+        setError(null);
+      } else if (count === 1) {
+        setError(null);
+      } else {
+        setError(titleError.limitMinAdult);
+        setShowError(PassengerType.ADULT);
+      }
+    } else {
+      if (count > minCount) {
+        setCount(count - 1);
+        setError(null);
+      }
+    }
+  };
+
+  const handleIncrease = () => {
+    if (passengerType === PassengerType.ADULT) {
+      if (count < maxCount) {
+        setCount(count + 1);
+        setError(null);
+      } else {
+        setError(titleError.limitPassenger);
+        setShowError(PassengerType.ADULT);
+      }
+    } else if (passengerType === PassengerType.CHILD) {
+      if (count < maxCount) {
+        setCount(count + 1);
+        setError(null);
+      } else {
+        setError(titleError.limitPassenger);
+        setShowError(PassengerType.CHILD);
+      }
+    } else {
+      if (count < maxCount) {
+        setCount(count + 1);
+        setError(null);
+      } else {
+        setError(titleError.limitMaxInfant);
+        setShowError(PassengerType.INFANT);
+      }
+    }
+  };
+
   return (
-    <div className="flex items-center justify-between gap-2">
-      {label}
-      <div className="flex items-center">
-        <Tooltip title="Giảm">
-          <Button
-            type="text"
-            icon={<CiCircleMinus />}
-            onClick={() => setCount(count > minCount ? count - 1 : minCount)}
-          />
-        </Tooltip>
+    <>
+      <div className="flex items-center justify-end gap-2">
+        {/* {label} */}
+        <div className="flex items-center">
+          <Tooltip title="Giảm">
+            <Button
+              type="text"
+              icon={<CiCircleMinus />}
+              onClick={handleDecrease}
+            />
+          </Tooltip>
 
-        {count}
+          {count}
 
-        <Tooltip title="Thêm">
-          <Button
-            type="text"
-            icon={<CiCirclePlus />}
-            onClick={() => setCount(count + 1)}
-          />
-        </Tooltip>
+          <Tooltip title="Thêm">
+            <Button
+              type="text"
+              icon={<CiCirclePlus />}
+              onClick={handleIncrease}
+            />
+          </Tooltip>
+        </div>
       </div>
-    </div>
+
+      {error && passengerType === showError && (
+        <p className="text-right text-red-600">{error}</p>
+      )}
+    </>
   );
 };
 
@@ -65,6 +134,7 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
   setInfant,
 }) => {
   const [open, setOpen] = useState(false);
+  const [showError, setShowError] = useState<string | undefined>(undefined);
 
   const handleOpenChange: DropdownProps["onOpenChange"] = (nextOpen, info) => {
     if (info.source === "trigger" || nextOpen) {
@@ -72,30 +142,82 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
     }
   };
 
+  const calculateMinAdult = () => {
+    if (infant > 0) {
+      return infant;
+    } else {
+      return 1;
+    }
+  };
+
+  const calculateMaxPassenger = (passengerType: string) => {
+    if (passengerType === PassengerType.ADULT) {
+      return 9 - children;
+    } else if (passengerType === PassengerType.CHILD) {
+      return 9 - adult;
+    } else {
+      return adult;
+    }
+  };
+
   const items: MenuProps["items"] = [
     {
       label: (
         <ItemMenu
-          label="Người lớn"
+          passengerType={PassengerType.ADULT}
+          showError={showError}
+          setShowError={setShowError}
           count={adult}
           setCount={setAdult}
-          minCount={1}
+          minCount={calculateMinAdult()}
+          maxCount={calculateMaxPassenger(PassengerType.ADULT)}
         />
       ),
       key: PassengerType.ADULT,
-      icon: <FaUser />,
+      icon: (
+        <div className="flex items-center gap-2">
+          <FaUser />
+          <p className="text-heading-3 font-medium">Người lớn</p>
+        </div>
+      ),
     },
     {
       label: (
-        <ItemMenu label="Trẻ em" count={children} setCount={setChildren} />
+        <ItemMenu
+          passengerType={PassengerType.CHILD}
+          showError={showError}
+          setShowError={setShowError}
+          count={children}
+          setCount={setChildren}
+          maxCount={calculateMaxPassenger(PassengerType.CHILD)}
+        />
       ),
       key: PassengerType.CHILD,
-      icon: <FaChild />,
+      icon: (
+        <div className="flex items-center gap-2">
+          <FaChild />
+          <p className="text-heading-3 font-medium">Trẻ em</p>
+        </div>
+      ),
     },
     {
-      label: <ItemMenu label="Em bé" count={infant} setCount={setInfant} />,
+      label: (
+        <ItemMenu
+          passengerType={PassengerType.INFANT}
+          showError={showError}
+          setShowError={setShowError}
+          count={infant}
+          setCount={setInfant}
+          maxCount={calculateMaxPassenger(PassengerType.INFANT)}
+        />
+      ),
       key: PassengerType.INFANT,
-      icon: <FaBabyCarriage />,
+      icon: (
+        <div className="flex items-center gap-2">
+          <FaBabyCarriage />
+          <p className="text-heading-3 font-medium">Em bé</p>
+        </div>
+      ),
     },
   ];
 
