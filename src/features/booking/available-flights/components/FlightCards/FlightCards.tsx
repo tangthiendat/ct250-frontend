@@ -4,6 +4,7 @@ import { FlightSearchCriteria } from "../../../../../interfaces";
 import { useFlights } from "../../hooks/useFlights";
 import useSearchData from "../../hooks/useSearchData";
 import FlightCard from "./components/FlightCard";
+import Loading from "../../../../../common/Loading";
 
 const FlightCards: React.FC = () => {
   const { flightSearch } = useSearchData();
@@ -34,7 +35,7 @@ const FlightCards: React.FC = () => {
       }))
       .filter((passenger) => passenger.quantity > 0),
   };
-  const { flights: tempFlights } = useFlights(criteria);
+  const { flights: tempFlights, isLoading } = useFlights(criteria);
   const flights = tempFlights.filter(
     (flight) =>
       flight.seatAvailability.filter((seat) => seat.status === "AVAILABLE")
@@ -43,19 +44,25 @@ const FlightCards: React.FC = () => {
 
   return (
     <div className="mx-auto mt-10 max-w-screen-md transition-all duration-1000 xl:max-w-screen-lg">
-      {flights.length === 0 && (
-        <p className="text-heading-2 text-center text-gray-500">
-          😥Chuyến bay vào ngày bạn chọn đã hết chỗ. Vui lòng chọn ngày
-          khác!!!😊
-        </p>
+      {isLoading ? (
+        <Loading message="Đang tìm chuyến bay phù hợp..." />
+      ) : (
+        <>
+          {flights.length === 0 && (
+            <p className="text-heading-2 text-center text-gray-500">
+              😥Chuyến bay vào ngày bạn chọn đã hết chỗ. Vui lòng chọn ngày
+              khác!!!😊
+            </p>
+          )}
+          {flights?.map((flight) => (
+            <div className="mt-8">
+              <FlightCardProvider>
+                <FlightCard key={flight.flightId} flightCardData={flight} />
+              </FlightCardProvider>
+            </div>
+          ))}
+        </>
       )}
-      {flights?.map((flight) => (
-        <div className="mt-8">
-          <FlightCardProvider>
-            <FlightCard key={flight.flightId} flightCardData={flight} />
-          </FlightCardProvider>
-        </div>
-      ))}
     </div>
   );
 };
