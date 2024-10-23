@@ -1,4 +1,4 @@
-import { DatePicker, Form } from "antd";
+import { DatePicker, DatePickerProps, Form } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { TripType } from "../../../../interfaces";
 
@@ -19,9 +19,8 @@ const DateSelector: React.FC<DateSelectorProps> = ({
   flightRange,
   setFlightRange,
 }) => {
-  const dateValidation = (date: Date) => {
-    const currentDate = new Date();
-    return date.getTime() <= currentDate.getTime();
+  const disabledDate: DatePickerProps["disabledDate"] = (current: Dayjs) => {
+    return current && current.isBefore(dayjs().startOf("day"));
   };
 
   return (
@@ -48,7 +47,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
                 setDepartureDate(date?.tz().format("YYYY-MM-DD"));
                 setFlightRange([date?.tz().format("YYYY-MM-DD")]);
               }}
-              disabledDate={(date) => dateValidation(date.toDate())}
+              disabledDate={disabledDate}
             />
           </Form.Item>
         </div>
@@ -97,7 +96,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
                   }
                 }
               }}
-              disabledDate={(date) => dateValidation(date.toDate())}
+              disabledDate={disabledDate}
             />
           </Form.Item>
         </div>

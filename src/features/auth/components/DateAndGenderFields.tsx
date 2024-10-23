@@ -1,5 +1,5 @@
 import { DatePicker, DatePickerProps, Form, Radio } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const genderOptions = [
   { value: "MALE", label: "Nam" },
@@ -9,7 +9,7 @@ const genderOptions = [
 
 const DateAndGenderFields: React.FC = () => {
   const disabledDate: DatePickerProps["disabledDate"] = (current) => {
-    return current && current > moment().endOf("day");
+    return current && current.isAfter(dayjs().endOf("day"));
   };
   return (
     <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
