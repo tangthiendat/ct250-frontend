@@ -1,33 +1,26 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../../redux/hooks";
+import { PassengerType } from "../../../../interfaces";
 import {
   setCurrentAdultIndex,
   setCurrentChildIndex,
   setCurrentInfantIndex,
   setInputtingTravelerType,
 } from "../../../../redux/slices/passengersSlice";
-import { PassengerType } from "../../../../interfaces";
+import usePassengersData from "../hooks/usePassengersData";
 
-interface BannerProps {}
-
-const Banner: React.FC<BannerProps> = ({}) => {
-  const travelerIndex: number = Number(
-    useParams<{ travelerIndex: string }>().travelerIndex,
-  );
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const passengers = useSelector((state: RootState) => state.passengers);
-  const inputtingTravelerType = passengers.inputtingTravelerType;
-  const numOfAdult = passengers.totalAdult;
-  const numOfChild = passengers.totalChildren;
-  const numOfInfant = passengers.totalInfant;
-  const totalPassenger = numOfAdult + numOfChild + numOfInfant;
-
-  const currentAdultIndex = passengers.currentAdultIndex;
-  const currentChildIndex = passengers.currentChildIndex;
-  const currentInfantIndex = passengers.currentInfantIndex;
+const Banner: React.FC = () => {
+  const {
+    travelerIndex,
+    navigate,
+    dispatch,
+    totalPassenger,
+    currentAdultIndex,
+    currentChildIndex,
+    currentInfantIndex,
+    numOfAdult,
+    numOfChild,
+    numOfInfant,
+    inputtingTravelerType,
+  } = usePassengersData();
 
   const currentPath = window.location.pathname;
   const pathParts = currentPath.split("/");
@@ -37,11 +30,15 @@ const Banner: React.FC<BannerProps> = ({}) => {
       if (currentAdultIndex < numOfAdult) {
         dispatch(setCurrentAdultIndex(currentAdultIndex + 1));
         if (currentAdultIndex + 1 === numOfAdult) {
-          dispatch(setInputtingTravelerType(PassengerType.CHILD));
+          if (numOfChild > 0) {
+            dispatch(setInputtingTravelerType(PassengerType.CHILD));
+          } else if (numOfInfant > 0) {
+            dispatch(setInputtingTravelerType(PassengerType.INFANT));
+          }
         }
       } else if (currentChildIndex < numOfChild) {
         dispatch(setCurrentChildIndex(currentChildIndex + 1));
-        if (currentChildIndex + 1 === numOfChild) {
+        if (currentChildIndex + 1 === numOfChild && numOfInfant > 0) {
           dispatch(setInputtingTravelerType(PassengerType.INFANT));
         }
       } else if (currentInfantIndex < numOfInfant) {
@@ -66,20 +63,20 @@ const Banner: React.FC<BannerProps> = ({}) => {
           {totalPassenger === 1
             ? "Nhập thông tin hành khách"
             : inputtingTravelerType === PassengerType.ADULT
-              ? `Nhập thông tin người lớn thứ ${currentAdultIndex + 1}`
+              ? `Nhập thông tin người lớn${numOfAdult > 1 ? ` thứ ${currentAdultIndex + 1}` : ""}`
               : inputtingTravelerType === PassengerType.CHILD
-                ? `Nhập thông tin trẻ em thứ ${currentChildIndex + 1}`
+                ? `Nhập thông tin trẻ em${numOfChild > 1 ? ` thứ ${currentChildIndex + 1}` : ""}`
                 : inputtingTravelerType === PassengerType.INFANT &&
-                  `Nhập thông tin em bé thứ ${currentInfantIndex + 1}`}
+                  `Nhập thông tin em bé${numOfInfant > 1 ? ` thứ ${currentInfantIndex + 1}` : ""}`}
         </p>
 
         <p className="text-heading-2 m-0 text-blue-700">
           {inputtingTravelerType === PassengerType.ADULT &&
           currentAdultIndex < numOfInfant
-            ? `(đi cùng với em bé thứ ${currentAdultIndex + 1})`
+            ? `(đi cùng với em bé${numOfInfant > 1 ? ` thứ ${currentAdultIndex + 1}` : ""})`
             : inputtingTravelerType === PassengerType.INFANT &&
               currentInfantIndex < numOfInfant &&
-              `(đi cùng với người lớn thứ ${currentInfantIndex + 1})`}
+              `(đi cùng với người lớn${numOfAdult > 1 ? ` thứ ${currentInfantIndex + 1}` : ""})`}
         </p>
         <button className="absolute left-0 bg-yellow-500" onClick={handleClick}>
           Click
