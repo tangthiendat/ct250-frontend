@@ -10,6 +10,7 @@ import {
   setCurrentChildIndex,
   setCurrentInfantIndex,
   setInputtingTravelerType,
+  setPassengersInfo,
   setTotalAdult,
   setTotalChildren,
   setTotalInfant,
@@ -108,6 +109,7 @@ const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
     dispatch(setCurrentAdultIndex(0));
     dispatch(setCurrentChildIndex(0));
     dispatch(setCurrentInfantIndex(0));
+    dispatch(setPassengersInfo([]));
 
     navigate("/book/availability/0");
   };

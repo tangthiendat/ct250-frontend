@@ -1,17 +1,8 @@
 import { PassengerType } from "../../../../interfaces";
-import {
-  setCurrentAdultIndex,
-  setCurrentChildIndex,
-  setCurrentInfantIndex,
-  setInputtingTravelerType,
-} from "../../../../redux/slices/passengersSlice";
 import usePassengersData from "../hooks/usePassengersData";
 
 const Banner: React.FC = () => {
   const {
-    travelerIndex,
-    navigate,
-    dispatch,
     totalPassenger,
     currentAdultIndex,
     currentChildIndex,
@@ -21,33 +12,6 @@ const Banner: React.FC = () => {
     numOfInfant,
     inputtingTravelerType,
   } = usePassengersData();
-
-  const currentPath = window.location.pathname;
-  const pathParts = currentPath.split("/");
-
-  const handleClick = () => {
-    if (travelerIndex < totalPassenger - 1) {
-      if (currentAdultIndex < numOfAdult) {
-        dispatch(setCurrentAdultIndex(currentAdultIndex + 1));
-        if (currentAdultIndex + 1 === numOfAdult) {
-          if (numOfChild > 0) {
-            dispatch(setInputtingTravelerType(PassengerType.CHILD));
-          } else if (numOfInfant > 0) {
-            dispatch(setInputtingTravelerType(PassengerType.INFANT));
-          }
-        }
-      } else if (currentChildIndex < numOfChild) {
-        dispatch(setCurrentChildIndex(currentChildIndex + 1));
-        if (currentChildIndex + 1 === numOfChild && numOfInfant > 0) {
-          dispatch(setInputtingTravelerType(PassengerType.INFANT));
-        }
-      } else if (currentInfantIndex < numOfInfant) {
-        dispatch(setCurrentInfantIndex(currentInfantIndex + 1));
-      }
-      pathParts[pathParts.length - 1] = `${travelerIndex + 1}`;
-      navigate(pathParts.join("/"));
-    }
-  };
 
   return (
     <div className="relative">
@@ -78,9 +42,6 @@ const Banner: React.FC = () => {
               currentInfantIndex < numOfInfant &&
               `(đi cùng với người lớn${numOfAdult > 1 ? ` thứ ${currentInfantIndex + 1}` : ""})`}
         </p>
-        <button className="absolute left-0 bg-yellow-500" onClick={handleClick}>
-          Click
-        </button>
       </div>
     </div>
   );

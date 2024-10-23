@@ -24,3 +24,11 @@ export enum PassengerType {
   CHILD = "CHILD",
   INFANT = "INFANT",
 }
+
+export enum PassengerTitle {
+  MR = "Ông",
+  MRS = "Bà",
+  MS = "Cô",
+  MSTR = "Bé trai",
+  MISS = "Bé gái",
+}

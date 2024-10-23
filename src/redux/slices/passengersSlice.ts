@@ -1,17 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PassengerType } from "../../interfaces";
+import { IPassengersData, PassengerType } from "../../interfaces";
 
-interface IPassenger {
-  inputtingTravelerType: PassengerType;
-  totalAdult: number;
-  totalChildren: number;
-  totalInfant: number;
-  currentAdultIndex: number;
-  currentChildIndex: number;
-  currentInfantIndex: number;
-}
-
-const initialState: IPassenger = {
+const initialState: IPassengersData = {
   inputtingTravelerType: PassengerType.ADULT,
   totalAdult: 1,
   totalChildren: 0,
@@ -19,6 +9,7 @@ const initialState: IPassenger = {
   currentAdultIndex: 0,
   currentChildIndex: 0,
   currentInfantIndex: 0,
+  passengersInfo: [],
 };
 
 const passengersSlice = createSlice({
@@ -46,6 +37,31 @@ const passengersSlice = createSlice({
     setCurrentInfantIndex: (state, action: PayloadAction<number>) => {
       state.currentInfantIndex = action.payload;
     },
+
+    setPassengersInfo: (
+      state,
+      action: PayloadAction<IPassengersData["passengersInfo"]>,
+    ) => {
+      state.passengersInfo = action.payload;
+    },
+    setPassengerInfo: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        passengerInfo: IPassengersData["passengersInfo"][0];
+      }>,
+    ) => {
+      state.passengersInfo[action.payload.index] = action.payload.passengerInfo;
+    },
+    addPassengerInfo: (
+      state,
+      action: PayloadAction<IPassengersData["passengersInfo"][0]>,
+    ) => {
+      state.passengersInfo.push(action.payload);
+    },
+    // removePassengerInfo: (state, action: PayloadAction<number>) => {
+    //   state.passengersInfo.splice(action.payload, 1);
+    // },
   },
 });
 
@@ -57,6 +73,10 @@ export const {
   setCurrentAdultIndex,
   setCurrentChildIndex,
   setCurrentInfantIndex,
+  setPassengersInfo,
+  setPassengerInfo,
+  addPassengerInfo,
+  // removePassengerInfo,
 } = passengersSlice.actions;
 
 export default passengersSlice;
