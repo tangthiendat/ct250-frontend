@@ -68,14 +68,17 @@ const TravelerInfoCard: React.FC = () => {
 
       form.resetFields();
 
-      //logic for handling next button click
+      // logic for handling next button click
       if (currentAdultIndex === numOfAdult - 1) {
         if (numOfChild > 0) {
           dispatch(setInputtingTravelerType(PassengerType.CHILD));
         } else if (numOfInfant > 0) {
           dispatch(setInputtingTravelerType(PassengerType.INFANT));
         }
-      } else if (currentChildIndex === numOfChild - 1) {
+      } else if (
+        currentAdultIndex === numOfAdult &&
+        currentChildIndex === numOfChild - 1
+      ) {
         if (numOfInfant > 0) {
           dispatch(setInputtingTravelerType(PassengerType.INFANT));
         }
@@ -100,7 +103,7 @@ const TravelerInfoCard: React.FC = () => {
 
         navigate("/book/shopping-cart");
       }
-      //end of logic for handling next button click
+      // end of logic for handling next button click
     } catch {
       console.log("Form validation failed");
     }

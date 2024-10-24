@@ -2,10 +2,15 @@ import { DatePicker, DatePickerProps, Input, Select, Tooltip } from "antd";
 import { Form } from "antd/lib";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import { PassengerTitle, PassengerType } from "../../../../interfaces";
+import {
+  IPassengerData,
+  PassengerTitle,
+  PassengerType,
+} from "../../../../interfaces";
 import usePassengersData from "../hooks/usePassengersData";
 
 const TravelerInfoForm: React.FC = () => {
+  const [form] = Form.useForm<IPassengerData>();
   const { inputtingTravelerType } = usePassengersData();
   const [mode, setMode] = useState<DatePickerProps["mode"]>("year");
 
@@ -41,7 +46,7 @@ const TravelerInfoForm: React.FC = () => {
     value: Dayjs | null,
     dateString: string | string[],
   ) => {
-    if (!dateString) {
+    if (!dateString || form.getFieldValue("dateOfBirth") === undefined) {
       setMode("year");
     }
   };
