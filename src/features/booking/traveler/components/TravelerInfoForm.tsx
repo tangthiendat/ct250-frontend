@@ -9,14 +9,18 @@ import {
 } from "../../../../interfaces";
 import usePassengersData from "../hooks/usePassengersData";
 import { useCountries } from "../../../countries/hooks";
+import useSearchData from "../../available-flights/hooks/useSearchData";
 
 const TravelerInfoForm: React.FC = () => {
   const [form] = Form.useForm<IPassengerData>();
   const { travelerIndex, inputtingTravelerType } = usePassengersData();
+  const { flightSearch } = useSearchData();
+  const departureDate = dayjs(flightSearch.flightRange[0]);
   const [mode, setMode] = useState<DatePickerProps["mode"]>("year");
   const { countries } = useCountries();
   const countryOptions = countries?.map((country) => ({
-    label: country.countryName,
+    label: country.countryName + " (+" + country.countryCode + ")",
+    icon: country.countryCode,
     value: country.countryCode,
   }));
 
@@ -62,16 +66,16 @@ const TravelerInfoForm: React.FC = () => {
     inputtingTravelerType: PassengerType,
   ) => {
     if (inputtingTravelerType === PassengerType.ADULT) {
-      return currentDate.isAfter(dayjs().subtract(12, "year"));
+      return currentDate.isAfter(departureDate.subtract(12, "year"));
     } else if (inputtingTravelerType === PassengerType.CHILD) {
       return (
-        currentDate.isAfter(dayjs().subtract(2, "year")) ||
-        currentDate.isBefore(dayjs().subtract(12, "year"))
+        currentDate.isAfter(departureDate.subtract(2, "year")) ||
+        currentDate.isBefore(departureDate.subtract(12, "year"))
       );
     } else if (inputtingTravelerType === PassengerType.INFANT) {
       return (
-        currentDate.isAfter(dayjs()) ||
-        currentDate.isBefore(dayjs().subtract(2, "year"))
+        currentDate.isAfter(departureDate) ||
+        currentDate.isBefore(departureDate.subtract(2, "year"))
       );
     }
     return false;
@@ -159,8 +163,8 @@ const TravelerInfoForm: React.FC = () => {
                 <p className="text-heading-3 text-blue-800">Ngày sinh</p>
                 <p className="title-4">
                   (*vui lòng nhập ngày sinh từ{" "}
-                  {dayjs().subtract(12, "year").format("DD/MM/YYYY")} trở về
-                  trước)
+                  {departureDate.subtract(12, "year").format("DD/MM/YYYY")} trở
+                  về trước)
                 </p>
               </div>
             </Tooltip>
@@ -170,8 +174,8 @@ const TravelerInfoForm: React.FC = () => {
                 <p className="text-heading-3 text-blue-800">Ngày sinh</p>
                 <p className="title-4">
                   (*vui lòng nhập ngày sinh từ{" "}
-                  {dayjs().subtract(12, "year").format("DD/MM/YYYY")} đến{" "}
-                  {dayjs().subtract(2, "year").format("DD/MM/YYYY")})
+                  {departureDate.subtract(12, "year").format("DD/MM/YYYY")} đến{" "}
+                  {departureDate.subtract(2, "year").format("DD/MM/YYYY")})
                 </p>
               </div>
             </Tooltip>
@@ -181,8 +185,8 @@ const TravelerInfoForm: React.FC = () => {
                 <p className="text-heading-3 text-blue-800">Ngày sinh</p>
                 <p className="title-4">
                   (*vui lòng nhập ngày sinh từ{" "}
-                  {dayjs().subtract(2, "year").format("DD/MM/YYYY")} đến{" "}
-                  {dayjs().format("DD/MM/YYYY")})
+                  {departureDate.subtract(2, "year").format("DD/MM/YYYY")} đến{" "}
+                  {departureDate.format("DD/MM/YYYY")})
                 </p>
               </div>
             </Tooltip>
@@ -230,7 +234,7 @@ const TravelerInfoForm: React.FC = () => {
                 showSearch
                 placeholder="Vui lòng chọn quốc tịch"
                 options={countryOptions}
-                optionFilterProp="label"
+                // optionFilterProp="label"
                 filterOption={(input, option) =>
                   option?.label.toLowerCase().includes(input.toLowerCase()) ??
                   false
