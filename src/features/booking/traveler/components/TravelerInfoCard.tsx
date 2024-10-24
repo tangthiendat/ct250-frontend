@@ -1,4 +1,6 @@
 import { ConfigProvider, Form } from "antd";
+import dayjs from "dayjs";
+import { useEffect } from "react";
 import { IPassengerData, PassengerType } from "../../../../interfaces";
 import {
   addPassengerInfo,
@@ -12,8 +14,6 @@ import { formatISODate } from "../../../../utils";
 import usePassengersData from "../hooks/usePassengersData";
 import Buttons from "./Buttons";
 import TravelerInfoForm from "./TravelerInfoForm";
-import { useEffect } from "react";
-import dayjs from "dayjs";
 
 const TravelerInfoCard: React.FC = () => {
   const [form] = Form.useForm<IPassengerData>();
@@ -50,6 +50,8 @@ const TravelerInfoCard: React.FC = () => {
       const values = form.getFieldsValue();
       const formattedValues = {
         ...values,
+        passengerType: passengers.inputtingTravelerType,
+        passengerTitle: values.passengerTitle,
         dateOfBirth: formatISODate(values.dateOfBirth.toString()),
         firstName: values.firstName.toUpperCase(),
         lastName: values.lastName.toUpperCase(),

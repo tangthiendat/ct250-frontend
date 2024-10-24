@@ -8,11 +8,17 @@ import {
   PassengerType,
 } from "../../../../interfaces";
 import usePassengersData from "../hooks/usePassengersData";
+import { useCountries } from "../../../countries/hooks";
 
 const TravelerInfoForm: React.FC = () => {
   const [form] = Form.useForm<IPassengerData>();
-  const { inputtingTravelerType } = usePassengersData();
+  const { travelerIndex, inputtingTravelerType } = usePassengersData();
   const [mode, setMode] = useState<DatePickerProps["mode"]>("year");
+  const { countries } = useCountries();
+  const countryOptions = countries?.map((country) => ({
+    label: country.countryName,
+    value: country.countryCode,
+  }));
 
   const customTitleSelectOptions = (inputtingTravelerType: string) => {
     if (inputtingTravelerType === PassengerType.ADULT) {
@@ -86,7 +92,7 @@ const TravelerInfoForm: React.FC = () => {
       <Form.Item
         className="w-full flex-1"
         label={<p className="text-heading-3 text-blue-800">Danh xưng</p>}
-        name="title"
+        name="passengerTitle"
         rules={[
           {
             required: true,
@@ -203,6 +209,80 @@ const TravelerInfoForm: React.FC = () => {
           placeholder="dd/mm/yyyy"
         />
       </Form.Item>
+
+      {travelerIndex === 0 && (
+        <>
+          <div className="flex flex-1 gap-5">
+            <Form.Item
+              className="min-w-[40%]"
+              label={<p className="text-heading-3 text-blue-800">Quốc tịch</p>}
+              name="country"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn quốc tịch",
+                },
+              ]}
+            >
+              <Select
+                size="large"
+                className="w-full"
+                showSearch
+                placeholder="Vui lòng chọn quốc tịch"
+                options={countryOptions}
+                optionFilterProp="label"
+                filterOption={(input, option) =>
+                  option?.label.toLowerCase().includes(input.toLowerCase()) ??
+                  false
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
+              />
+            </Form.Item>
+
+            <Form.Item
+              className="w-full max-w-[60%]"
+              label={
+                <p className="text-heading-3 text-blue-800">Số điện thoại</p>
+              }
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập số điện thoại",
+                },
+                {
+                  pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+                  message: "Số điện thoại không hợp lệ",
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Vui lòng nhập số điện thoại" />
+            </Form.Item>
+          </div>
+
+          <Form.Item
+            className="flex-1"
+            label={<p className="text-heading-3 text-blue-800">Email</p>}
+            name="email"
+            rules={[
+              {
+                type: "email",
+                message: "Email không hợp lệ",
+              },
+              {
+                required: true,
+                message: "Vui lòng nhập email",
+              },
+            ]}
+          >
+            <Input size="large" placeholder="Vui lòng nhập email" />
+          </Form.Item>
+        </>
+      )}
     </>
   );
 };
