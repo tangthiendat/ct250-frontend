@@ -27,8 +27,13 @@ export enum PassengerType {
 
 export enum PassengerTitle {
   MR = "Ông",
+  MR_valueOf = "Mr",
   MRS = "Bà",
+  MRS_valueOf = "Mrs",
   MS = "Cô",
+  MS_valueOf = "Ms",
   MSTR = "Bé trai",
+  MSTR_valueOf = "Mstr",
   MISS = "Bé gái",
+  MISS_valueOf = "Miss",
 }

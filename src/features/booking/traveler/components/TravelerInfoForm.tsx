@@ -20,21 +20,20 @@ const TravelerInfoForm: React.FC = () => {
   const { countries } = useCountries();
   const countryOptions = countries?.map((country) => ({
     label: country.countryName + " (+" + country.countryCode + ")",
-    icon: country.countryCode,
     value: country.countryCode,
   }));
 
   const customTitleSelectOptions = (inputtingTravelerType: string) => {
     if (inputtingTravelerType === PassengerType.ADULT) {
       return [
-        { label: PassengerTitle.MR, value: "Mr" },
-        { label: PassengerTitle.MRS, value: "Mrs" },
-        { label: PassengerTitle.MS, value: "Ms" },
+        { label: PassengerTitle.MR, value: PassengerTitle.MR_valueOf },
+        { label: PassengerTitle.MRS, value: PassengerTitle.MRS_valueOf },
+        { label: PassengerTitle.MS, value: PassengerTitle.MS_valueOf },
       ];
     } else {
       return [
-        { label: PassengerTitle.MSTR, value: "Mstr" },
-        { label: PassengerTitle.MISS, value: "Miss" },
+        { label: PassengerTitle.MSTR, value: PassengerTitle.MSTR_valueOf },
+        { label: PassengerTitle.MISS, value: PassengerTitle.MISS_valueOf },
       ];
     }
   };
@@ -42,13 +41,10 @@ const TravelerInfoForm: React.FC = () => {
   const handleModeChange = (value: Dayjs, newMode: DatePickerProps["mode"]) => {
     if (newMode === "date") {
       setMode("date");
-      console.log("date");
     } else if (newMode === "month") {
       setMode("month");
-      console.log("month");
     } else if (newMode === "year") {
       setMode("year");
-      console.log("year");
     }
   };
 
