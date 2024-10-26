@@ -81,15 +81,15 @@ const TravelerInfoForm: React.FC = () => {
     return false;
   };
 
-  // const handleDefaultDate = (inputtingTravelerType: PassengerType) => {
-  //   if (inputtingTravelerType === PassengerType.ADULT) {
-  //     return dayjs().subtract(12, "year");
-  //   } else if (inputtingTravelerType === PassengerType.CHILD) {
-  //     return dayjs().subtract(2, "year");
-  //   } else if (inputtingTravelerType === PassengerType.INFANT) {
-  //     return dayjs().subtract(1, "year");
-  //   }
-  // };
+  const getDefaultPickerDate = (inputtingTravelerType: PassengerType) => {
+    if (inputtingTravelerType === PassengerType.ADULT) {
+      return dayjs().subtract(12, "year");
+    } else if (inputtingTravelerType === PassengerType.CHILD) {
+      return dayjs().subtract(2, "year");
+    } else if (inputtingTravelerType === PassengerType.INFANT) {
+      return dayjs().subtract(1, "year");
+    }
+  };
 
   return (
     <>
@@ -210,6 +210,7 @@ const TravelerInfoForm: React.FC = () => {
           disabledDate={(currentDate) =>
             handleDisabledDate(currentDate, inputtingTravelerType)
           }
+          defaultPickerValue={getDefaultPickerDate(inputtingTravelerType)}
           placeholder="dd/mm/yyyy"
         />
       </Form.Item>
