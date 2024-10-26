@@ -21,6 +21,7 @@ export interface IPassengerData {
   email?: string;
   country?: ICountry;
   phone?: string;
+  isEditing: boolean;
 }
 
 export interface IPassengersData {

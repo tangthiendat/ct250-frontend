@@ -50,6 +50,7 @@ const TravelerInfoCard: React.FC = () => {
       const values = form.getFieldsValue();
       const formattedValues = {
         ...values,
+        isEditing: false,
         passengerType: passengers.inputtingTravelerType,
         passengerTitle: values.passengerTitle,
         dateOfBirth: formatISODate(values.dateOfBirth.toString()),
@@ -94,16 +95,19 @@ const TravelerInfoCard: React.FC = () => {
         dispatch(setCurrentInfantIndex(currentInfantIndex + 1));
       }
 
-      if (travelerIndex < totalPassenger - 1) {
-        pathParts[pathParts.length - 1] = `${travelerIndex + 1}`;
-        navigate(pathParts.join("/"));
-      } else if (travelerIndex === totalPassenger - 1) {
+      if (
+        passengers.passengersInfo[travelerIndex]?.isEditing ||
+        travelerIndex === totalPassenger - 1
+      ) {
         dispatch(setInputtingTravelerType(PassengerType.ADULT));
         dispatch(setCurrentAdultIndex(0));
         dispatch(setCurrentChildIndex(0));
         dispatch(setCurrentInfantIndex(0));
 
         navigate("/book/shopping-cart");
+      } else if (travelerIndex < totalPassenger - 1) {
+        pathParts[pathParts.length - 1] = `${travelerIndex + 1}`;
+        navigate(pathParts.join("/"));
       }
       // end of logic for handling next button click
     } catch {
@@ -142,7 +146,9 @@ const TravelerInfoCard: React.FC = () => {
     <div className="mx-auto mt-5 max-w-screen-md px-2 transition-all duration-1000 xl:max-w-screen-lg">
       <div className="rounded-lg bg-slate-100 px-20 py-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)]">
         <p className="text-heading-3 mb-4 text-center text-blue-900">
-          Thông tin cá nhân
+          {passengers.passengersInfo[travelerIndex]?.isEditing
+            ? "Chỉnh sửa thông tin"
+            : "Thông tin cá nhân"}
         </p>
 
         <ConfigProvider
@@ -180,6 +186,7 @@ const TravelerInfoCard: React.FC = () => {
       </div>
 
       <Buttons
+        isEditing={passengers.passengersInfo[travelerIndex]?.isEditing}
         handleNextButtonClick={handleNextButtonClick}
         handlePreviousButtonClick={handlePreviousButtonClick}
       />

@@ -73,8 +73,9 @@ const Banner: React.FC = () => {
       inputtingTravelerType === PassengerType.ADULT &&
       currentAdultIndex < numOfInfant
     ) {
-      if (passengers.passengersInfo[currentAdultIndex] !== undefined) {
-        return `(đi cùng với ${passengers.passengersInfo[numOfAdult + numOfChild + currentAdultIndex].lastName} ${passengers.passengersInfo[numOfAdult + numOfChild + currentAdultIndex].firstName})`;
+      const infantIndexByAdult = numOfAdult + numOfChild + currentAdultIndex;
+      if (passengers.passengersInfo[infantIndexByAdult] !== undefined) {
+        return `(đi cùng với ${passengers.passengersInfo[infantIndexByAdult].lastName} ${passengers.passengersInfo[infantIndexByAdult].firstName})`;
       } else {
         return `(đi cùng với em bé${numOfInfant > 1 ? ` thứ ${currentAdultIndex + 1}` : ""})`;
       }
@@ -82,8 +83,9 @@ const Banner: React.FC = () => {
       inputtingTravelerType === PassengerType.INFANT &&
       currentInfantIndex < numOfInfant
     ) {
-      if (passengers.passengersInfo[currentInfantIndex] !== undefined) {
-        return `(đi cùng với ${passengers.passengersInfo[currentInfantIndex].lastName} ${passengers.passengersInfo[currentInfantIndex].firstName})`;
+      const adultIndexByInfant = currentInfantIndex;
+      if (passengers.passengersInfo[adultIndexByInfant] !== undefined) {
+        return `(đi cùng với ${passengers.passengersInfo[adultIndexByInfant].lastName} ${passengers.passengersInfo[adultIndexByInfant].firstName})`;
       } else {
         return `(đi cùng với người lớn${numOfAdult > 1 ? ` thứ ${currentInfantIndex + 1}` : ""})`;
       }
