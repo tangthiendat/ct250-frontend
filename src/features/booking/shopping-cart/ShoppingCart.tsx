@@ -4,15 +4,34 @@ import Banner from "../common/Banner";
 import Flight from "./components/flight/Flight";
 import Price from "./components/flight/components/price/Price";
 import { useNavigate } from "react-router-dom";
+import { getTotalTicketPrice } from "../../../utils";
+import Passsengers from "./components/passengers/Passsengers";
+import usePassengersData from "../traveler/hooks/usePassengersData";
+import Services from "./components/services/Services";
 
 const ShoppingCart: React.FC = () => {
-  const departData = useAppSelector((state) => state.booking.bookingFlights[0]);
-  const returnData =
-    useAppSelector((state) => state.booking.bookingFlights[1]) || null;
-
   const [showExpandDepart, setShowExpandDepart] = useState<boolean>(false);
   const [showExpandReturn, setShowExpandReturn] = useState<boolean>(false);
   const navigate = useNavigate();
+  const departData = useAppSelector((state) => state.booking.bookingFlights[0]);
+  const returnData =
+    useAppSelector((state) => state.booking.bookingFlights[1]) || null;
+  const { passengers } = usePassengersData();
+  const booking = useAppSelector((state) => state.booking);
+  const flightSearch = useAppSelector((state) => state.flightSearch);
+  const totalBookingPrice = booking.bookingFlights
+    .map((bookingFlight) =>
+      getTotalTicketPrice(
+        bookingFlight.flight,
+        flightSearch.passengers,
+        bookingFlight.ticketClass.ticketClassName,
+      ),
+    )
+    .reduce(
+      (bookingTotalPrice, flightTotalPrice) =>
+        bookingTotalPrice + flightTotalPrice,
+      0,
+    );
 
   return (
     <>
@@ -37,9 +56,25 @@ const ShoppingCart: React.FC = () => {
               setShowExpand={setShowExpandReturn}
             />
           )}
+
+          <div className="mt-3 flex flex-col items-end">
+            <p className="text-heading-3 text-sm text-blue-800">
+              Tổng giá cho các chuyến bay:{" "}
+              <span className="text-heading-3 text-blue-800">
+                {totalBookingPrice.toLocaleString()} VND
+              </span>
+            </p>
+          </div>
         </div>
 
-        <Price />
+        {passengers.passengersInfo[0] && (
+          <>
+            <Passsengers />
+            <Services />
+          </>
+        )}
+
+        <Price returnData={returnData} />
 
         <div className="mt-5 flex justify-end">
           <button
