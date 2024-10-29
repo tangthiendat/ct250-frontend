@@ -1,7 +1,12 @@
 import { ConfigProvider, Form } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { IPassengerData, PassengerType } from "../../../../interfaces";
+import {
+  IPassengerData,
+  PassengerGender,
+  PassengerTitle,
+  PassengerType,
+} from "../../../../interfaces";
 import {
   addPassengerInfo,
   setCurrentAdultIndex,
@@ -44,6 +49,17 @@ const TravelerInfoCard: React.FC = () => {
     }
   }, [travelerIndex, form, passengers.passengersInfo]);
 
+  const handleGender = (passengerTitle: PassengerTitle) => {
+    if (
+      passengerTitle === PassengerTitle.MR_valueOf ||
+      passengerTitle === PassengerTitle.MSTR_valueOf
+    ) {
+      return PassengerGender.MALE;
+    } else {
+      return PassengerGender.FEMALE;
+    }
+  };
+
   const handleNextButtonClick = async () => {
     try {
       await form.validateFields();
@@ -53,6 +69,7 @@ const TravelerInfoCard: React.FC = () => {
         isEditing: false,
         passengerType: passengers.inputtingTravelerType,
         passengerTitle: values.passengerTitle,
+        passengerGender: handleGender(values.passengerTitle),
         dateOfBirth: formatISODate(values.dateOfBirth.toString()),
         firstName: values.firstName.toUpperCase(),
         lastName: values.lastName.toUpperCase(),

@@ -25,6 +25,11 @@ export enum PassengerType {
   INFANT = "INFANT",
 }
 
+export enum PassengerGender {
+  FEMALE = "FEMALE",
+  MALE = "MALE",
+}
+
 export enum PassengerTitle {
   MR = "Ông",
   MR_valueOf = "Mr",
