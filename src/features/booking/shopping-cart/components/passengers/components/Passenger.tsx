@@ -26,7 +26,8 @@ const Passenger: React.FC<PassengerProps> = ({
   passengerInfo,
   passengerIndex,
 }) => {
-  const { passengers, numOfAdult, numOfChild } = usePassengersData();
+  const { passengers, totalPassenger, numOfAdult, numOfChild } =
+    usePassengersData();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -49,6 +50,8 @@ const Passenger: React.FC<PassengerProps> = ({
     if (passengerType === PassengerType.ADULT) {
       const infant =
         passengers.passengersInfo[numOfAdult + numOfChild + passengerIndex];
+
+      if (infant === undefined) return;
 
       return (
         handleTitleOfPassenger(infant.passengerTitle) +
@@ -77,8 +80,11 @@ const Passenger: React.FC<PassengerProps> = ({
   const dateOfBirth =
     "Ngày sinh: " + dayjs(passengerInfo.dateOfBirth).format("DD/MM/YYYY");
   const goWith =
-    handleGoWith(passengerInfo.passengerType, passengerIndex) &&
-    "Đi cùng " + handleGoWith(passengerInfo.passengerType, passengerIndex);
+    totalPassenger > 1
+      ? handleGoWith(passengerInfo.passengerType, passengerIndex) &&
+        "Đi cùng " + handleGoWith(passengerInfo.passengerType, passengerIndex)
+      : undefined;
+
   const email =
     passengerInfo.email !== undefined && "Email: " + passengerInfo?.email;
   const phone = passengerInfo?.phone
@@ -133,11 +139,15 @@ const Passenger: React.FC<PassengerProps> = ({
           ) : (
             <FaBabyCarriage className="text-3xl text-green-700" />
           )}
-          <div className="text-heading-3 flex gap-10 font-medium text-green-700">
+          <div className="title-4 flex gap-10 text-base">
             <div>
-              <p>{name}</p>
+              <p className="text-heading-3 font-medium text-green-700">
+                {name}
+              </p>
               <p>{dateOfBirth}</p>
-              <p>{goWith}</p>
+              <p className="text-heading-3 font-medium text-green-700">
+                {goWith}
+              </p>
             </div>
 
             <div>
@@ -152,7 +162,7 @@ const Passenger: React.FC<PassengerProps> = ({
             className="cursor-pointer px-6 py-4"
             onClick={() => handleEditPassenger(passengerIndex)}
           >
-            <FaEdit className="text-xl" />
+            <FaEdit className="text-xl text-blue-800" />
           </button>
         </Tooltip>
       </div>
