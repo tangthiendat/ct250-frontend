@@ -1,7 +1,12 @@
 import { Dayjs } from "dayjs";
-import { PassengerTitle, PassengerType } from "../common";
+import {
+  PassengerGender,
+  PassengerTitle,
+  PassengerType,
+  RouteType,
+} from "../common";
 import { ICountry } from "../country";
-import { IFlightSchedule, TicketClass } from "../flight";
+import { IFlightSchedule, ISeat, TicketClass } from "../flight";
 
 export interface IBooking {
   bookingFlights: IBookingFlight[];
@@ -12,9 +17,23 @@ export interface IBookingFlight {
   ticketClass: TicketClass;
 }
 
+export interface IBaggage {
+  baggageID: number;
+  baggageWeight: number;
+  baggagePrice: number;
+  routeType: RouteType;
+}
+
+export interface IMeal {
+  mealID: number;
+  mealName: string;
+  mealPrice: number;
+}
+
 export interface IPassengerData {
   passengerType: PassengerType;
   passengerTitle: PassengerTitle;
+  passengerGender: PassengerGender;
   firstName: string;
   lastName: string;
   dateOfBirth: string | Dayjs;
@@ -22,6 +41,19 @@ export interface IPassengerData {
   country?: ICountry;
   phone?: string;
   isEditing: boolean;
+  services?: {
+    depart: {
+      baggage: IBaggage;
+      meal: IMeal;
+      seat: ISeat;
+    };
+
+    return: {
+      baggage: IBaggage;
+      meal: IMeal;
+      seat: ISeat;
+    };
+  };
 }
 
 export interface IPassengersData {

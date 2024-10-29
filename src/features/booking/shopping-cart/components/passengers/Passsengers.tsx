@@ -9,7 +9,7 @@ const Passsengers: React.FC = () => {
     <div className="mt-6">
       <p className="text-heading-2 text-center text-blue-900">Hành khách</p>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {passengersInfo.map((passengerInfo, index) => (
           <Passenger
             key={index}
