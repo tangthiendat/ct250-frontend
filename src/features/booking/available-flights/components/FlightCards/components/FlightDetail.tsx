@@ -32,10 +32,8 @@ const FlightDetail: React.FC<FlightDetailProps> = ({
           <PiAirplaneInFlightFill className="mr-2 text-xs text-blue-800" />
         </div>
         <p className="title-4">
-          <span className="font-semibold">
-            {flightCardData.airplane.model.modelName}
-          </span>{" "}
-          được vận hành bởi DaViKa Airways.
+          <span className="font-semibold">{flightCardData.flightId}</span> được
+          vận hành bởi DaViKa Airways.
         </p>
       </p>
 
