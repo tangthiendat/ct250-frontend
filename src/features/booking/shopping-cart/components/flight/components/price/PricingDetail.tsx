@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import { IoClose } from "react-icons/io5";
-import TravelerPrice from "./TravelersPrice";
+import PricingDetailPanel from "./PricingDetailPanel";
 
 interface PricingDetailProps {
   totalBookingPrice: number;
@@ -35,19 +35,7 @@ const PricingDetail: React.FC<PricingDetailProps> = ({
         }
         width={1150}
       >
-        <div className="space-y-1 py-2">
-          <div className="text-heading-2 m-0 flex justify-between text-blue-800">
-            <p className="">Tổng giá</p>
-            <p>{totalBookingPrice.toLocaleString()} VND</p>
-          </div>
-
-          <p className="title-4">
-            Giá khứ hồi cho tất cả các hành khách (đã bao gồm thuế, phí và chiết
-            khấu).
-          </p>
-        </div>
-
-        <TravelerPrice />
+        <PricingDetailPanel totalBookingPrice={totalBookingPrice} />
       </Modal>
     </>
   );

@@ -4,6 +4,7 @@ import FlightRecap from "../features/common/FlightRecap";
 import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import { getTotalTicketPrice } from "../utils";
+import PaymentDetail from "../features/booking/payment/components/PaymentDetail";
 
 const Payment: React.FC = () => {
   const [showModifyForm, setShowModifyForm] = useState<boolean>(false);
@@ -30,13 +31,8 @@ const Payment: React.FC = () => {
         setShowModifyForm={setShowModifyForm}
         totalBookingPrice={totalBookingPrice}
       />
-      {/* <ModifySearchFlightsForm
-        show={showModifyForm}
-        setShow={setShowModifyForm}
-      /> */}
-
       <Banner />
-      {/* <TravelerInfoCard /> */}
+      <PaymentDetail totalBookingPrice={totalBookingPrice} />
     </div>
   );
 };
