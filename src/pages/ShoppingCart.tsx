@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useAppSelector } from "../../../redux/hooks";
-import Banner from "../available-flights/components/Banner";
-import Flight from "./components/flight/Flight";
-import Price from "./components/flight/components/price/Price";
+import { useAppSelector } from "../redux/hooks";
+import Banner from "../features/booking/available-flights/components/Banner";
+import Flight from "../features/booking/shopping-cart/components/flight/Flight";
+import Price from "../features/booking/shopping-cart/components/flight/components/price/Price";
 import { useNavigate } from "react-router-dom";
-import { getTotalTicketPrice } from "../../../utils";
-import Passsengers from "./components/passengers/Passsengers";
-import usePassengersData from "../traveler/hooks/usePassengersData";
-import Services from "./components/services/Services";
+import { getTotalTicketPrice } from "../utils";
+import Passsengers from "../features/booking/shopping-cart/components/passengers/Passsengers";
+import usePassengersData from "../features/booking/traveler/hooks/usePassengersData";
+import Services from "../features/booking/shopping-cart/components/services/Services";
 
 const ShoppingCart: React.FC = () => {
   const [showExpandDepart, setShowExpandDepart] = useState<boolean>(false);
@@ -77,12 +77,21 @@ const ShoppingCart: React.FC = () => {
         <Price returnData={returnData} />
 
         <div className="mt-5 flex justify-end">
-          <button
-            className="text-heading-3 rounded-md bg-green-700 px-4 py-2 text-white transition-all duration-200 hover:bg-green-900"
-            onClick={() => navigate("/book/traveler/0")}
-          >
-            Điền thông tin hành khách để tiếp tục
-          </button>
+          {passengers.passengersInfo[0] ? (
+            <button
+              className="text-heading-3 rounded-md bg-green-700 px-4 py-2 text-white transition-all duration-200 hover:bg-green-900"
+              onClick={() => navigate("/book/payment")}
+            >
+              Thanh toán
+            </button>
+          ) : (
+            <button
+              className="text-heading-3 rounded-md bg-green-700 px-4 py-2 text-white transition-all duration-200 hover:bg-green-900"
+              onClick={() => navigate("/book/traveler/0")}
+            >
+              Điền thông tin hành khách để tiếp tục
+            </button>
+          )}
         </div>
       </div>
     </>

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import FlightRecap from "../available-flights/components/FlightRecap";
-import ModifySearchFlightsForm from "../available-flights/components/ModifySearchFlightsForm";
-import Banner from "./components/Banner";
-import TravelerInfoCard from "./components/TravelerInfoCard";
+import FlightRecap from "../features/common/FlightRecap";
+import ModifySearchFlightsForm from "../features/common/ModifySearchFlightsForm";
+import Banner from "../features/booking/traveler/components/Banner";
+import TravelerInfoCard from "../features/booking/traveler/components/TravelerInfoCard";
 
 const Traveler: React.FC = () => {
   const [showModifyForm, setShowModifyForm] = useState<boolean>(false);

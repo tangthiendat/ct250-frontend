@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import FlightRecap from "./components/FlightRecap";
-import ModifySearchFlightsForm from "./components/ModifySearchFlightsForm";
-import Banner from "./components/Banner";
-import CalendarFlights from "./components/Calendar/CalendarFlights";
-import FlightCards from "./components/FlightCards/FlightCards";
+import FlightRecap from "../features/common/FlightRecap";
+import ModifySearchFlightsForm from "../features/common/ModifySearchFlightsForm";
+import Banner from "../features/booking/available-flights/components/Banner";
+import CalendarFlights from "../features/booking/available-flights/components/Calendar/CalendarFlights";
+import FlightCards from "../features/booking/available-flights/components/FlightCards/FlightCards";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../redux/hooks";
-import { clearBooking } from "../../../redux/slices/bookingSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { clearBooking } from "../redux/slices/bookingSlice";
 
 const AvailableFlights: React.FC = () => {
   const [showModifyForm, setShowModifyForm] = useState<boolean>(false);

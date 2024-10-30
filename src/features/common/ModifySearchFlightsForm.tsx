@@ -1,4 +1,4 @@
-import SearchFlightsForm from "../../../searching/flights/SearchFlightsForm";
+import SearchFlightsForm from "../searching/flights/SearchFlightsForm";
 
 interface ModifySearchFlightsFormProps {
   show: boolean;
