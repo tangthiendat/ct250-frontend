@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
-import { IBookingFlight } from "../../../../../../../../interfaces";
+import {
+  IBookingFlight,
+  PassengerType,
+} from "../../../../../../../../interfaces";
 import usePassengersData from "../../../../../../traveler/hooks/usePassengersData";
 import { Divider } from "antd";
 
@@ -10,7 +13,9 @@ interface FlightProps {
 
 const Flight: React.FC<FlightProps> = ({ flightData }) => {
   const [showExpand, setShowExpand] = useState<boolean>(false);
-  const { totalPassenger: numOfBaggage, passengers } = usePassengersData();
+  const { totalPassenger, passengers, numOfAdult, numOfChild } =
+    usePassengersData();
+  const totalNumOfBaggage = numOfAdult + numOfChild;
 
   const calculateHeight = () => {
     // const heightNumber = 60 * numOfBaggage;
@@ -18,7 +23,7 @@ const Flight: React.FC<FlightProps> = ({ flightData }) => {
 
     // return heightString;
 
-    switch (numOfBaggage) {
+    switch (totalPassenger) {
       case 1:
         return "h-[56px]";
       case 2:
@@ -52,10 +57,10 @@ const Flight: React.FC<FlightProps> = ({ flightData }) => {
           </p>
 
           <div className="flex justify-center">
-            <p>{numOfBaggage} Hành lí xách tay</p>
+            <p>{totalNumOfBaggage} Hành lí xách tay</p>
 
             {flightData.ticketClass.checkedBaggageAllowance !== "PAY FEE" ? (
-              <p>, {numOfBaggage} Hành lí ký gửi</p>
+              <p>, {totalNumOfBaggage} Hành lí ký gửi</p>
             ) : (
               <p className="text-red-500">, Không bao gồm hành lý ký gửi</p>
             )}
@@ -79,22 +84,39 @@ const Flight: React.FC<FlightProps> = ({ flightData }) => {
             )}
 
             <div className="text-heading-3 flex justify-between py-2">
-              <p className="text-blue-800">
+              <p className="w-[20%] pr-2 text-blue-800">
                 {passenger.lastName} {passenger.firstName}
               </p>
-              <div className="text-sm">
-                <p>
-                  1 Hành lí xách tay: {flightData.ticketClass.luggageAllowance}
-                </p>
 
-                {flightData.ticketClass.checkedBaggageAllowance !==
-                "PAY FEE" ? (
-                  <p>
-                    1 Hành lí ký gửi:{" "}
-                    {flightData.ticketClass.checkedBaggageAllowance}
-                  </p>
+              <div className="flex w-[80%] text-sm">
+                {passenger.passengerType !== PassengerType.INFANT ? (
+                  <>
+                    <p className="w-[33%] pr-2">
+                      1 Hành lí xách tay:{" "}
+                      {flightData.ticketClass.luggageAllowance}
+                    </p>
+
+                    {flightData.ticketClass.checkedBaggageAllowance !==
+                    "PAY FEE" ? (
+                      <p className="w-[33%] pr-2">
+                        1 Hành lí ký gửi:{" "}
+                        {flightData.ticketClass.checkedBaggageAllowance}
+                      </p>
+                    ) : (
+                      <p className="w-[33%] pr-2 text-red-500">
+                        Không bao gồm hành lý ký gửi
+                      </p>
+                    )}
+                  </>
                 ) : (
-                  <p className="text-red-500">Không bao gồm hành lý ký gửi</p>
+                  <>
+                    <p className="w-[33%] pr-2 text-red-500">
+                      Không bao gồm hành lý xách tay trong giá vé
+                    </p>
+                    <p className="w-[33%] pr-2 text-red-500">
+                      Không bao gồm hành lý ký gửi trong giá vé
+                    </p>
+                  </>
                 )}
               </div>
             </div>
