@@ -2,7 +2,7 @@ import Flights from "./Flights";
 
 const BaggageDetail: React.FC = () => {
   return (
-    <div className="w-full p-2">
+    <div className="w-full p-5">
       <Flights />
 
       <div className="flex w-full justify-end">
