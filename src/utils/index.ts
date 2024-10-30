@@ -78,7 +78,8 @@ export function getPassengerTotalFee(
           .feePricing.find(
             (pricing) =>
               pricing.passengerType === passengerType &&
-              pricing.routeType === flight.route.routeType,
+              pricing.routeType === flight.route.routeType &&
+              pricing.isActive,
           )!;
         if (ticketFeePricing.isPercentage) {
           return getFee(
@@ -112,7 +113,8 @@ export function getFee(
     .filter(
       (pricing) =>
         pricing.passengerType === passengerType &&
-        pricing.routeType === routeType,
+        pricing.routeType === routeType &&
+        pricing.isActive,
     )
     .map((pricing) => {
       if (pricing.isPercentage) {

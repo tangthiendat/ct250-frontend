@@ -47,7 +47,8 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
                       (pricing) =>
                         pricing.passengerType === passengerType &&
                         pricing.routeType ===
-                          bookingFlight.flight.route.routeType,
+                          bookingFlight.flight.route.routeType &&
+                        pricing.isActive,
                     )!;
                   if (ticketFeePricing.isPercentage) {
                     return getFee(
