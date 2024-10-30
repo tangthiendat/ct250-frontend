@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import Banner from "../common/Banner";
+import Banner from "../available-flights/components/Banner";
 import Flight from "./components/flight/Flight";
 import Price from "./components/flight/components/price/Price";
 import { useNavigate } from "react-router-dom";

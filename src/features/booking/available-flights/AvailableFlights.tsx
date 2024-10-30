@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FlightRecap from "./components/FlightRecap";
 import ModifySearchFlightsForm from "./components/ModifySearchFlightsForm";
-import Banner from "../common/Banner";
+import Banner from "./components/Banner";
 import CalendarFlights from "./components/Calendar/CalendarFlights";
 import FlightCards from "./components/FlightCards/FlightCards";
 import { useParams } from "react-router-dom";

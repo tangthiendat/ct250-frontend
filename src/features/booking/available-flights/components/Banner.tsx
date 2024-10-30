@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import useSearchData from "../available-flights/hooks/useSearchData";
+import useSearchData from "../hooks/useSearchData";
 
 const Banner: React.FC<{ title: string }> = ({ title }) => {
   const { flightSearch: data } = useSearchData();
