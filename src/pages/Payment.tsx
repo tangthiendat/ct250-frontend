@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Banner from "../features/booking/payment/components/Banner";
+import PaymentDetail from "../features/booking/payment/components/PaymentDetail";
 import FlightRecap from "../features/common/FlightRecap";
 import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import { getTotalTicketPrice } from "../utils";
-import PaymentDetail from "../features/booking/payment/components/PaymentDetail";
 
 const Payment: React.FC = () => {
   const [showModifyForm, setShowModifyForm] = useState<boolean>(false);

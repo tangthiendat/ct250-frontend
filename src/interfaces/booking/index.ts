@@ -1,5 +1,5 @@
-import { Dayjs } from "dayjs";
 import {
+  BookingStatus,
   PassengerGender,
   PassengerTitle,
   PassengerType,
@@ -9,25 +9,77 @@ import { ICountry } from "../country";
 import { IFlightSchedule, ISeat, TicketClass } from "../flight";
 
 export interface IBooking {
+  bookingId?: number;
+  tripType: string;
   bookingFlights: IBookingFlight[];
+  totalPrice: number;
+  bookingStatus: BookingStatus;
 }
 
 export interface IBookingFlight {
   flight: IFlightSchedule;
   ticketClass: TicketClass;
+  bookingPassengers: IBookingPassenger[];
 }
 
-export interface IBaggage {
-  baggageID: number;
-  baggageWeight: number;
-  baggagePrice: number;
-  routeType: RouteType;
+export interface IBookingPassenger {
+  bookingPassengerId?: number;
+  passenger: IPassenger;
+  baggage?: IBaggage;
+  meals?: IMeal[];
+  isPrimaryContact?: boolean;
+  isSharedSeat?: boolean;
+  passengerGroup?: string;
+}
+
+export interface IPassenger {
+  passengerId?: number;
+  passengerType: PassengerType;
+  gender: PassengerGender;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  email?: string;
+  country: ICountry;
+  phoneNumber?: string;
 }
 
 export interface IMeal {
-  mealID: number;
+  mealId: number;
   mealName: string;
-  mealPrice: number;
+  imgUrl?: string;
+  mealPricing: IMealPricing[];
+  createdAt: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+export interface IMealPricing {
+  mealPricingId: number;
+  price: number;
+  validFrom: string;
+  validTo: string;
+  isActive: boolean;
+}
+
+export interface IBaggage {
+  baggageId: number;
+  baggageWeight: number;
+  baggagePricing: IBaggagePricing[];
+  routeType: RouteType;
+  createdAt: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+export interface IBaggagePricing {
+  baggagePricingId: number;
+  price: number;
+  validFrom: string;
+  validTo: string;
+  isActive: boolean;
 }
 
 export interface IPassengerData {
@@ -36,7 +88,7 @@ export interface IPassengerData {
   passengerGender: PassengerGender;
   firstName: string;
   lastName: string;
-  dateOfBirth: string | Dayjs;
+  dateOfBirth: string;
   email?: string;
   country?: ICountry;
   phone?: string;

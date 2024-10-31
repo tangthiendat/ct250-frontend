@@ -22,6 +22,7 @@ import DateSelector from "./components/DateSelector";
 import PassengerSelector from "./components/PassengerSelector";
 import SearchAirPort from "./components/SearchAirPort";
 import TypeTripSelector from "./components/TypeTripSelector";
+import { setBookingTripType } from "../../../redux/slices/bookingSlice";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -101,6 +102,8 @@ const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
         cabinClass: "",
       }),
     );
+
+    dispatch(setBookingTripType(typeTrip));
 
     dispatch(setInputtingTravelerType(PassengerType.ADULT));
     dispatch(setTotalAdult(adult));

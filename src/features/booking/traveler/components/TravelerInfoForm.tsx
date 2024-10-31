@@ -195,6 +195,10 @@ const TravelerInfoForm: React.FC = () => {
             message: "Ngày sinh không hợp lệ",
           },
         ]}
+        getValueProps={(value: string) => ({
+          value: value && dayjs(value),
+        })}
+        normalize={(value: Dayjs) => value && value.tz().format("YYYY-MM-DD")}
       >
         <DatePicker
           size="large"

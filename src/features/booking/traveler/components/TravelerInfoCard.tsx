@@ -1,5 +1,4 @@
 import { ConfigProvider, Form } from "antd";
-import dayjs from "dayjs";
 import { useEffect } from "react";
 import {
   IPassengerData,
@@ -42,9 +41,6 @@ const TravelerInfoCard: React.FC = () => {
     if (passengers.passengersInfo[travelerIndex]) {
       form.setFieldsValue({
         ...passengers.passengersInfo[travelerIndex],
-        dateOfBirth: dayjs(
-          passengers.passengersInfo[travelerIndex].dateOfBirth,
-        ),
       });
     }
   }, [travelerIndex, form, passengers.passengersInfo]);

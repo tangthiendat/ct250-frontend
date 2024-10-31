@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Tooltip } from "antd";
 import dayjs from "dayjs";
 import { FaBabyCarriage, FaChild, FaEdit, FaUser } from "react-icons/fa";
@@ -15,9 +16,8 @@ import {
   setInputtingTravelerType,
   setPassengerInfo,
 } from "../../../../../../redux/slices/passengersSlice";
-import usePassengersData from "../../../../traveler/hooks/usePassengersData";
-import { useQuery } from "@tanstack/react-query";
 import { countryService } from "../../../../../../services";
+import usePassengersData from "../../../../traveler/hooks/usePassengersData";
 
 interface PassengerProps {
   passengerInfo: IPassengerData;
@@ -35,8 +35,12 @@ const Passenger: React.FC<PassengerProps> = ({
 
   const { data } = useQuery({
     queryKey: ["country", passengerInfo.country?.countryId],
-    queryFn: () =>
-      countryService.getCountryById(passengerInfo.country?.countryId || 0),
+    queryFn: () => {
+      if (passengerInfo.country?.countryId !== undefined) {
+        return countryService.getCountryById(passengerInfo.country.countryId);
+      }
+      return Promise.reject("Country ID is undefined");
+    },
   });
 
   const handleTitleOfPassenger = (passengerTitle: PassengerTitle) => {

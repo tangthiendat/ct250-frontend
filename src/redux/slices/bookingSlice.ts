@@ -1,8 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IBooking, IFlightSchedule, TicketClass } from "../../interfaces";
+import {
+  BookingStatus,
+  IBooking,
+  IBookingPassenger,
+  IFlightSchedule,
+  TicketClass,
+  TripType,
+} from "../../interfaces";
 
 const initialState: IBooking = {
   bookingFlights: [],
+  tripType: TripType.ONE_WAY,
+  totalPrice: 0,
+  bookingStatus: BookingStatus.INIT,
 };
 
 const bookingSlice = createSlice({
@@ -20,7 +30,28 @@ const bookingSlice = createSlice({
       state.bookingFlights[action.payload.flightIndex] = {
         flight: action.payload.newFlight,
         ticketClass: action.payload.ticketClass,
+        bookingPassengers: [],
       };
+    },
+    addBookingPassengers: (
+      state,
+      action: PayloadAction<IBookingPassenger[]>,
+    ) => {
+      state.bookingFlights = state.bookingFlights.map((flight) => {
+        return {
+          ...flight,
+          bookingPassengers: action.payload,
+        };
+      });
+    },
+    setTotalPrice: (state, action: PayloadAction<number>) => {
+      state.totalPrice = action.payload;
+    },
+    setBookingTripType: (state, action: PayloadAction<string>) => {
+      state.tripType = action.payload;
+    },
+    setBooking(_, action: PayloadAction<IBooking>) {
+      return action.payload;
     },
     clearBooking: (state) => {
       state.bookingFlights = [];
@@ -28,5 +59,12 @@ const bookingSlice = createSlice({
   },
 });
 
-export const { addFlight, clearBooking } = bookingSlice.actions;
+export const {
+  addFlight,
+  clearBooking,
+  addBookingPassengers,
+  setBooking,
+  setTotalPrice,
+  setBookingTripType,
+} = bookingSlice.actions;
 export default bookingSlice;
