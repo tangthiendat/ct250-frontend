@@ -16,6 +16,8 @@ import {
   setPassengerInfo,
 } from "../../../../../../redux/slices/passengersSlice";
 import usePassengersData from "../../../../traveler/hooks/usePassengersData";
+import { useQuery } from "@tanstack/react-query";
+import { countryService } from "../../../../../../services";
 
 interface PassengerProps {
   passengerInfo: IPassengerData;
@@ -30,6 +32,12 @@ const Passenger: React.FC<PassengerProps> = ({
     usePassengersData();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { data } = useQuery({
+    queryKey: ["country", passengerInfo.country?.countryId],
+    queryFn: () =>
+      countryService.getCountryById(passengerInfo.country?.countryId || 0),
+  });
 
   const handleTitleOfPassenger = (passengerTitle: PassengerTitle) => {
     return passengerTitle === PassengerTitle.MR_valueOf
@@ -87,9 +95,15 @@ const Passenger: React.FC<PassengerProps> = ({
 
   const email =
     passengerInfo.email !== undefined && "Email: " + passengerInfo?.email;
-  const phone = passengerInfo?.phone
-    ? "Số điện thoại: (+" + passengerInfo?.country + ") " + passengerInfo?.phone
-    : "";
+  let phone = "";
+  if (data?.payload) {
+    phone = passengerInfo?.phone
+      ? "Số điện thoại: (+" +
+        data.payload.countryCode +
+        ") " +
+        passengerInfo?.phone
+      : "";
+  }
 
   const formattedPassengerInfo = {
     ...passengerInfo,

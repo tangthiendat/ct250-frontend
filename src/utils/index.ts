@@ -8,7 +8,7 @@ import {
   TicketClassName,
 } from "../interfaces";
 export function formatISODate(date: string) {
-  return format(new Date(date), "yyyy-MM-dd'T'HH:mm:ss.SSS");
+  return format(new Date(date), "yyyy-MM-dd");
 }
 
 export function nonAccentVietnamese(str: string) {

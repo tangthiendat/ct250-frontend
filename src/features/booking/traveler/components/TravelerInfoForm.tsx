@@ -20,7 +20,7 @@ const TravelerInfoForm: React.FC = () => {
   const { countries } = useCountries();
   const countryOptions = countries?.map((country) => ({
     label: country.countryName + " (+" + country.countryCode + ")",
-    value: country.countryCode,
+    value: country.countryId,
   }));
 
   const customTitleSelectOptions = (inputtingTravelerType: string) => {
@@ -216,12 +216,12 @@ const TravelerInfoForm: React.FC = () => {
           <div className="flex flex-1 gap-5">
             <Form.Item
               className="min-w-[40%]"
-              label={<p className="text-heading-3 text-blue-800">Quốc tịch</p>}
-              name="country"
+              label={<p className="text-heading-3 text-blue-800">Quốc gia</p>}
+              name={["country", "countryId"]}
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng chọn quốc tịch",
+                  message: "Vui lòng chọn quốc gia",
                 },
               ]}
             >

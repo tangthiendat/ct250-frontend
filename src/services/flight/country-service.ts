@@ -4,13 +4,18 @@ import { createApiClient } from "../api-client";
 
 interface ICountryService {
   getAllCountries(): Promise<ApiResponse<ICountry[]>>;
+  getCountryById(id: number): Promise<ApiResponse<ICountry>>;
 }
 
 const apiClient: AxiosInstance = createApiClient("countries", { auth: false });
 
 class CountryService implements ICountryService {
-  public async getAllCountries(): Promise<ApiResponse<ICountry[]>> {
+  async getAllCountries(): Promise<ApiResponse<ICountry[]>> {
     return (await apiClient.get("/all")).data;
+  }
+
+  async getCountryById(id: number): Promise<ApiResponse<ICountry>> {
+    return (await apiClient.get(`/${id}`)).data;
   }
 }
 
