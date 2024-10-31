@@ -52,3 +52,15 @@ export enum BookingStatus {
   RESERVED = "RESERVED", // ĐẶT CHỖ ĐANG TRONG QUÁ TRÌNH XỬ LÝ, CHƯA HOÀN TẤT
   PAID = "PAID", // ĐẶT CHỖ ĐÃ ĐƯỢC THANH TOÁN
 }
+
+export enum TransactionType {
+  PAYMENT = "PAYMENT",
+  REFUND = "REFUND",
+  CANCEL = "CANCEL",
+}
+
+export enum TransactionStatus {
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  FAILED = "FAILED",
+}

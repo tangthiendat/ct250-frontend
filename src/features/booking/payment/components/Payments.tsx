@@ -1,6 +1,10 @@
+import { useMutation } from "@tanstack/react-query";
 import { Divider } from "antd";
 import { useState } from "react";
 import { MdExpandMore, MdWatchLater } from "react-icons/md";
+import { TransactionType } from "../../../../interfaces";
+import { useAppSelector } from "../../../../redux/hooks";
+import { transactionService } from "../../../../services/transaction/transaction-service";
 
 interface PaymentsProps {
   totalBookingPrice: number;
@@ -9,22 +13,27 @@ interface PaymentsProps {
 const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   const [showVNPayExpand, setShowVNPayExpand] = useState<boolean>(false);
   const [showPayLaterExpand, setShowPayLaterExpand] = useState<boolean>(false);
+  const booking = useAppSelector((state) => state.booking);
 
-  const handleVNPay = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/v1/payment/vn-pay?amount=${totalBookingPrice}`,
-      );
-      const data = await response.json();
-      if (data.payload.paymentUrl) {
-        window.location.href = data.payload.paymentUrl;
-      } else {
-        console.error("Payment URL not found in response");
+  const { mutate: createTransaction } = useMutation({
+    mutationFn: transactionService.createTransaction,
+    onSuccess: (data) => {
+      if (data.payload && data.payload.paymentMethod.paymentUrl) {
+        window.location.href = data.payload.paymentMethod.paymentUrl;
       }
-    } catch (error) {
-      console.error("Error calling VNPay API:", error);
-    }
-  };
+    },
+  });
+
+  function handlePaymentButtonClick() {
+    createTransaction({
+      booking: booking,
+      paymentMethod: {
+        paymentMethodId: 1,
+        paymentMethodName: "VNPay",
+      },
+      transactionType: TransactionType.PAYMENT,
+    });
+  }
 
   return (
     <>
@@ -58,7 +67,7 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
           <div className="flex justify-center">
             <button
               className="text-heading-3 rounded-lg bg-green-700 px-4 py-2 text-white"
-              onClick={handleVNPay}
+              onClick={handlePaymentButtonClick}
             >
               Thanh toán {totalBookingPrice.toLocaleString()} VND
             </button>

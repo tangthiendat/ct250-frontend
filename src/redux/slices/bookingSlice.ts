@@ -53,6 +53,12 @@ const bookingSlice = createSlice({
     setBooking(_, action: PayloadAction<IBooking>) {
       return action.payload;
     },
+    setBookingId: (state, action: PayloadAction<number>) => {
+      state.bookingId = action.payload;
+    },
+    clearBookingId: (state) => {
+      state.bookingId = undefined;
+    },
     clearBooking: (state) => {
       state.bookingFlights = [];
     },
@@ -66,5 +72,7 @@ export const {
   setBooking,
   setTotalPrice,
   setBookingTripType,
+  setBookingId,
+  clearBookingId,
 } = bookingSlice.actions;
 export default bookingSlice;

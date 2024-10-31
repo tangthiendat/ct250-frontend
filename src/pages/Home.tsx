@@ -4,8 +4,12 @@ import Destinations from "../common/home/Destinations";
 import FlightRoutes from "../common/home/FlightRoutes";
 import Services from "../common/home/Services";
 import SearchPanel from "../features/searching/SearchPanel";
+import { useAppDispatch } from "../redux/hooks";
+import { clearBookingId } from "../redux/slices/bookingSlice";
 
 const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
+  dispatch(clearBookingId());
   return (
     <div className="relative flex min-h-full flex-col justify-center">
       <Banner />

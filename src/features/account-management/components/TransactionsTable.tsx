@@ -1,8 +1,8 @@
 import { Table, TableProps, Tag } from "antd";
-import { ITransaction } from "../../../interfaces";
+import { ITransactionHistory } from "../../../interfaces";
 import { format } from "date-fns";
 
-const columns: TableProps<ITransaction>["columns"] = [
+const columns: TableProps<ITransactionHistory>["columns"] = [
   {
     title: "Mã giao dịch",
     dataIndex: "transactionId",

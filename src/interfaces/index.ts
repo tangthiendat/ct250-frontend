@@ -6,3 +6,4 @@ export * from "./country";
 export * from "./fee";
 export * from "./flight";
 export * from "./searching";
+export * from "./transaction";
