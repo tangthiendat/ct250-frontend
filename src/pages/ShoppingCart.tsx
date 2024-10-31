@@ -63,10 +63,9 @@ const ShoppingCart: React.FC = () => {
       };
     });
 
-    dispatch(
-      setTotalPrice(totalBookingPrice),
-      addBookingPassengers(bookingPassengers),
-    );
+    dispatch(setTotalPrice(totalBookingPrice));
+    dispatch(addBookingPassengers(bookingPassengers));
+    navigate("/book/payment");
 
     // Create booking if there is no bookingId
     if (!booking?.bookingId) {
@@ -74,7 +73,6 @@ const ShoppingCart: React.FC = () => {
         onSuccess: (data) => {
           if (data.payload) {
             dispatch(setBooking(data.payload));
-            navigate("/book/payment");
           }
         },
       });
