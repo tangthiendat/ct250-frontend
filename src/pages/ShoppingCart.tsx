@@ -9,11 +9,7 @@ import Services from "../features/booking/shopping-cart/components/services/Serv
 import usePassengersData from "../features/booking/traveler/hooks/usePassengersData";
 import { IPassenger } from "../interfaces";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import {
-  addBookingPassengers,
-  setBookingId,
-  setTotalPrice,
-} from "../redux/slices/bookingSlice";
+import { setBooking } from "../redux/slices/bookingSlice";
 import { bookingService } from "../services";
 import { getTotalTicketPrice } from "../utils";
 
@@ -28,11 +24,11 @@ const ShoppingCart: React.FC = () => {
   const { passengers } = usePassengersData();
   const booking = useAppSelector((state) => state.booking);
   const flightSearch = useAppSelector((state) => state.flightSearch);
-  const { mutate: createBooking } = useMutation({
+  const { mutate: createInitBooking } = useMutation({
     mutationFn: bookingService.createBooking,
     onSuccess: (data) => {
       if (data.payload && data.payload.bookingId) {
-        dispatch(setBookingId(data.payload.bookingId));
+        dispatch(setBooking(data.payload));
       }
     },
   });
@@ -68,12 +64,16 @@ const ShoppingCart: React.FC = () => {
       };
     });
 
-    dispatch(setTotalPrice(totalBookingPrice));
-    dispatch(addBookingPassengers(bookingPassengers));
-
     // Create booking if there is no bookingId
     if (!booking?.bookingId) {
-      createBooking({ ...booking, totalPrice: totalBookingPrice });
+      createInitBooking({
+        ...booking,
+        totalPrice: totalBookingPrice,
+        bookingFlights: booking.bookingFlights.map((flight) => ({
+          ...flight,
+          bookingPassengers,
+        })),
+      });
     }
 
     navigate("/book/payment");
