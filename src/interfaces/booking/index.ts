@@ -17,11 +17,17 @@ export interface IBookingFlight {
   ticketClass: TicketClass;
 }
 
+export interface IBaggagePricing {
+  baggagePricingId: number;
+  price: number;
+  isActive: boolean;
+}
+
 export interface IBaggage {
-  baggageID: number;
+  baggageId: number;
   baggageWeight: number;
-  baggagePrice: number;
   routeType: RouteType;
+  baggagePricing: IBaggagePricing[];
 }
 
 export interface IMeal {
@@ -42,16 +48,15 @@ export interface IPassengerData {
   phone?: string;
   isEditing: boolean;
   services?: {
-    depart: {
-      baggage: IBaggage;
-      meal: IMeal;
-      seat: ISeat;
+    depart?: {
+      baggage?: IBaggage;
+      meal?: IMeal;
+      seat?: ISeat;
     };
-
-    return: {
-      baggage: IBaggage;
-      meal: IMeal;
-      seat: ISeat;
+    return?: {
+      baggage?: IBaggage;
+      meal?: IMeal;
+      seat?: ISeat;
     };
   };
 }

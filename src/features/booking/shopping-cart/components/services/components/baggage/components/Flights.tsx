@@ -13,8 +13,8 @@ const Flights: React.FC = () => {
   return (
     <>
       <div className="space-y-2 pb-4">
-        <Flight flightData={departureData} />
-        {returnData && <Flight flightData={returnData} />}
+        <Flight type="departure" flightData={departureData} />
+        {returnData && <Flight type="arrival" flightData={returnData} />}
       </div>
     </>
   );
