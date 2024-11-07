@@ -37,7 +37,7 @@ const Flight: React.FC<FlightProps> = ({ type, flightData }) => {
   ) => {
     if (type === "departure") {
       return passenger.services?.depart?.baggage?.baggageWeight;
-    } else if (type === "return") {
+    } else if (type === "arrival") {
       return passenger.services?.return?.baggage?.baggageWeight;
     }
     return 0;

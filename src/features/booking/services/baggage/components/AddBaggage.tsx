@@ -40,9 +40,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   const baggageData = data?.payload;
   const baggageOptionsFormatted = baggageData
     ?.filter(
-      (baggage) =>
-        baggage.baggagePricing.filter((baggage) => baggage.isActive) !== null &&
-        baggage.routeType === flightData.flight.route.routeType,
+      (baggage) => baggage.routeType === flightData.flight.route.routeType,
     )
     .map((baggage) => {
       return {

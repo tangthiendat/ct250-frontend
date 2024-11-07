@@ -20,7 +20,6 @@ export interface IBookingFlight {
 export interface IBaggagePricing {
   baggagePricingId: number;
   price: number;
-  isActive: boolean;
 }
 
 export interface IBaggage {
