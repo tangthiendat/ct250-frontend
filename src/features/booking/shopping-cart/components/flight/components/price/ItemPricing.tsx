@@ -1,6 +1,11 @@
 import { IFee, PassengerType } from "../../../../../../../interfaces";
 import { useAppSelector } from "../../../../../../../redux/hooks";
-import { getFee, roundToThousands } from "../../../../../../../utils";
+import {
+  getFee,
+  isInDateRange,
+  roundToThousands,
+} from "../../../../../../../utils";
+import dayjs from "dayjs";
 
 interface ItemPricingProps {
   title: string;
@@ -48,7 +53,11 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
                         pricing.passengerType === passengerType &&
                         pricing.routeType ===
                           bookingFlight.flight.route.routeType &&
-                        pricing.isActive,
+                        isInDateRange(
+                          dayjs().format("YYYY-MM-DD"),
+                          pricing.validFrom,
+                          pricing.validTo,
+                        ),
                     )!;
                   if (ticketFeePricing.isPercentage) {
                     return getFee(

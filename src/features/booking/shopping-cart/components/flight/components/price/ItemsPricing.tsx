@@ -5,9 +5,11 @@ import {
   getFee,
   getPassengerTotalFee,
   groupBy,
+  isInDateRange,
   roundToThousands,
 } from "../../../../../../../utils";
 import ItemPricing from "./ItemPricing";
+import dayjs from "dayjs";
 
 interface ItemsPricingProps {
   passengerType: string;
@@ -58,7 +60,11 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({ passengerType }) => {
                         pricing.passengerType === passengerType &&
                         pricing.routeType ===
                           bookingFlight.flight.route.routeType &&
-                        pricing.isActive,
+                        isInDateRange(
+                          dayjs().format("YYYY-MM-DD"),
+                          pricing.validFrom,
+                          pricing.validTo,
+                        ),
                     )!;
                   if (ticketFeePricing.isPercentage) {
                     return getFee(

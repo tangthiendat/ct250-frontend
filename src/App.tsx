@@ -7,12 +7,14 @@ import { Toaster } from "react-hot-toast";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import isBetween from "dayjs/plugin/isBetween";
 import timezone from "dayjs/plugin/timezone";
 
 export const TIME_ZONE = "Asia/Ho_Chi_Minh";
 dayjs.locale("vi");
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(isBetween);
 dayjs.tz.setDefault(TIME_ZONE);
 
 const queryClient = new QueryClient({
