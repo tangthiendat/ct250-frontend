@@ -1,5 +1,9 @@
 import { Divider } from "antd";
-import { IFee, PassengerType } from "../../../../../../../interfaces";
+import {
+  IBookingFlight,
+  IFee,
+  PassengerType,
+} from "../../../../../../../interfaces";
 import { useAppSelector } from "../../../../../../../redux/hooks";
 import {
   getFee,
@@ -13,33 +17,31 @@ import dayjs from "dayjs";
 
 interface ItemsPricingProps {
   passengerType: string;
+  bookingFlight: IBookingFlight;
 }
 
-const ItemsPricing: React.FC<ItemsPricingProps> = ({ passengerType }) => {
-  const booking = useAppSelector((state) => state.booking);
+const ItemsPricing: React.FC<ItemsPricingProps> = ({
+  passengerType,
+  bookingFlight,
+}) => {
   const flightSearch = useAppSelector((state) => state.flightSearch);
   const feeGroupMap: Map<string, IFee[]> = groupBy(
-    booking.bookingFlights[0].flight.fees,
+    bookingFlight.flight.fees,
     (fee) => fee.feeGroup.feeGroupName,
   );
 
-  const totalPassengerPrice = booking.bookingFlights
-    .map((bookingFlight) => {
-      return getPassengerTotalFee(
-        bookingFlight.flight,
-        passengerType as PassengerType,
-        bookingFlight.ticketClass.ticketClassName,
-      );
-    })
-    .reduce((total, price) => total + price, 0);
+  const totalPassengerPrice = getPassengerTotalFee(
+    bookingFlight.flight,
+    passengerType as PassengerType,
+    bookingFlight.ticketClass.ticketClassName,
+  );
   const passengerQuantity =
     flightSearch.passengers[passengerType as PassengerType];
-  console.log("ItemsPricingProps", passengerType, passengerQuantity);
 
   return (
     <>
       {Array.from(feeGroupMap).map(([feeGroup, feeList], index) => {
-        const totalFeeInGroup = booking.bookingFlights
+        const totalFeeInGroup = [bookingFlight]
           .map((bookingFlight) => {
             const basePrice: number = bookingFlight.flight.flightPricing.filter(
               (pricing) =>
@@ -102,6 +104,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({ passengerType }) => {
               passengerType={passengerType}
               feeList={feeList}
               totalFeeInGroup={totalFeeInGroup}
+              bookingFlight={bookingFlight}
             />
             {index !== feeGroupMap.size - 1 && totalFeeInGroup > 0 && (
               <Divider type="horizontal" className="my-1 bg-slate-400" />
@@ -116,6 +119,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({ passengerType }) => {
           title={`Tổng giá cho mỗi ${passengerType === PassengerType.ADULT ? "người lớn" : passengerType === PassengerType.CHILD ? "trẻ em" : "em bé"}`}
           totalFeeInGroup={totalPassengerPrice}
           passengerType={passengerType}
+          bookingFlight={bookingFlight}
         />
 
         <ItemPricing
@@ -123,6 +127,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({ passengerType }) => {
           title={`x${passengerQuantity} ${passengerType === PassengerType.ADULT ? "người lớn" : passengerType === PassengerType.CHILD ? "trẻ em" : "em bé"}`}
           totalFeeInGroup={totalPassengerPrice * passengerQuantity}
           passengerType={passengerType}
+          bookingFlight={bookingFlight}
         />
       </div>
     </>

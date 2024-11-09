@@ -1,17 +1,19 @@
 import { MdExpandMore } from "react-icons/md";
 import ItemsPricing from "./ItemsPricing";
-import { PassengerType } from "../../../../../../../interfaces";
+import { IBookingFlight, PassengerType } from "../../../../../../../interfaces";
 import { useTraveler } from "../../../../../../../context/TravelerContext";
 
 interface TravelerProps {
   passengerType: string;
   numberOfTraveler: number;
   pricing: number;
+  bookingFlight: IBookingFlight;
 }
 
 const Traveler: React.FC<TravelerProps> = ({
   passengerType,
   numberOfTraveler,
+  bookingFlight,
   pricing,
 }) => {
   const { showExpand, setShowExpand } = useTraveler();
@@ -41,7 +43,10 @@ const Traveler: React.FC<TravelerProps> = ({
       </div>
 
       <div className={`${showExpand && "bg-gray-100"} rounded-b-sm px-7`}>
-        <ItemsPricing passengerType={passengerType} />
+        <ItemsPricing
+          passengerType={passengerType}
+          bookingFlight={bookingFlight}
+        />
       </div>
     </div>
   );
