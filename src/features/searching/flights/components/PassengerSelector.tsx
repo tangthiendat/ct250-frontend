@@ -7,6 +7,7 @@ import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { FaBabyCarriage, FaUser } from "react-icons/fa";
 import { FaChild } from "react-icons/fa6";
 import { PassengerType } from "../../../../interfaces";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 interface ItemMenuProps {
   // label: string;
@@ -96,17 +97,32 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
         {passengerType === PassengerType.ADULT ? (
           <p className="text-heading-3 flex items-center gap-3 font-medium">
             <FaUser />
-            Người lớn
+            <div className="flex items-center gap-1">
+              Người lớn
+              <Tooltip title="Từ 12 tuổi trở lên">
+                <IoIosInformationCircleOutline className="text-sm" />
+              </Tooltip>
+            </div>
           </p>
         ) : passengerType === PassengerType.CHILD ? (
           <p className="text-heading-3 flex items-center gap-3 font-medium">
             <FaChild />
-            Trẻ em
+            <div className="flex items-center gap-1">
+              Trẻ em
+              <Tooltip title="Từ 2 đến 11 tuổi">
+                <IoIosInformationCircleOutline className="text-sm" />
+              </Tooltip>
+            </div>
           </p>
         ) : (
           <p className="text-heading-3 flex items-center gap-3 font-medium">
             <FaBabyCarriage />
-            Em bé
+            <div className="flex items-center gap-1">
+              Em bé
+              <Tooltip title="Dưới 2 tuổi">
+                <IoIosInformationCircleOutline className="text-sm" />
+              </Tooltip>
+            </div>
           </p>
         )}
 

@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Banner from "../features/booking/available-flights/components/Banner";
-import Flight from "../features/booking/shopping-cart/components/flight/Flight";
-import Price from "../features/booking/shopping-cart/components/flight/components/price/Price";
+import Flights from "../features/booking/shopping-cart/components/flights/Flights";
+import Price from "../features/booking/shopping-cart/components/flights/components/price/Price";
 import Passsengers from "../features/booking/shopping-cart/components/passengers/Passsengers";
 import Services from "../features/booking/shopping-cart/components/services/Services";
 import usePassengersData from "../features/booking/traveler/hooks/usePassengersData";
@@ -14,8 +13,6 @@ import { bookingService } from "../services";
 import { getTotalTicketPrice } from "../utils";
 
 const ShoppingCart: React.FC = () => {
-  const [showExpandDepart, setShowExpandDepart] = useState<boolean>(false);
-  const [showExpandReturn, setShowExpandReturn] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const departData = useAppSelector((state) => state.booking.bookingFlights[0]);
@@ -84,34 +81,11 @@ const ShoppingCart: React.FC = () => {
       <Banner title="Hành trình của bạn" />
 
       <div className="mx-auto my-5 max-w-screen-md px-2 transition-all duration-1000 xl:max-w-screen-lg">
-        <p className="text-heading-2 text-center text-blue-900">
-          Chuyến bay của bạn
-        </p>
-
-        <div className="space-y-4">
-          <Flight
-            data={departData}
-            showExpand={showExpandDepart}
-            setShowExpand={setShowExpandDepart}
-          />
-
-          {returnData && (
-            <Flight
-              data={returnData}
-              showExpand={showExpandReturn}
-              setShowExpand={setShowExpandReturn}
-            />
-          )}
-
-          <div className="mt-3 flex flex-col items-end">
-            <p className="text-heading-3 text-sm text-blue-800">
-              Tổng giá cho các chuyến bay:{" "}
-              <span className="text-heading-3 text-blue-800">
-                {totalBookingPrice.toLocaleString()} VND
-              </span>
-            </p>
-          </div>
-        </div>
+        <Flights
+          departData={departData}
+          returnData={returnData}
+          totalBookingPrice={totalBookingPrice}
+        />
 
         {passengers.passengersInfo[0] && (
           <>

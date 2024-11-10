@@ -18,6 +18,7 @@ import MainLayout from "../layouts/MainLayout";
 import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
 import Payment from "../pages/Payment";
+import PaymentSuccess from "../pages/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "payment",
         element: <Payment />,
+      },
+      {
+        path: "payment/success",
+        element: <PaymentSuccess />,
       },
     ],
   },

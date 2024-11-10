@@ -1,4 +1,4 @@
-import PricingDetailPanel from "../../shopping-cart/components/flight/components/price/PricingDetailPanel";
+import PricingDetailPanel from "../../shopping-cart/components/flights/components/price/PricingDetailPanel";
 import Payments from "./Payments";
 
 interface PaymentDetailProps {
