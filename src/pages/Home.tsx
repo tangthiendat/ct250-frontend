@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "../common/home/Banner";
 import Destinations from "../common/home/Destinations";
 import FlightRoutes from "../common/home/FlightRoutes";
@@ -9,7 +9,13 @@ import { clearBookingId } from "../redux/slices/bookingSlice";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  dispatch(clearBookingId());
+
+  useEffect(() => {
+    dispatch(clearBookingId());
+    localStorage.removeItem("booking");
+    localStorage.removeItem("flightSearch");
+  }, [dispatch]);
+
   return (
     <div className="relative flex min-h-full flex-col justify-center">
       <Banner />

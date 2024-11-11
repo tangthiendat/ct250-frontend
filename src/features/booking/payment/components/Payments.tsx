@@ -14,6 +14,7 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   const [showVNPayExpand, setShowVNPayExpand] = useState<boolean>(false);
   const [showPayLaterExpand, setShowPayLaterExpand] = useState<boolean>(false);
   const booking = useAppSelector((state) => state.booking);
+  const flightSearch = useAppSelector((state) => state.flightSearch);
 
   const { mutate: createTransaction } = useMutation({
     mutationFn: transactionService.createTransaction,
@@ -25,6 +26,9 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   });
 
   function handlePaymentButtonClick() {
+    localStorage.setItem("booking", JSON.stringify(booking));
+    localStorage.setItem("flightSearch", JSON.stringify(flightSearch));
+
     createTransaction({
       booking: booking,
       paymentMethod: {

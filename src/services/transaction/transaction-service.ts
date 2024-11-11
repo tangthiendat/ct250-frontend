@@ -6,6 +6,7 @@ interface ITransactionService {
   createTransaction: (
     transaction: Omit<ITransaction, "status" | "amount">,
   ) => Promise<ApiResponse<ITransaction>>;
+  getById(transactionId: number): Promise<ApiResponse<ITransaction>>;
 }
 
 const apiClient: AxiosInstance = createApiClient("transactions", {
@@ -17,6 +18,10 @@ class TransactionService implements ITransactionService {
     transaction: Omit<ITransaction, "status" | "amount">,
   ): Promise<ApiResponse<ITransaction>> {
     return (await apiClient.post("", transaction)).data;
+  }
+
+  async getById(transactionId: number): Promise<ApiResponse<ITransaction>> {
+    return (await apiClient.get(`/${transactionId}`)).data;
   }
 }
 

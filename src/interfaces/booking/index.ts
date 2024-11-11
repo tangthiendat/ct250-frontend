@@ -11,6 +11,7 @@ import { IFlightSchedule, ISeat, TicketClass } from "../flight";
 export interface IBooking {
   bookingId?: number;
   tripType: string;
+  bookingCode?: string;
   bookingFlights: IBookingFlight[];
   totalPrice: number;
   bookingStatus: BookingStatus;
