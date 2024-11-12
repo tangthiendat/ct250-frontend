@@ -15,6 +15,7 @@ export interface IBooking {
   bookingFlights: IBookingFlight[];
   totalPrice: number;
   bookingStatus: BookingStatus;
+  paymentDeadline?: string;
 }
 
 export interface IBookingFlight {

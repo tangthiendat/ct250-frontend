@@ -9,25 +9,32 @@ import Traveler from "./Traveler";
 
 const TravelersPrice: React.FC = () => {
   const { flightSearch, booking } = useAppSelector((state) => state);
-  const departureBookingFlight = booking.bookingFlights[0];
 
+  const departureBookingFlight = booking.bookingFlights[0];
   const returnBookingFlight = booking.bookingFlights[1];
+
+  const totalDepartPrice = getTotalTicketPrice(
+    departureBookingFlight.flight,
+    flightSearch.passengers,
+    departureBookingFlight.ticketClass.ticketClassName,
+  ).toLocaleString();
+  const totalReturnPrice =
+    returnBookingFlight &&
+    getTotalTicketPrice(
+      returnBookingFlight.flight,
+      flightSearch.passengers,
+      returnBookingFlight.ticketClass.ticketClassName,
+    ).toLocaleString();
 
   return (
     <>
       {departureBookingFlight && (
-        <>
-          <div className="flex items-center justify-between text-lg font-semibold">
-            <div>CHUYẾN ĐI</div>
-            <div>
-              {getTotalTicketPrice(
-                departureBookingFlight.flight,
-                flightSearch.passengers,
-                departureBookingFlight.ticketClass.ticketClassName,
-              ).toLocaleString()}{" "}
-              VND
-            </div>
+        <div className="pb-4">
+          <div className="text-heading-3 flex items-center justify-between text-blue-800">
+            <p>Chuyến đi</p>
+            <p>{totalDepartPrice} VND</p>
           </div>
+
           <div>
             {Object.entries(flightSearch.passengers).map(
               ([passengerType, quantity]) => {
@@ -51,22 +58,16 @@ const TravelersPrice: React.FC = () => {
               },
             )}
           </div>
-        </>
+        </div>
       )}
 
       {returnBookingFlight && (
         <>
-          <div className="flex items-center justify-between text-lg font-semibold">
-            <div>CHUYẾN VỀ</div>
-            <div>
-              {getTotalTicketPrice(
-                returnBookingFlight.flight,
-                flightSearch.passengers,
-                returnBookingFlight.ticketClass.ticketClassName,
-              ).toLocaleString()}{" "}
-              VND
-            </div>
+          <div className="text-heading-3 flex items-center justify-between text-blue-800">
+            <p>Chuyến về</p>
+            <p>{totalReturnPrice} VND</p>
           </div>
+
           <div>
             {Object.entries(flightSearch.passengers).map(
               ([passengerType, quantity]) => {

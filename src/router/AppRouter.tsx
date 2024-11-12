@@ -19,6 +19,7 @@ import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
 import Payment from "../pages/Payment";
 import PaymentSuccess from "../pages/PaymentSuccess";
+import BookingConfirmation from "../features/booking/payment/components/BookingConfirmation";
 
 const router = createBrowserRouter([
   {
@@ -85,11 +86,20 @@ const router = createBrowserRouter([
       },
       {
         path: "payment",
-        element: <Payment />,
-      },
-      {
-        path: "payment/success",
-        element: <PaymentSuccess />,
+        children: [
+          {
+            path: "",
+            element: <Payment />,
+          },
+          {
+            path: "success",
+            element: <PaymentSuccess />,
+          },
+          {
+            path: "confirmation",
+            element: <BookingConfirmation />,
+          },
+        ],
       },
     ],
   },

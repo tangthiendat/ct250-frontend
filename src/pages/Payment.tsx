@@ -31,7 +31,7 @@ const Payment: React.FC = () => {
         setShowModifyForm={setShowModifyForm}
         totalBookingPrice={totalBookingPrice}
       />
-      <Banner />
+      <Banner title="Thanh toán" />
       <PaymentDetail totalBookingPrice={totalBookingPrice} />
     </div>
   );

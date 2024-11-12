@@ -12,6 +12,9 @@ class BookingService implements IBookingService {
   async createBooking(booking: IBooking): Promise<ApiResponse<IBooking>> {
     return (await apiClient.post("", booking)).data;
   }
+  async reserveBooking(booking: IBooking): Promise<ApiResponse<IBooking>> {
+    return (await apiClient.put(`/${booking.bookingId}/reserve`, booking)).data;
+  }
 }
 
 export const bookingService = new BookingService();

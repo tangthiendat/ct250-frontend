@@ -61,13 +61,15 @@ const PaymentSuccess: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
 
-      <Flights
-        departData={booking.bookingFlights[0]}
-        returnData={booking.bookingFlights[1]}
-        totalBookingPrice={totalBookingPrice}
-      />
+        <div>
+          <Flights
+            departData={booking.bookingFlights[0]}
+            returnData={booking.bookingFlights[1]}
+            totalBookingPrice={totalBookingPrice}
+          />
+        </div>
+      </div>
     </div>
   );
 };

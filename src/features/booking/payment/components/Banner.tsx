@@ -1,4 +1,6 @@
-const Banner: React.FC = () => {
+const Banner: React.FC<{
+  title: string;
+}> = ({ title }) => {
   return (
     <div className="relative">
       <img
@@ -8,7 +10,7 @@ const Banner: React.FC = () => {
       />
 
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-balance rounded-md bg-white px-12 py-4 text-center">
-        <p className="text-heading-2 m-0 text-green-700">Thanh toán</p>
+        <p className="text-heading-2 m-0 text-green-700">{title}</p>
       </div>
     </div>
   );
