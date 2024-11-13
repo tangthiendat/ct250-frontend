@@ -18,7 +18,7 @@ interface IFlightScheduleService {
 }
 
 const apiClient: AxiosInstance = createApiClient("flights", {
-  auth: true,
+  auth: false,
 });
 
 class FlightScheduleService implements IFlightScheduleService {

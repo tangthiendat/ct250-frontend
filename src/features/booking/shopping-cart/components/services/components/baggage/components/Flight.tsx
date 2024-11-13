@@ -2,20 +2,46 @@ import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
 import {
   IBookingFlight,
+  IPassengerData,
   PassengerType,
 } from "../../../../../../../../interfaces";
 import usePassengersData from "../../../../../../traveler/hooks/usePassengersData";
 import { Divider } from "antd";
 
 interface FlightProps {
+  type: string;
   flightData: IBookingFlight;
 }
 
-const Flight: React.FC<FlightProps> = ({ flightData }) => {
+const Flight: React.FC<FlightProps> = ({ type, flightData }) => {
   const [showExpand, setShowExpand] = useState<boolean>(false);
   const { totalPassenger, passengers, numOfAdult, numOfChild } =
     usePassengersData();
   const totalNumOfBaggage = numOfAdult + numOfChild;
+
+  const extraBaggageCount = (type: string) => {
+    if (type === "departure") {
+      return passengers.passengersInfo.filter(
+        (passenger) => passenger.services?.depart?.baggage !== undefined,
+      ).length;
+    } else {
+      return passengers.passengersInfo.filter(
+        (passenger) => passenger.services?.return?.baggage !== undefined,
+      ).length;
+    }
+  };
+
+  const extraBaggageWeightByPassenger = (
+    type: string,
+    passenger: IPassengerData,
+  ) => {
+    if (type === "departure") {
+      return passenger.services?.depart?.baggage?.baggageWeight;
+    } else if (type === "arrival") {
+      return passenger.services?.return?.baggage?.baggageWeight;
+    }
+    return 0;
+  };
 
   const calculateHeight = () => {
     // const heightNumber = 60 * numOfBaggage;
@@ -49,20 +75,28 @@ const Flight: React.FC<FlightProps> = ({ flightData }) => {
         className={`${showExpand ? "bg-slate-200" : "bg-slate-50"} flex cursor-pointer justify-between p-2 transition-all duration-200 hover:bg-slate-200`}
         onClick={() => setShowExpand(!showExpand)}
       >
-        <div className="title-4 flex items-center gap-10 sm:gap-28 md:gap-32">
-          <p className="text-heading-3 text-base text-green-800">
+        <div className="title-4 flex w-full items-center gap-20">
+          <p className="text-heading-3 text-nowrap text-base text-green-800">
             {flightData.flight.route.departureAirport.cityName}
             <span className="title-4 text-black"> đến </span>
             {flightData.flight.route.arrivalAirport.cityName}
           </p>
 
-          <div className="flex justify-center">
-            <p>{totalNumOfBaggage} Hành lí xách tay</p>
+          <div className="flex w-full">
+            <p className="w-[33%]">{totalNumOfBaggage} Hành lí xách tay</p>
 
             {flightData.ticketClass.checkedBaggageAllowance !== "PAY FEE" ? (
-              <p>, {totalNumOfBaggage} Hành lí ký gửi</p>
+              <p className="w-[33%]">{totalNumOfBaggage} Hành lí ký gửi</p>
             ) : (
-              <p className="text-red-500">, Không bao gồm hành lý ký gửi</p>
+              <p className="w-[33%] text-red-500">
+                Không bao gồm hành lý ký gửi
+              </p>
+            )}
+
+            {extraBaggageCount(type) !== 0 && (
+              <p className="w-[33%] font-semibold text-green-700">
+                {extraBaggageCount(type)} Hành lí mua thêm
+              </p>
             )}
           </div>
         </div>
@@ -105,6 +139,13 @@ const Flight: React.FC<FlightProps> = ({ flightData }) => {
                     ) : (
                       <p className="w-[33%] pr-2 text-red-500">
                         Không bao gồm hành lý ký gửi
+                      </p>
+                    )}
+
+                    {extraBaggageWeightByPassenger(type, passenger) !== 0 && (
+                      <p className="w-[33%] pr-2">
+                        1 Hành lí mua thêm:{" "}
+                        {extraBaggageWeightByPassenger(type, passenger)} kg
                       </p>
                     )}
                   </>

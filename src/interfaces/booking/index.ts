@@ -65,6 +65,11 @@ export interface IMealPricing {
   isActive: boolean;
 }
 
+export interface IBaggagePricing {
+  baggagePricingId: number;
+  price: number;
+}
+
 export interface IBaggage {
   baggageId: number;
   baggageWeight: number;
@@ -74,6 +79,7 @@ export interface IBaggage {
   updatedAt?: string;
   createdBy?: string;
   updatedBy?: string;
+
 }
 
 export interface IBaggagePricing {
@@ -96,16 +102,15 @@ export interface IPassengerData {
   phone?: string;
   isEditing: boolean;
   services?: {
-    depart: {
-      baggage: IBaggage;
-      meal: IMeal;
-      seat: ISeat;
+    depart?: {
+      baggage?: IBaggage;
+      meal?: IMeal;
+      seat?: ISeat;
     };
-
-    return: {
-      baggage: IBaggage;
-      meal: IMeal;
-      seat: ISeat;
+    return?: {
+      baggage?: IBaggage;
+      meal?: IMeal;
+      seat?: ISeat;
     };
   };
 }
