@@ -17,7 +17,6 @@ import TransactionHistory from "../features/account-management/TransactionHistor
 import MainLayout from "../layouts/MainLayout";
 import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
-import Traveler from "../features/booking/traveler/Traveler";
 import Baggage from "../features/booking/services/baggage/Baggage";
 import Payment from "../pages/Payment";
 import PaymentSuccess from "../pages/PaymentSuccess";

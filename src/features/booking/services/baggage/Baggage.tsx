@@ -1,6 +1,6 @@
 import { useState } from "react";
-import FlightRecap from "../../available-flights/components/FlightRecap";
-import ModifySearchFlightsForm from "../../available-flights/components/ModifySearchFlightsForm";
+import FlightRecap from "../../../common/FlightRecap";
+import ModifySearchFlightsForm from "../../../common/ModifySearchFlightsForm";
 import Banner from "./components/Banner";
 import Flights from "./components/Flights";
 
