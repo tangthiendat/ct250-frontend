@@ -3,23 +3,31 @@ import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { PiAirplaneInFlightFill } from "react-icons/pi";
 
-import { TripType } from "../../../../interfaces";
-import useSearchData from "../hooks/useSearchData";
-import useStickyScroll from "../hooks/useStickyScroll";
-import ModifyButton from "./ExpansionButton";
-import PassengersDetail from "./PassengersDetail";
+import { useNavigate } from "react-router-dom";
+import { TripType } from "../../interfaces";
+import ModifyButton from "../booking/available-flights/components/ExpansionButton";
+import PassengersDetail from "../booking/available-flights/components/PassengersDetail";
+import useSearchData from "../booking/available-flights/hooks/useSearchData";
+import useStickyScroll from "../booking/available-flights/hooks/useStickyScroll";
+import usePassengersData from "../booking/traveler/hooks/usePassengersData";
 
 interface FlightRecapProps {
   showModifyForm: boolean;
   setShowModifyForm: React.Dispatch<React.SetStateAction<boolean>>;
+  totalBookingPrice?: number;
 }
 
 const FlightRecap: React.FC<FlightRecapProps> = ({
   showModifyForm,
   setShowModifyForm,
+  totalBookingPrice,
 }) => {
   const { flightSearch: data } = useSearchData();
+  const { totalPassenger, passengers } = usePassengersData();
   const isSticky = useStickyScroll();
+  const navigate = useNavigate();
+  const allowNavigate =
+    passengers.passengersInfo[totalPassenger - 1] !== undefined;
 
   return (
     <div
@@ -114,22 +122,33 @@ const FlightRecap: React.FC<FlightRecapProps> = ({
             <PassengersDetail />
           </div>
 
-          <button className="text-heading-3 flex items-center gap-2 rounded-md bg-blue-700 px-3 py-2 text-white transition-colors duration-300 hover:bg-blue-800">
+          <button
+            className={`${allowNavigate ? "cursor-pointer" : "cursor-not-allowed"} text-heading-3 flex items-center gap-2 rounded-md bg-blue-700 px-3 py-2 text-white transition-colors duration-300 hover:bg-blue-800`}
+            onClick={() => {
+              if (allowNavigate) {
+                navigate("/book/shopping-cart");
+              }
+            }}
+          >
             <FaShoppingCart className="text-2xl" />
-            Vé của bạn
+            {totalBookingPrice
+              ? `${totalBookingPrice.toLocaleString()} VND`
+              : "Vé của bạn"}
           </button>
         </div>
       </div>
 
-      <ModifyButton
-        showForm={showModifyForm}
-        setShowForm={setShowModifyForm}
-        titleOpen="Thay đổi"
-        titleClose="Đóng"
-        moreHandle={() => {
-          window.scrollTo(0, 0);
-        }}
-      />
+      {!totalBookingPrice && (
+        <ModifyButton
+          showForm={showModifyForm}
+          setShowForm={setShowModifyForm}
+          titleOpen="Thay đổi"
+          titleClose="Đóng"
+          moreHandle={() => {
+            window.scrollTo(0, 0);
+          }}
+        />
+      )}
     </div>
   );
 };

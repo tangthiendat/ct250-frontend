@@ -4,20 +4,24 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
+import Traveler from "../pages/Traveler";
+import ShoppingCart from "../pages/ShoppingCart";
 import ForgotPassword from "../pages/ForgotPassword";
+import AvailableFlights from "../pages/AvailableFlights";
 
 import MyAccount from "../features/account-management/MyAccount";
 import ResetPasswordForm from "../features/auth/ResetPasswordForm";
-import ShoppingCart from "../features/booking/shopping-cart/ShoppingCart";
 import EmailVerification from "../features/auth/components/EmailVerification";
 import TransactionHistory from "../features/account-management/TransactionHistory";
-import AvailableFlights from "../features/booking/available-flights/AvailableFlights";
 
 import MainLayout from "../layouts/MainLayout";
 import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
 import Traveler from "../features/booking/traveler/Traveler";
 import Baggage from "../features/booking/services/baggage/Baggage";
+import Payment from "../pages/Payment";
+import PaymentSuccess from "../pages/PaymentSuccess";
+import BookingConfirmation from "../features/booking/payment/components/BookingConfirmation";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +89,23 @@ const router = createBrowserRouter([
       {
         path: "services",
         element: <Baggage />,
+      },
+      {
+        path: "payment",
+        children: [
+          {
+            path: "",
+            element: <Payment />,
+          },
+          {
+            path: "success",
+            element: <PaymentSuccess />,
+          },
+          {
+            path: "confirmation",
+            element: <BookingConfirmation />,
+          },
+        ],
       },
     ],
   },

@@ -57,7 +57,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
         if (
           flightIndex === 0 &&
           flightSearch.typeTrip === TripType.ROUND_TRIP &&
-          dayjs(cell.date).isAfter(dayjs(flightSearch.flightRange[1]))
+          dayjs(cell.date).tz().isAfter(dayjs(flightSearch.flightRange[1]).tz())
         ) {
           return {
             ...cell,
@@ -69,6 +69,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
       })
       .filter(Boolean);
   }
+  console.log(actualCellsContent);
 
   const calculateHeight = (price: number) => {
     const maxPrice = actualCellsContent.reduce(
@@ -108,7 +109,10 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
             >
               {actualCellsContent.map((cell, index) => (
                 <div key={index}>
-                  {new Date(cell.date) < new Date() || !cell.hasFlight ? (
+                  {dayjs(cell.date)
+                    .tz()
+                    .isBefore(dayjs().tz().startOf("day")) ||
+                  !cell.hasFlight ? (
                     <DisableCell cell={cell} />
                   ) : (
                     <AbleCell cell={cell} calculateHeight={calculateHeight} />

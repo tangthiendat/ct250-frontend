@@ -42,3 +42,25 @@ export enum PassengerTitle {
   MISS = "Bé gái",
   MISS_valueOf = "Miss",
 }
+export enum BookingStatus {
+  INIT = "INIT", // ĐẶT CHỖ ĐANG TRONG QUÁ TRÌNH XỬ LÝ, CHƯA HOÀN TẤT
+  PENDING = "PENDING", // ĐẶT CHỖ ĐANG TRONG QUÁ TRÌNH XỬ LÝ, CHƯA HOÀN TẤT
+  CONFIRMED = "CONFIRM", // ĐẶT CHỖ ĐÃ ĐƯỢC XÁC NHẬN
+  CANCELLED = "CANCELLED", // ĐẶT CHỖ ĐÃ BỊ HỦY
+  COMPLETED = "COMPLETED", // ĐẶT CHỖ ĐÃ HOÀN TẤT
+  REFUNDED = "REFUNDED", // ĐẶT CHỖ ĐÃ ĐƯỢC HOÀN TIỀN
+  RESERVED = "RESERVED", // ĐẶT CHỖ ĐANG TRONG QUÁ TRÌNH XỬ LÝ, CHƯA HOÀN TẤT
+  PAID = "PAID", // ĐẶT CHỖ ĐÃ ĐƯỢC THANH TOÁN
+}
+
+export enum TransactionType {
+  PAYMENT = "PAYMENT",
+  REFUND = "REFUND",
+  CANCEL = "CANCEL",
+}
+
+export enum TransactionStatus {
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  FAILED = "FAILED",
+}

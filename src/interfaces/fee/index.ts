@@ -5,8 +5,9 @@ export interface IFeePricing {
   passengerType: PassengerType;
   feeAmount: number;
   isPercentage: boolean;
-  isActive: boolean;
   routeType: RouteType;
+  validFrom: string;
+  validTo: string;
 }
 
 export interface IFeeGroup {

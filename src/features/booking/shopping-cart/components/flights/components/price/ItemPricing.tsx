@@ -1,12 +1,21 @@
-import { IFee, PassengerType } from "../../../../../../../interfaces";
-import { useAppSelector } from "../../../../../../../redux/hooks";
-import { getFee, roundToThousands } from "../../../../../../../utils";
+import dayjs from "dayjs";
+import {
+  IBookingFlight,
+  IFee,
+  PassengerType,
+} from "../../../../../../../interfaces";
+import {
+  getFee,
+  isInDateRange,
+  roundToThousands,
+} from "../../../../../../../utils";
 
 interface ItemPricingProps {
   title: string;
   passengerType: string;
   feeList?: IFee[];
   totalFeeInGroup: number;
+  bookingFlight: IBookingFlight;
 }
 
 const ItemPricing: React.FC<ItemPricingProps> = ({
@@ -14,9 +23,8 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
   passengerType,
   feeList,
   totalFeeInGroup,
+  bookingFlight,
 }) => {
-  const booking = useAppSelector((state) => state.booking);
-
   return (
     <>
       {totalFeeInGroup > 0 && (
@@ -31,7 +39,7 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
       {feeList && feeList.length > 0 && (
         <div className="pl-4 pr-0">
           {feeList.map((fee) => {
-            const feePrice = booking.bookingFlights
+            const feePrice = [bookingFlight]
               .map((bookingFlight) => {
                 const basePrice: number =
                   bookingFlight.flight.flightPricing.filter(
@@ -48,7 +56,11 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
                         pricing.passengerType === passengerType &&
                         pricing.routeType ===
                           bookingFlight.flight.route.routeType &&
-                        pricing.isActive,
+                        isInDateRange(
+                          dayjs().format("YYYY-MM-DD"),
+                          pricing.validFrom,
+                          pricing.validTo,
+                        ),
                     )!;
                   if (ticketFeePricing.isPercentage) {
                     return getFee(

@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Tooltip } from "antd";
 import dayjs from "dayjs";
 import { FaBabyCarriage, FaChild, FaEdit, FaUser } from "react-icons/fa";
@@ -15,6 +16,7 @@ import {
   setInputtingTravelerType,
   setPassengerInfo,
 } from "../../../../../../redux/slices/passengersSlice";
+import { countryService } from "../../../../../../services";
 import usePassengersData from "../../../../traveler/hooks/usePassengersData";
 
 interface PassengerProps {
@@ -30,6 +32,16 @@ const Passenger: React.FC<PassengerProps> = ({
     usePassengersData();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { data } = useQuery({
+    queryKey: ["country", passengerInfo.country?.countryId],
+    queryFn: () => {
+      if (passengerInfo.country?.countryId !== undefined) {
+        return countryService.getCountryById(passengerInfo.country.countryId);
+      }
+      return Promise.reject("Country ID is undefined");
+    },
+  });
 
   const handleTitleOfPassenger = (passengerTitle: PassengerTitle) => {
     return passengerTitle === PassengerTitle.MR_valueOf
@@ -87,9 +99,15 @@ const Passenger: React.FC<PassengerProps> = ({
 
   const email =
     passengerInfo.email !== undefined && "Email: " + passengerInfo?.email;
-  const phone = passengerInfo?.phone
-    ? "Số điện thoại: (+" + passengerInfo?.country + ") " + passengerInfo?.phone
-    : "";
+  let phone = "";
+  if (data?.payload) {
+    phone = passengerInfo?.phone
+      ? "Số điện thoại: (+" +
+        data.payload.countryCode +
+        ") " +
+        passengerInfo?.phone
+      : "";
+  }
 
   const formattedPassengerInfo = {
     ...passengerInfo,
