@@ -4,9 +4,14 @@ import { useSearchParams } from "react-router-dom";
 import Loading from "../common/Loading";
 import Banner from "../features/booking/payment-success/components/Banner";
 import Flights from "../features/booking/shopping-cart/components/flights/Flights";
-import { IBooking, ISearchFlights } from "../interfaces";
+import {
+  IBooking,
+  ICoupon,
+  IPassengersData,
+  ISearchFlights,
+} from "../interfaces";
 import { transactionService } from "../services/transaction/transaction-service";
-import { getTotalTicketPrice } from "../utils";
+import { getTotalBaggagePrice, getTotalTicketPrice } from "../utils";
 
 const PaymentSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -14,12 +19,17 @@ const PaymentSuccess: React.FC = () => {
   const flightSearch: ISearchFlights = JSON.parse(
     localStorage.getItem("flightSearch")!,
   );
-  const totalBookingPrice = booking.bookingFlights
+  const passengers: IPassengersData = JSON.parse(
+    localStorage.getItem("passengers")!,
+  );
+  const coupon: ICoupon = JSON.parse(localStorage.getItem("coupon")!);
+  const totalFlightsPrice = booking.bookingFlights
     .map((bookingFlight) =>
       getTotalTicketPrice(
         bookingFlight.flight,
         flightSearch.passengers,
         bookingFlight.ticketClass.ticketClassName,
+        coupon,
       ),
     )
     .reduce(
@@ -27,6 +37,13 @@ const PaymentSuccess: React.FC = () => {
         bookingTotalPrice + flightTotalPrice,
       0,
     );
+
+  const totalBaggagePrice = getTotalBaggagePrice(
+    booking.bookingFlights,
+    passengers.passengersInfo,
+  );
+
+  const totalBookingPrice = totalFlightsPrice + totalBaggagePrice;
 
   const transactionId = Number(searchParams.get("transactionId"));
 
@@ -66,8 +83,11 @@ const PaymentSuccess: React.FC = () => {
           <Flights
             departData={booking.bookingFlights[0]}
             returnData={booking.bookingFlights[1]}
-            totalBookingPrice={totalBookingPrice}
+            totalFlightsPrice={totalFlightsPrice}
           />
+          <p className="text-heading-2 mt-4 text-right text-blue-900">
+            Tổng giá: {totalBookingPrice.toLocaleString()} VND
+          </p>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ import {
   PassengerType,
 } from "../../../../../interfaces";
 import { baggageService } from "../../../../../services/booking/baggage-service";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setPassengerInfo } from "../../../../../redux/slices/passengersSlice";
 
@@ -51,7 +51,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
       };
     });
 
-  const handleDefaultPrices = () => {
+  const handleDefaultPrices = useCallback(() => {
     setPrices((prev) => {
       const newPrices = [...prev];
       formattedPassengers.map((passenger, index) => {
@@ -66,7 +66,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
       });
       return newPrices;
     });
-  };
+  }, [formattedPassengers, type]);
 
   const handleDefaultBaggage = (passenger: IPassengerData) => {
     if (type === "departure") {
@@ -102,7 +102,6 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
     setTotalPrice(newTotalPrice);
     handleDefaultPrices();
   }, [prices, setTotalPrice, handleDefaultPrices]);
-  console.log(prices);
 
   // const baggageIDToPrice = (baggageID: number) => {
   //   const selectedBaggage = baggageData?.find(

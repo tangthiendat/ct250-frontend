@@ -6,11 +6,11 @@ import Price from "../features/booking/shopping-cart/components/flights/componen
 import Passsengers from "../features/booking/shopping-cart/components/passengers/Passsengers";
 import Services from "../features/booking/shopping-cart/components/services/Services";
 import usePassengersData from "../features/booking/traveler/hooks/usePassengersData";
-import { IPassenger } from "../interfaces";
+import { IBookingFlight, IPassenger } from "../interfaces";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setBooking } from "../redux/slices/bookingSlice";
 import { bookingService } from "../services";
-import { getTotalTicketPrice } from "../utils";
+import { getTotalBaggagePrice, getTotalTicketPrice } from "../utils";
 
 const ShoppingCart: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const ShoppingCart: React.FC = () => {
     },
   });
 
-  const totalBookingPrice = booking.bookingFlights
+  const totalFlightsPrice = booking.bookingFlights
     .map((bookingFlight) =>
       getTotalTicketPrice(
         bookingFlight.flight,
@@ -46,32 +46,53 @@ const ShoppingCart: React.FC = () => {
       0,
     );
 
+  const totalBaggagePrice = getTotalBaggagePrice(
+    booking.bookingFlights,
+    passengers.passengersInfo,
+  );
+
+  const totalBookingPrice = totalFlightsPrice + totalBaggagePrice;
+
   function handlePaymentButtonClick() {
-    const bookingPassengers = passengers.passengersInfo.map((passengerInfo) => {
-      const passenger: IPassenger = {
-        passengerType: passengerInfo.passengerType,
-        firstName: passengerInfo.firstName,
-        lastName: passengerInfo.lastName,
-        dateOfBirth: passengerInfo.dateOfBirth,
-        country: passengerInfo.country!,
-        email: passengerInfo.email,
-        phoneNumber: passengerInfo.phone,
-        gender: passengerInfo.passengerGender,
-      };
-      return {
-        passenger,
-      };
-    });
+    const bookingFlights: IBookingFlight[] = booking.bookingFlights.map(
+      (flight, index) => {
+        const bookingPassengers = passengers.passengersInfo.map(
+          (passengerInfo) => {
+            const passenger: IPassenger = {
+              passengerType: passengerInfo.passengerType,
+              firstName: passengerInfo.firstName,
+              lastName: passengerInfo.lastName,
+              dateOfBirth: passengerInfo.dateOfBirth,
+              country: passengerInfo.country!,
+              email: passengerInfo.email,
+              phoneNumber: passengerInfo.phone,
+              gender: passengerInfo.passengerGender,
+            };
+            if (index === 0) {
+              return {
+                passenger,
+                baggage: passengerInfo.services?.depart?.baggage,
+              };
+            }
+            return {
+              passenger,
+              baggage: passengerInfo.services?.return?.baggage,
+            };
+          },
+        );
+        return {
+          ...flight,
+          bookingPassengers,
+        };
+      },
+    );
 
     // Create booking if there is no bookingId
     if (!booking?.bookingId) {
       createInitBooking({
         ...booking,
         totalPrice: totalBookingPrice,
-        bookingFlights: booking.bookingFlights.map((flight) => ({
-          ...flight,
-          bookingPassengers,
-        })),
+        bookingFlights,
       });
     }
 
@@ -86,7 +107,7 @@ const ShoppingCart: React.FC = () => {
         <Flights
           departData={departData}
           returnData={returnData}
-          totalBookingPrice={totalBookingPrice}
+          totalFlightsPrice={totalFlightsPrice}
         />
 
         {passengers.passengersInfo[0] && (
@@ -96,7 +117,7 @@ const ShoppingCart: React.FC = () => {
           </>
         )}
 
-        <Price returnData={returnData} />
+        <Price returnData={returnData} totalBookingPrice={totalBookingPrice} />
 
         <div className="mt-5 flex justify-end">
           {passengers.passengersInfo[0] ? (

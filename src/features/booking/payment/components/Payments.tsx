@@ -18,6 +18,8 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   const [showPayLaterExpand, setShowPayLaterExpand] = useState<boolean>(false);
   const booking = useAppSelector((state) => state.booking);
   const flightSearch = useAppSelector((state) => state.flightSearch);
+  const coupon = useAppSelector((state) => state.coupon);
+  const passengers = useAppSelector((state) => state.passengers);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -43,6 +45,8 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   function handleVNPayPayment() {
     localStorage.setItem("booking", JSON.stringify(booking));
     localStorage.setItem("flightSearch", JSON.stringify(flightSearch));
+    localStorage.setItem("coupon", JSON.stringify(coupon));
+    localStorage.setItem("passengers", JSON.stringify(passengers));
 
     createTransaction({
       booking: booking,
@@ -57,6 +61,7 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   function handlePayLaterPayment() {
     localStorage.setItem("booking", JSON.stringify(booking));
     localStorage.setItem("flightSearch", JSON.stringify(flightSearch));
+    localStorage.setItem("coupon", JSON.stringify(coupon));
 
     reserveBooking(booking);
   }

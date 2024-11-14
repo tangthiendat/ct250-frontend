@@ -5,13 +5,13 @@ import { IBookingFlight } from "../../../../../interfaces";
 interface FlightsProps {
   departData: IBookingFlight;
   returnData?: IBookingFlight;
-  totalBookingPrice: number;
+  totalFlightsPrice: number;
 }
 
 const Flights: React.FC<FlightsProps> = ({
   departData,
   returnData,
-  totalBookingPrice,
+  totalFlightsPrice,
 }) => {
   const [showExpandDepart, setShowExpandDepart] = useState<boolean>(false);
   const [showExpandReturn, setShowExpandReturn] = useState<boolean>(false);
@@ -41,7 +41,7 @@ const Flights: React.FC<FlightsProps> = ({
           <p className="text-heading-3 text-sm text-blue-800">
             Tổng giá cho các chuyến bay:{" "}
             <span className="text-heading-3 text-blue-800">
-              {totalBookingPrice.toLocaleString()} VND
+              {totalFlightsPrice.toLocaleString()} VND
             </span>
           </p>
         </div>

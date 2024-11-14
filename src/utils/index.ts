@@ -1,9 +1,11 @@
 import { format } from "date-fns";
 import {
   CouponType,
+  IBookingFlight,
   ICoupon,
   IFee,
   IFlightSchedule,
+  IPassengerData,
   ISearchFlights,
   PassengerType,
   RouteType,
@@ -61,6 +63,14 @@ export function getFormattedDuration(durationInMinutes: number): string {
 //Làm tròn giá tiền theo hàng nghìn
 export function roundToThousands(num: number): number {
   return Math.round(num / 1000) * 1000;
+}
+
+export function isInDateRange(
+  date: string,
+  startDate: string,
+  endDate: string,
+): boolean {
+  return dayjs(date).tz().isBetween(startDate, endDate, null, "[]");
 }
 
 //Tính giá tiền của một loại hành khách theo hạng vé (vé + phí)
@@ -207,10 +217,46 @@ export function getTotalTicketPrice(
     .reduce((totalPrice, currPrice) => totalPrice + currPrice, 0);
 }
 
-export function isInDateRange(
-  date: string,
-  startDate: string,
-  endDate: string,
-): boolean {
-  return dayjs(date).tz().isBetween(startDate, endDate, null, "[]");
+export function getTotalBaggagePrice(
+  bookingFlights: IBookingFlight[],
+  passengersInfo: IPassengerData[],
+) {
+  return bookingFlights
+    .map((_, index) => getFlightBaggagePrice(passengersInfo, index))
+    .reduce((total, price) => total + price, 0);
+}
+
+export function getFlightBaggagePrice(
+  passengersInfo: IPassengerData[],
+  index: number,
+) {
+  return passengersInfo
+    .map((passengerInfo) => {
+      if (index === 0 && passengerInfo.services?.depart?.baggage) {
+        const currentBaggagePricing =
+          passengerInfo.services?.depart.baggage?.baggagePricing.find(
+            (pricing) =>
+              isInDateRange(
+                dayjs().tz().format("YYYY-MM-DD"),
+                pricing.validFrom,
+                pricing.validTo,
+              ),
+          );
+        return currentBaggagePricing?.price || 0;
+      }
+      if (index === 1 && passengerInfo.services?.return?.baggage) {
+        const currentBaggagePricing =
+          passengerInfo.services?.return.baggage?.baggagePricing.find(
+            (pricing) =>
+              isInDateRange(
+                dayjs().tz().format("YYYY-MM-DD"),
+                pricing.validFrom,
+                pricing.validTo,
+              ),
+          );
+        return currentBaggagePricing?.price || 0;
+      }
+      return 0;
+    })
+    .reduce((total, price) => total + price, 0);
 }

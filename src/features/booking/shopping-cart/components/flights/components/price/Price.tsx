@@ -1,32 +1,14 @@
 import { useState } from "react";
-import { useAppSelector } from "../../../../../../../redux/hooks";
-import { getTotalTicketPrice } from "../../../../../../../utils";
-import PricingDetail from "./PricingDetail";
 import { IBookingFlight } from "../../../../../../../interfaces";
+import PricingDetail from "./PricingDetail";
 
 interface PriceProps {
   returnData: IBookingFlight;
+  totalBookingPrice: number;
 }
 
-const Price: React.FC<PriceProps> = ({ returnData }) => {
+const Price: React.FC<PriceProps> = ({ returnData, totalBookingPrice }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const booking = useAppSelector((state) => state.booking);
-  const flightSearch = useAppSelector((state) => state.flightSearch);
-  const coupon = useAppSelector((state) => state.coupon);
-  const totalBookingPrice = booking.bookingFlights
-    .map((bookingFlight) =>
-      getTotalTicketPrice(
-        bookingFlight.flight,
-        flightSearch.passengers,
-        bookingFlight.ticketClass.ticketClassName,
-        coupon,
-      ),
-    )
-    .reduce(
-      (bookingTotalPrice, flightTotalPrice) =>
-        bookingTotalPrice + flightTotalPrice,
-      0,
-    );
 
   return (
     <>
