@@ -2,7 +2,8 @@ import { MdExpandMore, MdNotInterested } from "react-icons/md";
 import { useFlightCard } from "../../../../../../context/FlightCardContext";
 import { IFlightSchedule, TicketClassName } from "../../../../../../interfaces";
 import useSearchData from "../../../hooks/useSearchData";
-import { getTotalTicketPrice } from "../../../../../../utils";
+import { getTotalTicketPrice, isValidCoupon } from "../../../../../../utils";
+import { useAppSelector } from "../../../../../../redux/hooks";
 
 interface FlightCardClassOptionsProps {
   flightCardData: IFlightSchedule;
@@ -12,6 +13,7 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
   flightCardData,
 }) => {
   const { flightSearch } = useSearchData();
+  const coupon = useAppSelector((state) => state.coupon);
   const totalPassengers = Object.values(flightSearch.passengers).reduce(
     (totalPassenger, quantity) => totalPassenger + quantity,
     0,
@@ -29,15 +31,30 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
   const { selectedTicketClassOption, setSelectedTicketClassOption } =
     useFlightCard();
+
+  const hasCoupon: boolean = !!coupon && isValidCoupon(coupon);
   const economyTicketPrice = getTotalTicketPrice(
     flightCardData,
     flightSearch.passengers,
     TicketClassName.ECONOMY,
   );
+  const actualEconomyTicketPrice = getTotalTicketPrice(
+    flightCardData,
+    flightSearch.passengers,
+    TicketClassName.ECONOMY,
+    coupon,
+  );
+
   const businessTicketPrice = getTotalTicketPrice(
     flightCardData,
     flightSearch.passengers,
     TicketClassName.BUSINESS,
+  );
+  const actualBusinessTicketPrice = getTotalTicketPrice(
+    flightCardData,
+    flightSearch.passengers,
+    TicketClassName.BUSINESS,
+    coupon,
   );
 
   const showEconomyClass =
@@ -67,10 +84,18 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
             <div className="my-2 flex flex-col items-center">
               <p>từ</p>
-              <p className="text-xl font-bold">
+              <p
+                className={`text-xl font-bold ${hasCoupon ? "line-through" : ""}`}
+              >
                 {economyTicketPrice.toLocaleString()}
               </p>
               <p>VND</p>
+
+              {hasCoupon && (
+                <p className="bg-green-800 p-1 text-xl font-bold">
+                  {actualEconomyTicketPrice.toLocaleString()}
+                </p>
+              )}
             </div>
 
             <MdExpandMore
@@ -110,10 +135,17 @@ const FlightCardClassOptions: React.FC<FlightCardClassOptionsProps> = ({
 
             <div className="my-2 flex flex-col items-center">
               <p>từ</p>
-              <p className="text-xl font-bold">
+              <p
+                className={`text-xl font-bold ${hasCoupon ? "line-through" : ""}`}
+              >
                 {businessTicketPrice.toLocaleString()}
               </p>
               <p>VND</p>
+              {hasCoupon && (
+                <p className="bg-blue-900 p-1 text-xl font-bold">
+                  {actualBusinessTicketPrice.toLocaleString()}
+                </p>
+              )}
             </div>
 
             <MdExpandMore

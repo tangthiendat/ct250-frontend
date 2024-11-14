@@ -9,6 +9,7 @@ import Traveler from "./Traveler";
 
 const TravelersPrice: React.FC = () => {
   const { flightSearch, booking } = useAppSelector((state) => state);
+  const coupon = useAppSelector((state) => state.coupon);
 
   const departureBookingFlight = booking.bookingFlights[0];
   const returnBookingFlight = booking.bookingFlights[1];
@@ -17,14 +18,16 @@ const TravelersPrice: React.FC = () => {
     departureBookingFlight.flight,
     flightSearch.passengers,
     departureBookingFlight.ticketClass.ticketClassName,
-  ).toLocaleString();
+    coupon,
+  );
   const totalReturnPrice =
     returnBookingFlight &&
     getTotalTicketPrice(
       returnBookingFlight.flight,
       flightSearch.passengers,
       returnBookingFlight.ticketClass.ticketClassName,
-    ).toLocaleString();
+      coupon,
+    );
 
   return (
     <>
@@ -32,7 +35,7 @@ const TravelersPrice: React.FC = () => {
         <div className="pb-4">
           <div className="text-heading-3 flex items-center justify-between text-blue-800">
             <p>Chuyến đi</p>
-            <p>{totalDepartPrice} VND</p>
+            <p>{totalDepartPrice.toLocaleString()} VND</p>
           </div>
 
           <div>
@@ -43,6 +46,7 @@ const TravelersPrice: React.FC = () => {
                     departureBookingFlight.flight,
                     passengerType as PassengerType,
                     departureBookingFlight.ticketClass.ticketClassName,
+                    coupon,
                   ) * quantity;
                 return quantity > 0 ? (
                   <TravelerProvider>
@@ -65,7 +69,7 @@ const TravelersPrice: React.FC = () => {
         <>
           <div className="text-heading-3 flex items-center justify-between text-blue-800">
             <p>Chuyến về</p>
-            <p>{totalReturnPrice} VND</p>
+            <p>{totalReturnPrice.toLocaleString()} VND</p>
           </div>
 
           <div>
@@ -76,6 +80,7 @@ const TravelersPrice: React.FC = () => {
                     returnBookingFlight.flight,
                     passengerType as PassengerType,
                     returnBookingFlight.ticketClass.ticketClassName,
+                    coupon,
                   ) * quantity;
                 return quantity > 0 ? (
                   <TravelerProvider>

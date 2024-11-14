@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import {
+  CouponType,
+  ICoupon,
   IFee,
   IFlightSchedule,
   ISearchFlights,
@@ -66,6 +68,7 @@ export function getPassengerTotalFee(
   flight: IFlightSchedule,
   passengerType: PassengerType,
   ticketClassName: TicketClassName,
+  coupon?: ICoupon,
 ): number {
   const basePrice: number = flight.flightPricing.filter(
     (pricing) => pricing.ticketClass.ticketClassName === ticketClassName,
@@ -102,9 +105,42 @@ export function getPassengerTotalFee(
           );
         }
       }
-      return getFee(fee, passengerType, flight.route.routeType, basePrice);
+      return getFee(
+        fee,
+        passengerType,
+        flight.route.routeType,
+        basePrice,
+        coupon,
+      );
     })
     .reduce((totalFee, currFee) => totalFee + currFee, 0); //Tổng tất cả khoản phí của hành khách
+}
+
+export function isValidCoupon(coupon: ICoupon): boolean {
+  return (
+    coupon.discountValue > 0 &&
+    isInDateRange(
+      dayjs().format("YYYY-MM-DD"),
+      coupon.validFrom,
+      coupon.validTo,
+    )
+  );
+}
+
+//Tính giá tiền dựa trên giá gốc và mã giảm giá
+export function getActualPrice(
+  originalPrice: number,
+  coupon?: ICoupon,
+): number {
+  if (coupon && isValidCoupon(coupon)) {
+    if (coupon.couponType === CouponType.PERCENTAGE) {
+      return roundToThousands(
+        originalPrice - (originalPrice * coupon.discountValue) / 100,
+      );
+    }
+    return roundToThousands(originalPrice - coupon.discountValue);
+  }
+  return originalPrice;
 }
 
 //Tinh giá phí của một loại hành khách
@@ -113,6 +149,7 @@ export function getFee(
   passengerType: PassengerType,
   routeType: RouteType,
   basePrice: number,
+  coupon?: ICoupon,
 ): number {
   return fee.feePricing
     .filter(
@@ -127,8 +164,20 @@ export function getFee(
     )
     .map((pricing) => {
       if (pricing.isPercentage) {
+        //Gia ve co ban
+        if (fee.feeId === 1) {
+          return roundToThousands(
+            getActualPrice(basePrice * (pricing.feeAmount / 100), coupon),
+          );
+        }
         return roundToThousands(basePrice * (pricing.feeAmount / 100));
       }
+
+      //FEE PRICING IS AMOUNT
+      if (fee.feeId === 1) {
+        return roundToThousands(getActualPrice(pricing.feeAmount, coupon));
+      }
+
       return roundToThousands(pricing.feeAmount);
     })
     .reduce(
@@ -142,6 +191,7 @@ export function getTotalTicketPrice(
   flight: IFlightSchedule,
   passengers: ISearchFlights["passengers"],
   ticketClassName: TicketClassName,
+  coupon?: ICoupon,
 ): number {
   return Object.entries(passengers)
     .map(([passengerType, quantity]) => {
@@ -150,6 +200,7 @@ export function getTotalTicketPrice(
           flight,
           passengerType as PassengerType,
           ticketClassName,
+          coupon,
         ) * quantity
       );
     })

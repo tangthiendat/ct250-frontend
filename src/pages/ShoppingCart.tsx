@@ -21,6 +21,7 @@ const ShoppingCart: React.FC = () => {
   const { passengers } = usePassengersData();
   const booking = useAppSelector((state) => state.booking);
   const flightSearch = useAppSelector((state) => state.flightSearch);
+  const coupon = useAppSelector((state) => state.coupon);
   const { mutate: createInitBooking } = useMutation({
     mutationFn: bookingService.createBooking,
     onSuccess: (data) => {
@@ -36,6 +37,7 @@ const ShoppingCart: React.FC = () => {
         bookingFlight.flight,
         flightSearch.passengers,
         bookingFlight.ticketClass.ticketClassName,
+        coupon,
       ),
     )
     .reduce(

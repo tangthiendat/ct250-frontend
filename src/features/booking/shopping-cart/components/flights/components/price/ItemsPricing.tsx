@@ -25,6 +25,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({
   bookingFlight,
 }) => {
   const flightSearch = useAppSelector((state) => state.flightSearch);
+  const coupon = useAppSelector((state) => state.coupon);
   const feeGroupMap: Map<string, IFee[]> = groupBy(
     bookingFlight.flight.fees,
     (fee) => fee.feeGroup.feeGroupName,
@@ -34,6 +35,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({
     bookingFlight.flight,
     passengerType as PassengerType,
     bookingFlight.ticketClass.ticketClassName,
+    coupon,
   );
   const passengerQuantity =
     flightSearch.passengers[passengerType as PassengerType];
@@ -91,6 +93,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({
                   passengerType as PassengerType,
                   bookingFlight.flight.route.routeType,
                   basePrice,
+                  coupon,
                 );
               })
               .reduce((totalFee, currFee) => totalFee + currFee, 0); //Tổng tất cả khoản phí của hành khách
@@ -105,6 +108,7 @@ const ItemsPricing: React.FC<ItemsPricingProps> = ({
               feeList={feeList}
               totalFeeInGroup={totalFeeInGroup}
               bookingFlight={bookingFlight}
+              coupon={coupon}
             />
             {index !== feeGroupMap.size - 1 && totalFeeInGroup > 0 && (
               <Divider type="horizontal" className="my-1 bg-slate-400" />
