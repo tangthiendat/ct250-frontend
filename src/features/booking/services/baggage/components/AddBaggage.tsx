@@ -4,6 +4,7 @@ import { SelectProps } from "antd/lib";
 import { IoBagAdd } from "react-icons/io5";
 import {
   IBookingFlight,
+  IPassengerData,
   IPassengersData,
   PassengerTitle,
   PassengerType,
@@ -33,6 +34,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   const [prices, setPrices] = useState<number[]>([
     ...Array<number>(formattedPassengers.length).fill(0),
   ]);
+
   const { data } = useQuery({
     queryKey: ["baggage"],
     queryFn: baggageService.getAll,
@@ -48,6 +50,31 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
         label: `${baggage.baggageWeight}kg`,
       };
     });
+
+  const handleDefaultPrices = () => {
+    setPrices((prev) => {
+      const newPrices = [...prev];
+      formattedPassengers.map((passenger, index) => {
+        let price: number | undefined;
+        if (type === "departure") {
+          price = passenger.services?.depart?.baggage?.baggagePricing[0].price;
+        } else if (type === "arrival") {
+          price = passenger.services?.return?.baggage?.baggagePricing[0].price;
+        }
+
+        newPrices[index] = price !== undefined ? price : 0;
+      });
+      return newPrices;
+    });
+  };
+
+  const handleDefaultBaggage = (passenger: IPassengerData) => {
+    if (type === "departure") {
+      return passenger.services?.depart?.baggage?.baggageId;
+    } else if (type === "arrival") {
+      return passenger.services?.return?.baggage?.baggageId;
+    }
+  };
 
   const labelRender: SelectProps["labelRender"] = (props) => {
     const { label } = props;
@@ -73,7 +100,8 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   useEffect(() => {
     const newTotalPrice = prices.reduce((acc, curr) => acc + curr, 0);
     setTotalPrice(newTotalPrice);
-  }, [prices, setTotalPrice]);
+    handleDefaultPrices();
+  }, [prices, setTotalPrice, handleDefaultPrices]);
   console.log(prices);
 
   // const baggageIDToPrice = (baggageID: number) => {
@@ -182,6 +210,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
                 style={{ width: 200 }}
                 placeholder="Chọn hành lý"
                 options={baggageOptionsFormatted}
+                defaultValue={handleDefaultBaggage(passenger)}
                 onChange={(price) => calculateTotalPrice(index, price)}
                 // onClear={() => handleOnClear(index)}
                 labelRender={labelRender}
