@@ -44,7 +44,7 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
 
       {feeList && feeList.length > 0 && (
         <div className="pl-4 pr-0">
-          {feeList.map((fee) => {
+          {feeList.map((fee, index) => {
             const originalFeePrice = [bookingFlight]
               .map((bookingFlight) => {
                 const basePrice: number =
@@ -147,7 +147,7 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
               .reduce((total, feePrice) => total + feePrice, 0);
 
             return actualFeePrice > 0 || originalFeePrice > 0 ? (
-              <div className="flex justify-between">
+              <div key={index} className="flex justify-between">
                 <p className="title-4">{fee.feeName}</p>
                 {hasCoupon && fee.feeId === 1 ? (
                   <div className="flex items-center gap-1">
@@ -158,7 +158,7 @@ const ItemPricing: React.FC<ItemPricingProps> = ({
                       {actualFeePrice.toLocaleString()} VND
                     </div>
                     <div className="title-4 text-green-700">
-                      {`-${coupon.couponType === CouponType.PERCENTAGE ? coupon.discountValue + "%" : coupon.discountValue.toLocaleString()} VND`}
+                      {`-${coupon.couponType === CouponType.PERCENTAGE ? coupon.discountValue + "%" : coupon.discountValue.toLocaleString() + "VND"} `}
                     </div>
                   </div>
                 ) : (
