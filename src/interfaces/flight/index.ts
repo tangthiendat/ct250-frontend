@@ -1,4 +1,4 @@
-import { RouteType, TicketClassName } from "../common";
+import { CouponType, RouteType, TicketClassName } from "../common";
 import { ICountry } from "../country";
 import { IFee } from "../fee";
 
@@ -93,10 +93,22 @@ export interface FlightSearchCriteria {
     passengerType: string;
     quantity: number;
   }[];
+  couponCode?: string;
 }
 
 export interface IFlightOverview {
   date: string;
   minPriceOfDay: number;
   hasFlight: boolean;
+}
+
+export interface ICoupon {
+  couponId?: number;
+  couponCode: string;
+  discountValue: number;
+  couponType: CouponType;
+  validFrom: string;
+  validTo: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

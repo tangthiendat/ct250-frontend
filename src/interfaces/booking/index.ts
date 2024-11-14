@@ -79,7 +79,6 @@ export interface IBaggage {
   updatedAt?: string;
   createdBy?: string;
   updatedBy?: string;
-
 }
 
 export interface IBaggagePricing {

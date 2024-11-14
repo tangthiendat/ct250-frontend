@@ -12,12 +12,14 @@ const Price: React.FC<PriceProps> = ({ returnData }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const booking = useAppSelector((state) => state.booking);
   const flightSearch = useAppSelector((state) => state.flightSearch);
+  const coupon = useAppSelector((state) => state.coupon);
   const totalBookingPrice = booking.bookingFlights
     .map((bookingFlight) =>
       getTotalTicketPrice(
         bookingFlight.flight,
         flightSearch.passengers,
         bookingFlight.ticketClass.ticketClassName,
+        coupon,
       ),
     )
     .reduce(

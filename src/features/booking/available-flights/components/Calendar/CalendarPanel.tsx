@@ -44,6 +44,7 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
         quantity: value,
       }))
       .filter((passenger) => passenger.quantity > 0),
+    couponCode: flightSearch.couponCode,
   };
   const { data } = useQuery({
     queryKey: ["flights", "overviews", criteria],
@@ -69,7 +70,6 @@ const CalendarPanel: React.FC<CalendarPanelProps> = ({ show }) => {
       })
       .filter(Boolean);
   }
-  console.log(actualCellsContent);
 
   const calculateHeight = (price: number) => {
     const maxPrice = actualCellsContent.reduce(

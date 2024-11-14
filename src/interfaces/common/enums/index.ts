@@ -64,3 +64,8 @@ export enum TransactionStatus {
   PENDING = "PENDING",
   FAILED = "FAILED",
 }
+
+export enum CouponType {
+  PERCENTAGE = "PERCENTAGE",
+  AMOUNT = "AMOUNT",
+}
