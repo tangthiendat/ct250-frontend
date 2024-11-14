@@ -41,7 +41,7 @@ const FlightDetail: React.FC<FlightDetailProps> = ({
         <div>
           <IoIosInformationCircleOutline className="mr-2 text-xs text-blue-800" />
         </div>
-        <p className="title-4" onClick={() => setShowDetail(true)}>
+        <p className="title-4 underline" onClick={() => setShowDetail(true)}>
           Xem chi tiết chuyến bay
         </p>
       </p>

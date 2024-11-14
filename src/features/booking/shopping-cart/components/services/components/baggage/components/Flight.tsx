@@ -40,7 +40,6 @@ const Flight: React.FC<FlightProps> = ({ type, flightData }) => {
     } else if (type === "arrival") {
       return passenger.services?.return?.baggage?.baggageWeight;
     }
-    return 0;
   };
 
   const calculateHeight = () => {
@@ -142,7 +141,8 @@ const Flight: React.FC<FlightProps> = ({ type, flightData }) => {
                       </p>
                     )}
 
-                    {extraBaggageWeightByPassenger(type, passenger) !== 0 && (
+                    {extraBaggageWeightByPassenger(type, passenger) !==
+                      undefined && (
                       <p className="w-[33%] pr-2">
                         1 Hành lí mua thêm:{" "}
                         {extraBaggageWeightByPassenger(type, passenger)} kg

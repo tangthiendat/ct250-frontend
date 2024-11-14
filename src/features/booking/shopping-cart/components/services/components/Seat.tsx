@@ -1,6 +1,3 @@
-import { useState } from "react";
-import CategoryRecap from "../common/CategoryRecap";
-
 const Seat: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-between overflow-hidden rounded-lg shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-200">
