@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const BookingConfirmation: React.FC = () => {
   const booking = useAppSelector((state: RootState) => state.booking);
   const flightSearch = useAppSelector((state: RootState) => state.flightSearch);
-  const totalBookingPrice = booking.bookingFlights
+  const totalFlightsPrice = booking.bookingFlights
     .map((bookingFlight) =>
       getTotalTicketPrice(
         bookingFlight.flight,
@@ -85,7 +85,7 @@ const BookingConfirmation: React.FC = () => {
           <Flights
             departData={booking.bookingFlights[0]}
             returnData={booking.bookingFlights[1]}
-            totalBookingPrice={totalBookingPrice}
+            totalFlightsPrice={totalFlightsPrice}
           />
         </div>
       </div>
