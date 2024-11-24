@@ -1,35 +1,61 @@
-import { Button, Form, Input } from "antd";
-import { ISearchTicket } from "../../../interfaces";
-import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button, Form, Input, Modal } from "antd";
+import { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { bookingService } from "../../../services";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
-function onSubmit(data: ISearchTicket): void {
-  console.log(data);
+interface SearchTicketFormValues {
+  code: string;
 }
 
 const SearchTicketForm: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<SearchTicketFormValues>();
+  const [code, setCode] = useState<string>("");
+  const queryClient = useQueryClient();
+  const [modal, contextHolder] = Modal.useModal();
 
   const [componentSize, setComponentSize] = useState<SizeType | "default">(
     "default",
   );
 
+  const { data, isError, isLoading, error } = useQuery({
+    queryKey: ["bookings", code],
+    queryFn: () => bookingService.searchBookingByCode(code),
+    enabled: code !== "",
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (isError && error) {
+      if ((error as AxiosError).response?.status === 404) {
+        modal.error({
+          title: "Không tìm thấy mã đặt chỗ/mã vé",
+          content: "Vui lòng kiểm tra lại mã đặt chỗ/mã vé",
+        });
+      } else {
+        modal.error({
+          title: "Đã xảy ra lỗi",
+          content: "Vui lòng thử lại sau",
+        });
+      }
+    }
+
+    if (data?.payload) {
+      window.location.href = data.payload;
+    }
+  }, [data, isError, error, modal]);
+
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
   };
 
-  const handleFinish = (values: any) => {
-    const data = {
-      ...values,
-      fullName: values.fullName
-        .toLowerCase()
-        .trim()
-        .split(" ")
-        .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
-        .join(" "),
-    };
-    onSubmit(data);
+  const handleFinish = (values: SearchTicketFormValues) => {
+    queryClient.invalidateQueries({
+      queryKey: ["bookings", values.code],
+    });
+    setCode(values.code);
   };
 
   return (
@@ -45,12 +71,16 @@ const SearchTicketForm: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:gap-10">
         <div className="flex-1">
           <Form.Item
-            label="MÃ VÉ"
-            name="ticketNumber"
+            label="MÃ ĐẶT CHỖ/MÃ VÉ"
+            name="code"
             rules={[
               {
                 required: true,
-                message: "Vui lòng nhập mã đặt chỗ",
+                message: "Vui lòng nhập mã đặt chỗ/mã vé",
+              },
+              {
+                pattern: /^[a-zA-Z0-9]*$/,
+                message: "Mã đặt chỗ/mã vé chỉ chứa ký tự và số",
               },
             ]}
           >
@@ -62,24 +92,20 @@ const SearchTicketForm: React.FC = () => {
           </Form.Item>
         </div>
 
-        <div className="flex-1">
+        {/* <div className="flex-1">
           <Form.Item
-            label="TÊN HÀNH KHÁCH"
-            name="fullName"
+            label="HỌ"
+            name="lastName"
             rules={[
               {
                 required: true,
-                message: "Vui lòng nhập họ tên hành khách",
+                message: "Vui lòng nhập họ hành khách",
               },
             ]}
           >
-            <Input
-              className="uppercase"
-              size="large"
-              placeholder="Nguyễn Văn A"
-            />
+            <Input className="uppercase" size="large" placeholder="NGUYEN" />
           </Form.Item>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex justify-center">
@@ -89,11 +115,13 @@ const SearchTicketForm: React.FC = () => {
             type="primary"
             size="large"
             className="w-40"
+            loading={isLoading}
           >
             Tìm kiếm
           </Button>
         </Form.Item>
       </div>
+      {contextHolder}
     </Form>
   );
 };

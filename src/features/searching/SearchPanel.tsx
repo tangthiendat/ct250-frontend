@@ -20,7 +20,7 @@ const btnItems = [
   },
   {
     key: "my-tickets",
-    label: "Vé của tôi",
+    label: "Đặt chỗ của tôi",
     icon: <BiSolidPurchaseTag />,
     children: "Vé của tôi",
   },
