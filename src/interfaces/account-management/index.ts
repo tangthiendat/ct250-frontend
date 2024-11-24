@@ -1,4 +1,4 @@
-export interface ITransaction {
+export interface ITransactionHistory {
   key: React.Key;
   transactionId: string;
   transactionDate: string;

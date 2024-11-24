@@ -1,9 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import flightSearchReducer from "./slices/flightSearchSlice";
+import bookingSlice from "./slices/bookingSlice";
+import flightSearchSlice from "./slices/flightSearchSlice";
+import passengersSlice from "./slices/passengersSlice";
+import couponSlice from "./slices/couponSlice";
 
 export const store = configureStore({
   reducer: {
-    flightSearch: flightSearchReducer,
+    passengers: passengersSlice.reducer,
+    flightSearch: flightSearchSlice.reducer,
+    booking: bookingSlice.reducer,
+    coupon: couponSlice.reducer,
   },
 });
 

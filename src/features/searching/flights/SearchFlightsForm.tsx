@@ -1,21 +1,36 @@
 import { Button, Form } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ISearchFlights } from "../../../interfaces";
-import useSearchData from "../../booking/hooks/useSearchData";
+import { ISearchFlights, PassengerType } from "../../../interfaces";
 
+import { useQuery } from "@tanstack/react-query";
 import { setFlightSearchInfo } from "../../../redux/slices/flightSearchSlice";
+import {
+  setCurrentAdultIndex,
+  setCurrentChildIndex,
+  setCurrentInfantIndex,
+  setInputtingTravelerType,
+  setPassengersInfo,
+  setTotalAdult,
+  setTotalChildren,
+  setTotalInfant,
+} from "../../../redux/slices/passengersSlice";
+import { airportService } from "../../../services";
+import useSearchData from "../../booking/available-flights/hooks/useSearchData";
 import Coupon from "./components/Coupon";
 import DateSelector from "./components/DateSelector";
 import PassengerSelector from "./components/PassengerSelector";
 import SearchAirPort from "./components/SearchAirPort";
 import TypeTripSelector from "./components/TypeTripSelector";
-import { useQuery } from "@tanstack/react-query";
-import { airportService } from "../../../services";
+import { setBookingTripType } from "../../../redux/slices/bookingSlice";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
-const SearchFlightsForm: React.FC = () => {
+interface SearchFlightsFormProps {
+  setShow?: (show: boolean) => void;
+}
+
+const SearchFlightsForm: React.FC<SearchFlightsFormProps> = ({ setShow }) => {
   const [searchFlightForm] = Form.useForm<ISearchFlights>();
   const navigate = useNavigate();
   const { flightSearch, dispatch } = useSearchData();
@@ -38,13 +53,13 @@ const SearchFlightsForm: React.FC = () => {
     flightSearch.flightRange || [],
   );
   const [adult, setAdult] = useState<number>(
-    flightSearch.passengers.adult || 1,
+    flightSearch.passengers[PassengerType.ADULT] || 1,
   );
   const [children, setChildren] = useState<number>(
-    flightSearch.passengers.children || 0,
+    flightSearch.passengers[PassengerType.CHILD] || 0,
   );
   const [infant, setInfant] = useState<number>(
-    flightSearch.passengers.infant || 0,
+    flightSearch.passengers[PassengerType.INFANT] || 0,
   );
   const [couponCode, setCouponCode] = useState<string>(
     flightSearch.couponCode || "",
@@ -79,15 +94,27 @@ const SearchFlightsForm: React.FC = () => {
         departureDate,
         flightRange,
         passengers: {
-          adult,
-          children,
-          infant,
+          [PassengerType.ADULT]: adult,
+          [PassengerType.CHILD]: children,
+          [PassengerType.INFANT]: infant,
         },
         couponCode,
         cabinClass: "",
       }),
     );
-    navigate("/book/available-flights");
+
+    dispatch(setBookingTripType(typeTrip));
+
+    dispatch(setInputtingTravelerType(PassengerType.ADULT));
+    dispatch(setTotalAdult(adult));
+    dispatch(setTotalChildren(children));
+    dispatch(setTotalInfant(infant));
+    dispatch(setCurrentAdultIndex(0));
+    dispatch(setCurrentChildIndex(0));
+    dispatch(setCurrentInfantIndex(0));
+    dispatch(setPassengersInfo([]));
+
+    navigate("/book/availability/0");
   };
 
   return (
@@ -104,7 +131,10 @@ const SearchFlightsForm: React.FC = () => {
       <div className="justify-centr flex flex-col gap-2">
         <div className="flex flex-col gap-2 lg:flex-row">
           <div className="flex-1">
-            <SearchAirPort airports={airportsData?.payload || []} />
+            <SearchAirPort
+              airports={airportsData?.payload || []}
+              form={searchFlightForm}
+            />
           </div>
           <DateSelector
             typeTrip={typeTrip}
@@ -139,6 +169,7 @@ const SearchFlightsForm: React.FC = () => {
             type="primary"
             size="large"
             className="w-40"
+            onClick={() => setShow && setShow(false)}
           >
             Tìm chuyến bay
           </Button>

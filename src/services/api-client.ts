@@ -28,8 +28,13 @@ export function createApiClient(
         return response;
       },
       async (error) => {
+        const accessToken = localStorage.getItem("access_token");
         const originalRequest = error.config;
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (
+          error.response?.status === 401 &&
+          !originalRequest._retry &&
+          accessToken
+        ) {
           originalRequest._retry = true;
           try {
             const response = await axios.post(

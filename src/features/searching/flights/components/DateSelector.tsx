@@ -1,5 +1,6 @@
-import { DatePicker, Form } from "antd";
+import { DatePicker, DatePickerProps, Form } from "antd";
 import dayjs, { Dayjs } from "dayjs";
+import { TripType } from "../../../../interfaces";
 
 const { RangePicker } = DatePicker;
 
@@ -18,38 +19,41 @@ const DateSelector: React.FC<DateSelectorProps> = ({
   flightRange,
   setFlightRange,
 }) => {
-  const dateValidation = (date: Date) => {
-    const currentDate = new Date();
-    return date.getTime() <= currentDate.getTime();
+  const disabledDate: DatePickerProps["disabledDate"] = (current: Dayjs) => {
+    return current && current.isBefore(dayjs().startOf("day"));
   };
 
   return (
     <>
-      {typeTrip === "one-way" && (
-        <Form.Item
-          name="departureDate"
-          rules={[{ required: true, message: "Vui lòng chọn ngày đi" }]}
-          getValueProps={(value: string) => ({
-            value: value && dayjs(value),
-          })}
-          normalize={(value: Dayjs) => value && value.tz().format("YYYY-MM-DD")}
-          initialValue={departureDate}
-        >
-          <DatePicker
-            className="w-full"
-            size="large"
-            format={"DD/MM/YYYY"}
-            placeholder="Chọn ngày đi"
-            onChange={(date) => {
-              setDepartureDate(date?.tz().format("YYYY-MM-DD"));
-              setFlightRange([date?.tz().format("YYYY-MM-DD")]);
-            }}
-            disabledDate={(date) => dateValidation(date.toDate())}
-          />
-        </Form.Item>
+      {typeTrip === TripType.ONE_WAY && (
+        <div className="basis-[25%]">
+          <Form.Item
+            name="departureDate"
+            rules={[{ required: true, message: "Vui lòng chọn ngày đi" }]}
+            getValueProps={(value: string) => ({
+              value: value && dayjs(value),
+            })}
+            normalize={(value: Dayjs) =>
+              value && value.tz().format("YYYY-MM-DD")
+            }
+            initialValue={departureDate}
+          >
+            <DatePicker
+              className="w-full"
+              size="large"
+              format={"DD/MM/YYYY"}
+              placeholder="Chọn ngày đi"
+              onChange={(date) => {
+                setDepartureDate(date?.tz().format("YYYY-MM-DD"));
+                setFlightRange([date?.tz().format("YYYY-MM-DD")]);
+              }}
+              disabledDate={disabledDate}
+            />
+          </Form.Item>
+        </div>
       )}
 
-      {typeTrip === "round-trip" && (
+      {typeTrip === TripType.ROUND_TRIP && (
         <div className="flex-1">
           <Form.Item
             name="flightRange"
@@ -92,7 +96,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
                   }
                 }
               }}
-              disabledDate={(date) => dateValidation(date.toDate())}
+              disabledDate={disabledDate}
             />
           </Form.Item>
         </div>

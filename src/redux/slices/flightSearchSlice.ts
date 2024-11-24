@@ -1,14 +1,15 @@
+import { PassengerType } from "./../../interfaces/common/enums/index";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISearchFlights, IAirport } from "../../interfaces";
+import { ISearchFlights, IAirport, TripType } from "../../interfaces";
 
 const initialState: ISearchFlights = {
-  typeTrip: "round-trip",
+  typeTrip: TripType.ROUND_TRIP,
   departureDate: "",
   flightRange: [],
   passengers: {
-    adult: 1,
-    children: 0,
-    infant: 0,
+    [PassengerType.ADULT]: 1,
+    [PassengerType.CHILD]: 0,
+    [PassengerType.INFANT]: 0,
   },
   couponCode: "",
   cabinClass: "",
@@ -40,9 +41,9 @@ const flightSearchSlice = createSlice({
     setPassengers: (
       state,
       action: PayloadAction<{
-        adult: number;
-        children: number;
-        infant: number;
+        [PassengerType.ADULT]: number;
+        [PassengerType.CHILD]: number;
+        [PassengerType.INFANT]: number;
       }>,
     ) => {
       state.passengers = action.payload;
@@ -64,4 +65,4 @@ export const {
   setCouponCode,
 } = flightSearchSlice.actions;
 
-export default flightSearchSlice.reducer;
+export default flightSearchSlice;

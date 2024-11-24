@@ -1,5 +1,6 @@
 import { DatePicker, DatePickerProps, Form, Radio } from "antd";
-import moment from "moment";
+import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
 
 const genderOptions = [
   { value: "MALE", label: "Nam" },
@@ -8,9 +9,33 @@ const genderOptions = [
 ];
 
 const DateAndGenderFields: React.FC = () => {
+  const [mode, setMode] = useState<DatePickerProps["mode"]>("year");
+
   const disabledDate: DatePickerProps["disabledDate"] = (current) => {
-    return current && current > moment().endOf("day");
+    return current.isAfter(dayjs().subtract(14, "year"));
   };
+
+  const handleModeChange = (value: Dayjs, newMode: DatePickerProps["mode"]) => {
+    if (newMode === "date") {
+      setMode("date");
+      console.log("date");
+    } else if (newMode === "month") {
+      setMode("month");
+      console.log("month");
+    } else if (newMode === "year") {
+      setMode("year");
+      console.log("year");
+    }
+  };
+  const handleDateChange = (
+    value: Dayjs | null,
+    dateString: string | string[],
+  ) => {
+    if (!dateString) {
+      setMode("year");
+    }
+  };
+
   return (
     <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
       <Form.Item
@@ -25,8 +50,12 @@ const DateAndGenderFields: React.FC = () => {
         ]}
       >
         <DatePicker
+          mode={mode}
+          onPanelChange={handleModeChange}
+          onChange={handleDateChange}
           className="w-full"
           format="DD/MM/YYYY"
+          defaultValue={dayjs().subtract(14, "year")}
           disabledDate={disabledDate}
           placeholder="Chọn ngày sinh"
         />

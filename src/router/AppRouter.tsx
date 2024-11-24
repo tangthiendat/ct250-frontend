@@ -4,17 +4,23 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
+import Traveler from "../pages/Traveler";
+import ShoppingCart from "../pages/ShoppingCart";
 import ForgotPassword from "../pages/ForgotPassword";
+import AvailableFlights from "../pages/AvailableFlights";
 
 import MyAccount from "../features/account-management/MyAccount";
 import ResetPasswordForm from "../features/auth/ResetPasswordForm";
 import EmailVerification from "../features/auth/components/EmailVerification";
-import AvailableFlights from "../features/booking/AvailableFlights";
 import TransactionHistory from "../features/account-management/TransactionHistory";
 
 import MainLayout from "../layouts/MainLayout";
 import BookingLayout from "../layouts/BookingLayout";
 import ManageAccountLayout from "../layouts/ManageAccountLayout";
+import Baggage from "../features/booking/services/baggage/Baggage";
+import Payment from "../pages/Payment";
+import PaymentSuccess from "../pages/PaymentSuccess";
+import BookingConfirmation from "../features/booking/payment/components/BookingConfirmation";
 
 const router = createBrowserRouter([
   {
@@ -63,13 +69,42 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/book/",
+    path: "/book",
     element: <BookingLayout />,
     errorElement: <NotFound />,
     children: [
       {
-        path: "available-flights",
+        path: "availability/:flightIndex",
         element: <AvailableFlights />,
+      },
+      {
+        path: "shopping-cart",
+        element: <ShoppingCart />,
+      },
+      {
+        path: "traveler/:travelerIndex",
+        element: <Traveler />,
+      },
+      {
+        path: "services",
+        element: <Baggage />,
+      },
+      {
+        path: "payment",
+        children: [
+          {
+            path: "",
+            element: <Payment />,
+          },
+          {
+            path: "success",
+            element: <PaymentSuccess />,
+          },
+          {
+            path: "confirmation",
+            element: <BookingConfirmation />,
+          },
+        ],
       },
     ],
   },

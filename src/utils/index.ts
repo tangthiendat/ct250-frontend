@@ -1,6 +1,19 @@
 import { format } from "date-fns";
+import {
+  CouponType,
+  IBookingFlight,
+  ICoupon,
+  IFee,
+  IFlightSchedule,
+  IPassengerData,
+  ISearchFlights,
+  PassengerType,
+  RouteType,
+  TicketClassName,
+} from "../interfaces";
+import dayjs from "dayjs";
 export function formatISODate(date: string) {
-  return format(new Date(date), "yyyy-MM-dd'T'HH:mm:ss.SSS");
+  return format(new Date(date), "yyyy-MM-dd");
 }
 
 export function nonAccentVietnamese(str: string) {
@@ -39,4 +52,211 @@ export function groupBy<T, K>(
     }
   });
   return map;
+}
+
+export function getFormattedDuration(durationInMinutes: number): string {
+  const hours = Math.floor(durationInMinutes / 60);
+  const minutes = durationInMinutes % 60;
+  return minutes === 0 ? `${hours} giờ` : `${hours} giờ ${minutes} phút`;
+}
+
+//Làm tròn giá tiền theo hàng nghìn
+export function roundToThousands(num: number): number {
+  return Math.round(num / 1000) * 1000;
+}
+
+export function isInDateRange(
+  date: string,
+  startDate: string,
+  endDate: string,
+): boolean {
+  return dayjs(date).tz().isBetween(startDate, endDate, null, "[]");
+}
+
+//Tính giá tiền của một loại hành khách theo hạng vé (vé + phí)
+export function getPassengerTotalFee(
+  flight: IFlightSchedule,
+  passengerType: PassengerType,
+  ticketClassName: TicketClassName,
+  coupon?: ICoupon,
+): number {
+  const basePrice: number = flight.flightPricing.filter(
+    (pricing) => pricing.ticketClass.ticketClassName === ticketClassName,
+  )[0].ticketPrice;
+  return flight.fees
+    .map((fee) => {
+      //Thuế VAT
+      if (fee.feeId === 5) {
+        const ticketFeePricing = flight.fees
+          .find((fee) => fee.feeId === 1)! //Giá vé cơ bản theo từng loại hành khách
+          .feePricing.find(
+            (pricing) =>
+              pricing.passengerType === passengerType &&
+              pricing.routeType === flight.route.routeType &&
+              isInDateRange(
+                dayjs().format("YYYY-MM-DD"),
+                pricing.validFrom,
+                pricing.validTo,
+              ),
+          )!;
+        if (ticketFeePricing.isPercentage) {
+          return getFee(
+            fee,
+            passengerType,
+            flight.route.routeType,
+            roundToThousands(basePrice * (ticketFeePricing.feeAmount / 100)),
+          );
+        } else {
+          return getFee(
+            fee,
+            passengerType,
+            flight.route.routeType,
+            ticketFeePricing.feeAmount,
+          );
+        }
+      }
+      return getFee(
+        fee,
+        passengerType,
+        flight.route.routeType,
+        basePrice,
+        coupon,
+      );
+    })
+    .reduce((totalFee, currFee) => totalFee + currFee, 0); //Tổng tất cả khoản phí của hành khách
+}
+
+export function isValidCoupon(coupon: ICoupon): boolean {
+  return (
+    coupon.discountValue > 0 &&
+    isInDateRange(
+      dayjs().format("YYYY-MM-DD"),
+      coupon.validFrom,
+      coupon.validTo,
+    )
+  );
+}
+
+//Tính giá tiền dựa trên giá gốc và mã giảm giá
+export function getActualPrice(
+  originalPrice: number,
+  coupon?: ICoupon,
+): number {
+  if (coupon && isValidCoupon(coupon)) {
+    if (coupon.couponType === CouponType.PERCENTAGE) {
+      return roundToThousands(
+        originalPrice - (originalPrice * coupon.discountValue) / 100,
+      );
+    }
+    return roundToThousands(originalPrice - coupon.discountValue);
+  }
+  return originalPrice;
+}
+
+//Tinh giá phí của một loại hành khách
+export function getFee(
+  fee: IFee,
+  passengerType: PassengerType,
+  routeType: RouteType,
+  basePrice: number,
+  coupon?: ICoupon,
+): number {
+  return fee.feePricing
+    .filter(
+      (pricing) =>
+        pricing.passengerType === passengerType &&
+        pricing.routeType === routeType &&
+        isInDateRange(
+          dayjs().format("YYYY-MM-DD"),
+          pricing.validFrom,
+          pricing.validTo,
+        ),
+    )
+    .map((pricing) => {
+      if (pricing.isPercentage) {
+        //Gia ve co ban
+        if (fee.feeId === 1) {
+          return roundToThousands(
+            getActualPrice(basePrice * (pricing.feeAmount / 100), coupon),
+          );
+        }
+        return roundToThousands(basePrice * (pricing.feeAmount / 100));
+      }
+
+      //FEE PRICING IS AMOUNT
+      if (fee.feeId === 1) {
+        return roundToThousands(getActualPrice(pricing.feeAmount, coupon));
+      }
+
+      return roundToThousands(pricing.feeAmount);
+    })
+    .reduce(
+      (totalFeePricing, currFeePricing) => totalFeePricing + currFeePricing,
+      0,
+    );
+}
+
+//Tổng giá tiền phải trả cho các loại hành khách
+export function getTotalTicketPrice(
+  flight: IFlightSchedule,
+  passengers: ISearchFlights["passengers"],
+  ticketClassName: TicketClassName,
+  coupon?: ICoupon,
+): number {
+  return Object.entries(passengers)
+    .map(([passengerType, quantity]) => {
+      return (
+        getPassengerTotalFee(
+          flight,
+          passengerType as PassengerType,
+          ticketClassName,
+          coupon,
+        ) * quantity
+      );
+    })
+    .reduce((totalPrice, currPrice) => totalPrice + currPrice, 0);
+}
+
+export function getTotalBaggagePrice(
+  bookingFlights: IBookingFlight[],
+  passengersInfo: IPassengerData[],
+) {
+  return bookingFlights
+    .map((_, index) => getFlightBaggagePrice(passengersInfo, index))
+    .reduce((total, price) => total + price, 0);
+}
+
+export function getFlightBaggagePrice(
+  passengersInfo: IPassengerData[],
+  index: number,
+) {
+  return passengersInfo
+    .map((passengerInfo) => {
+      if (index === 0 && passengerInfo.services?.depart?.baggage) {
+        const currentBaggagePricing =
+          passengerInfo.services?.depart.baggage?.baggagePricing.find(
+            (pricing) =>
+              isInDateRange(
+                dayjs().tz().format("YYYY-MM-DD"),
+                pricing.validFrom,
+                pricing.validTo,
+              ),
+          );
+        return currentBaggagePricing?.price || 0;
+      }
+      if (index === 1 && passengerInfo.services?.return?.baggage) {
+        const currentBaggagePricing =
+          passengerInfo.services?.return.baggage?.baggagePricing.find(
+            (pricing) =>
+              isInDateRange(
+                dayjs().tz().format("YYYY-MM-DD"),
+                pricing.validFrom,
+                pricing.validTo,
+              ),
+          );
+        return currentBaggagePricing?.price || 0;
+      }
+      return 0;
+    })
+    .reduce((total, price) => total + price, 0);
 }
