@@ -1,5 +1,5 @@
 import Baggage from "./components/baggage/Baggage";
-import Meal from "./components/Meal";
+import Meal from "./components/meal/Meal";
 import Seat from "./components/Seat";
 
 const Services: React.FC = () => {
