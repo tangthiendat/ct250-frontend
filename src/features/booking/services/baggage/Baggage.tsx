@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FlightRecap from "../../../common/FlightRecap";
 import ModifySearchFlightsForm from "../../../common/ModifySearchFlightsForm";
-import Banner from "./components/Banner";
+import Banner from "../common/Banner";
 import Flights from "./components/Flights";
 
 const Baggage: React.FC = () => {
@@ -17,7 +17,7 @@ const Baggage: React.FC = () => {
         show={showModifyForm}
         setShow={setShowModifyForm}
       />
-      <Banner />
+      <Banner type="baggage" />
       <Flights />
     </div>
   );

@@ -100,7 +100,9 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   useEffect(() => {
     const newTotalPrice = prices.reduce((acc, curr) => acc + curr, 0);
     setTotalPrice(newTotalPrice);
-    handleDefaultPrices();
+    if (prices.every((price) => price === 0)) {
+      handleDefaultPrices();
+    }
   }, [prices, setTotalPrice, handleDefaultPrices]);
 
   // const baggageIDToPrice = (baggageID: number) => {

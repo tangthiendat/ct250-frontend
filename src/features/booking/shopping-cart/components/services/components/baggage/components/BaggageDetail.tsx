@@ -11,7 +11,7 @@ const BaggageDetail: React.FC = () => {
       <div className="flex w-full justify-end">
         <button
           className="text-heading-3 text rounded-lg border-[2px] border-green-700 px-4 py-2 text-green-700 transition-colors duration-200 hover:bg-green-700 hover:text-white"
-          onClick={() => navigate("/book/services")}
+          onClick={() => navigate("/book/services/baggage")}
         >
           Chọn mua thêm
         </button>
