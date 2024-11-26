@@ -31,8 +31,8 @@ const SearchTicketForm: React.FC = () => {
     if (isError && error) {
       if ((error as AxiosError).response?.status === 404) {
         modal.error({
-          title: "Không tìm thấy mã đặt chỗ/mã vé",
-          content: "Vui lòng kiểm tra lại mã đặt chỗ/mã vé",
+          title: "Không tìm thấy mã đặt chỗ",
+          content: "Vui lòng kiểm tra lại mã đặt chỗ",
         });
       } else {
         modal.error({
@@ -53,9 +53,9 @@ const SearchTicketForm: React.FC = () => {
 
   const handleFinish = (values: SearchTicketFormValues) => {
     queryClient.invalidateQueries({
-      queryKey: ["bookings", values.code],
+      queryKey: ["bookings", values.code.toUpperCase()],
     });
-    setCode(values.code);
+    setCode(values.code.toUpperCase());
   };
 
   return (
@@ -71,24 +71,20 @@ const SearchTicketForm: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:gap-10">
         <div className="flex-1">
           <Form.Item
-            label="MÃ ĐẶT CHỖ/MÃ VÉ"
+            label="MÃ ĐẶT CHỖ"
             name="code"
             rules={[
               {
                 required: true,
-                message: "Vui lòng nhập mã đặt chỗ/mã vé",
+                message: "Vui lòng nhập mã đặt chỗ",
               },
               {
-                pattern: /^[a-zA-Z0-9]*$/,
-                message: "Mã đặt chỗ/mã vé chỉ chứa ký tự và số",
+                pattern: /^[a-zA-Z0-9]{1,6}$/,
+                message: "Mã đặt chỗ chỉ chứa 6 ký tự chữ và số",
               },
             ]}
           >
-            <Input
-              className="uppercase"
-              size="large"
-              placeholder="1234XXXXXXXX"
-            />
+            <Input className="uppercase" size="large" placeholder="XXXXXX" />
           </Form.Item>
         </div>
 
