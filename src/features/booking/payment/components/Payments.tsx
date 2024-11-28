@@ -37,6 +37,7 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
     onSuccess: (data) => {
       if (data.payload && data.payload.bookingId) {
         dispatch(setBooking(data.payload));
+        localStorage.setItem("booking", JSON.stringify(data.payload));
         navigate("confirmation");
       }
     },
@@ -59,10 +60,8 @@ const Payments: React.FC<PaymentsProps> = ({ totalBookingPrice }) => {
   }
 
   function handlePayLaterPayment() {
-    localStorage.setItem("booking", JSON.stringify(booking));
     localStorage.setItem("flightSearch", JSON.stringify(flightSearch));
     localStorage.setItem("coupon", JSON.stringify(coupon));
-
     reserveBooking(booking);
   }
 

@@ -16,11 +16,6 @@ export interface ISearchFlights {
   cabinClass: string;
 }
 
-export interface ISearchTicket {
-  ticketNumber: string;
-  fullName: string;
-}
-
 export interface ICheckin {
   reservationCode?: string;
   ticketNumber?: string;

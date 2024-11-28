@@ -12,8 +12,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     dispatch(clearBookingId());
-    localStorage.removeItem("booking");
-    localStorage.removeItem("flightSearch");
   }, [dispatch]);
 
   return (

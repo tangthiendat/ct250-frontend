@@ -13,7 +13,7 @@ const couponSlice = createSlice({
   name: "coupon",
   initialState,
   reducers: {
-    setCoupon: (state, action: PayloadAction<ICoupon>) => {
+    setCoupon: (_, action: PayloadAction<ICoupon>) => {
       return action.payload;
     },
     clearCoupon: () => {

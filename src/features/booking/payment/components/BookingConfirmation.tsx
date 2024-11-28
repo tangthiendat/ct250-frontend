@@ -1,14 +1,20 @@
 import { MdOutlineMail, MdWatchLater } from "react-icons/md";
-import { useAppSelector } from "../../../../redux/hooks";
-import { RootState } from "../../../../redux/store";
+import { useNavigate } from "react-router-dom";
+import { IBooking, ISearchFlights } from "../../../../interfaces";
 import { getTotalTicketPrice } from "../../../../utils";
 import Flights from "../../shopping-cart/components/flights/Flights";
 import Banner from "./Banner";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { setBooking } from "../../../../redux/slices/bookingSlice";
+import { setFlightSearchInfo } from "../../../../redux/slices/flightSearchSlice";
 
 const BookingConfirmation: React.FC = () => {
-  const booking = useAppSelector((state: RootState) => state.booking);
-  const flightSearch = useAppSelector((state: RootState) => state.flightSearch);
+  const booking: IBooking = JSON.parse(localStorage.getItem("booking")!);
+  const flightSearch: ISearchFlights = JSON.parse(
+    localStorage.getItem("flightSearch")!,
+  );
+  const dispatch = useAppDispatch();
+
   const totalFlightsPrice = booking.bookingFlights
     .map((bookingFlight) =>
       getTotalTicketPrice(
@@ -33,6 +39,12 @@ const BookingConfirmation: React.FC = () => {
     hour12: true,
   });
   const navigate = useNavigate();
+
+  function handleConfirmBooking() {
+    dispatch(setBooking(booking));
+    dispatch(setFlightSearchInfo(flightSearch));
+    navigate("/book/payment");
+  }
 
   return (
     <div className="pb-10">
@@ -67,7 +79,7 @@ const BookingConfirmation: React.FC = () => {
           <div className="my-2 flex items-center justify-center">
             <button
               className="rounded-md bg-green-800 px-4 py-2 text-white transition-all duration-200 hover:bg-green-900"
-              onClick={() => navigate("/book/payment")}
+              onClick={handleConfirmBooking}
             >
               Xác nhận và thanh toán
             </button>

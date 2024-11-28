@@ -142,7 +142,8 @@ const AdditionalServices: React.FC<AdditionalServicesProps> = ({
                       <div>{baggagePrice.toLocaleString()} VND</div>
                     </div>
                   </div>
-                  {passengerIndex !== passengers.passengersInfo.length - 1 && (
+                  {(passengerIndex < numOfAdult - 1 ||
+                    passengerIndex < numOfChild - 1) && (
                     <Divider type="horizontal" className="my-1 bg-slate-400" />
                   )}
                 </div>
