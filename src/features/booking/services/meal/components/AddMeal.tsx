@@ -1,29 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { ConfigProvider, Select } from "antd";
 import { SelectProps } from "antd/lib";
-import { IoBagAdd } from "react-icons/io5";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
-  IBookingFlight,
   IPassengerData,
   IPassengersData,
   PassengerTitle,
   PassengerType,
 } from "../../../../../interfaces";
-import { baggageService } from "../../../../../services/booking/baggage-service";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { setPassengerInfo } from "../../../../../redux/slices/passengersSlice";
+import { mealService } from "../../../../../services";
 
-interface AddBaggageProps {
+interface AddMealProps {
   type: string;
-  flightData: IBookingFlight;
+  // flightData: IBookingFlight;
   passengers: IPassengersData;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const AddBaggage: React.FC<AddBaggageProps> = ({
+const AddMeal: React.FC<AddMealProps> = ({
   type,
-  flightData,
+  // flightData,
   passengers,
   setTotalPrice,
 }) => {
@@ -36,20 +34,16 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   ]);
 
   const { data } = useQuery({
-    queryKey: ["baggage"],
-    queryFn: baggageService.getAll,
+    queryKey: ["meals"],
+    queryFn: mealService.getAll,
   });
-  const baggageData = data?.payload;
-  const baggageOptionsFormatted = baggageData
-    ?.filter(
-      (baggage) => baggage.routeType === flightData.flight.route.routeType,
-    )
-    .map((baggage) => {
-      return {
-        value: baggage.baggageId,
-        label: `${baggage.baggageWeight}kg`,
-      };
-    });
+  const mealData = data?.payload;
+  const mealOptionsFormatted = mealData?.map((meal) => {
+    return {
+      value: meal.mealId,
+      label: `${meal.mealName} - ${meal.mealPricing[0].price.toLocaleString()} VND`,
+    };
+  });
 
   const handleDefaultPrices = useCallback(() => {
     setPrices((prev) => {
@@ -57,9 +51,9 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
       formattedPassengers.map((passenger, index) => {
         let price: number | undefined;
         if (type === "departure") {
-          price = passenger.services?.depart?.baggage?.baggagePricing[0].price;
+          price = passenger.services?.depart?.meal?.mealPricing[0].price;
         } else if (type === "arrival") {
-          price = passenger.services?.return?.baggage?.baggagePricing[0].price;
+          price = passenger.services?.return?.meal?.mealPricing[0].price;
         }
 
         newPrices[index] = price !== undefined ? price : 0;
@@ -70,27 +64,27 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
 
   const handleDefaultBaggage = (passenger: IPassengerData) => {
     if (type === "departure") {
-      return passenger.services?.depart?.baggage?.baggageId;
+      return passenger.services?.depart?.meal?.mealId;
     } else if (type === "arrival") {
-      return passenger.services?.return?.baggage?.baggageId;
+      return passenger.services?.return?.meal?.mealId;
     }
   };
 
   const labelRender: SelectProps["labelRender"] = (props) => {
     const { label } = props;
     if (label) {
-      const selectedBaggage = baggageData?.find(
-        (baggage) => baggage.baggageId === props.value,
+      const selectedMeal = mealData?.find(
+        (meal) => meal.mealId === props.value,
       );
       return (
         <div className="text-heading-3 text-base">
-          <span className="font-normal">
-            {selectedBaggage?.baggageWeight}kg -{" "}
+          <span className="font-semibold text-green-700">
+            {selectedMeal?.mealName}
           </span>
 
-          <span className="text-green-700">
-            {selectedBaggage?.baggagePricing[0].price.toLocaleString()} VND
-          </span>
+          {/* <span className="text-green-700">
+            {selectedMeal?.mealPricing[0].price.toLocaleString()} VND
+          </span> */}
         </div>
       );
     }
@@ -112,11 +106,9 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   //   return selectedBaggage?.baggagePricing[0].price;
   // };
 
-  const calculateTotalPrice = (passengerIndex: number, baggageID: number) => {
-    const selectedBaggage = baggageData?.find(
-      (baggage) => baggage.baggageId === baggageID,
-    );
-    const price = selectedBaggage?.baggagePricing[0].price;
+  const calculateTotalPrice = (passengerIndex: number, mealID: number) => {
+    const selectedMeal = mealData?.find((meal) => meal.mealId === mealID);
+    const price = selectedMeal?.mealPricing[0].price;
     setPrices((prev) => {
       const newPrices = [...prev];
       newPrices[passengerIndex] = price !== undefined ? price : 0;
@@ -132,7 +124,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
             services: {
               ...formattedPassengers[passengerIndex].services,
               depart: {
-                baggage: selectedBaggage,
+                meal: selectedMeal,
               },
             },
           },
@@ -147,7 +139,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
             services: {
               ...formattedPassengers[passengerIndex].services,
               return: {
-                baggage: selectedBaggage,
+                meal: selectedMeal,
               },
             },
           },
@@ -166,10 +158,10 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
 
   return (
     <>
-      <div className="flex items-center gap-2 py-2">
+      {/* <div className="flex items-center gap-2 py-2">
         <IoBagAdd className="text-2xl text-blue-900" />
         <p className="text-heading-3 text-blue-900">Mua thêm hành lý ký gửi</p>
-      </div>
+      </div> */}
 
       <div>
         {formattedPassengers.map((passenger, index) => (
@@ -210,7 +202,7 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
                 allowClear
                 style={{ width: 200 }}
                 placeholder="Chọn hành lý"
-                options={baggageOptionsFormatted}
+                options={mealOptionsFormatted}
                 defaultValue={handleDefaultBaggage(passenger)}
                 onChange={(price) => calculateTotalPrice(index, price)}
                 // onClear={() => handleOnClear(index)}
@@ -229,4 +221,4 @@ const AddBaggage: React.FC<AddBaggageProps> = ({
   );
 };
 
-export default AddBaggage;
+export default AddMeal;

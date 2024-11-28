@@ -21,6 +21,7 @@ import Baggage from "../features/booking/services/baggage/Baggage";
 import Payment from "../pages/Payment";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import BookingConfirmation from "../features/booking/payment/components/BookingConfirmation";
+import Meal from "../features/booking/services/meal/Meal";
 
 const router = createBrowserRouter([
   {
@@ -87,7 +88,20 @@ const router = createBrowserRouter([
       },
       {
         path: "services",
-        element: <Baggage />,
+        children: [
+          {
+            path: "baggage",
+            element: <Baggage />,
+          },
+          {
+            path: "meal",
+            element: <Meal />,
+          },
+          // {
+          //   path: "seat",
+          //   element: <Seat />,
+          // },
+        ],
       },
       {
         path: "payment",

@@ -1,10 +1,12 @@
 import { useState } from "react";
-import FlightRecap from "../../../common/FlightRecap";
-import ModifySearchFlightsForm from "../../../common/ModifySearchFlightsForm";
+// import FlightRecap from "../../../common/FlightRecap";
+// import ModifySearchFlightsForm from "../../../common/ModifySearchFlightsForm";
 import Banner from "../common/Banner";
 import Flights from "./components/Flights";
+import FlightRecap from "../../../common/FlightRecap";
+import ModifySearchFlightsForm from "../../../common/ModifySearchFlightsForm";
 
-const Baggage: React.FC = () => {
+const Meal: React.FC = () => {
   const [showModifyForm, setShowModifyForm] = useState<boolean>(false);
 
   return (
@@ -17,10 +19,10 @@ const Baggage: React.FC = () => {
         show={showModifyForm}
         setShow={setShowModifyForm}
       />
-      <Banner type="baggage" />
+      <Banner type="meal" />
       <Flights />
     </div>
   );
 };
 
-export default Baggage;
+export default Meal;
