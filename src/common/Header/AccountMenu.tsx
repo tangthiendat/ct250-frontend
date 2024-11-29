@@ -62,12 +62,13 @@ const AccountMenu: React.FC = () => {
             >
               <Space>
                 <UserAvatar avatarUrl={avatarUrl} />
+
+                <span className="text-sm font-semibold text-gray-700">
+                  {loggedInUser.lastName} {loggedInUser.firstName}
+                </span>
               </Space>
             </a>
           </Dropdown>
-          <span className="text-sm font-semibold text-gray-700">
-            {loggedInUser.firstName} {loggedInUser.lastName}
-          </span>
         </>
       )}
     </div>
