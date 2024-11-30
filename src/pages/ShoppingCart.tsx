@@ -93,6 +93,7 @@ const ShoppingCart: React.FC = () => {
         ...booking,
         totalPrice: totalBookingPrice,
         bookingFlights,
+        coupon,
       });
     }
 

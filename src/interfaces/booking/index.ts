@@ -6,7 +6,7 @@ import {
   RouteType,
 } from "../common";
 import { ICountry } from "../country";
-import { IFlightSchedule, ISeat, TicketClass } from "../flight";
+import { ICoupon, IFlightSchedule, ISeat, TicketClass } from "../flight";
 
 export interface IBooking {
   bookingId?: number;
@@ -16,6 +16,7 @@ export interface IBooking {
   totalPrice: number;
   bookingStatus: BookingStatus;
   paymentDeadline?: string;
+  coupon: ICoupon;
 }
 
 export interface IBookingFlight {
