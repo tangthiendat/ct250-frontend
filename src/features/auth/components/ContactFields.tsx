@@ -9,11 +9,12 @@ const ContactFields: React.FC = () => {
   }));
 
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
       <Form.Item
         className="flex-1"
         label="Số điện thoại"
         name="phoneNumber"
+        hasFeedback
         rules={[
           {
             required: true,
@@ -30,16 +31,29 @@ const ContactFields: React.FC = () => {
 
       <Form.Item
         className="flex-1"
-        label="Quốc gia"
-        name="countryId"
+        label="Quốc tịch"
+        name={["country", "countryId"]}
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn quốc gia",
+            message: "Vui lòng chọn quốc tịch",
           },
         ]}
       >
-        <Select placeholder="Vui lòng chọn quốc gia" options={countryOptions} />
+        <Select
+          showSearch
+          placeholder="Vui lòng chọn quốc tịch"
+          options={countryOptions}
+          optionFilterProp="label"
+          filterOption={(input, option) =>
+            option?.label.toLowerCase().includes(input.toLowerCase()) ?? false
+          }
+          filterSort={(optionA, optionB) =>
+            (optionA?.label ?? "")
+              .toLowerCase()
+              .localeCompare((optionB?.label ?? "").toLowerCase())
+          }
+        />
       </Form.Item>
     </div>
   );

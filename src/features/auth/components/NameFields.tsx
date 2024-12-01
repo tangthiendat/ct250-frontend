@@ -1,25 +1,31 @@
 import { Form, Input } from "antd";
 
 const NameFields: React.FC = () => (
-  <div className="flex gap-5">
+  <div className="flex flex-col min-[465px]:flex-row min-[465px]:gap-5">
     <Form.Item
       className="flex-1"
       label="Họ"
       name="lastName"
+      hasFeedback
       rules={[
         {
           required: true,
           message: "Vui lòng nhập họ",
         },
         {
-          pattern: /^[a-zA-Z\s]+$/,
+          pattern:
+            /^[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđA-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÍÌỈĨỊÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ\s]+$/,
           message: "Họ không chứa ký tự đặc biệt",
         },
       ]}
     >
       <Input
-        placeholder="Họ, ví dụ PHAM"
-        style={{ textTransform: "uppercase" }}
+        placeholder="Ví dụ: PHAM"
+        styles={{
+          input: {
+            textTransform: "uppercase",
+          },
+        }}
       />
     </Form.Item>
 
@@ -27,20 +33,26 @@ const NameFields: React.FC = () => (
       className="flex-1"
       label="Tên đệm & tên"
       name="firstName"
+      hasFeedback
       rules={[
         {
           required: true,
           message: "Vui lòng nhập tên đệm & tên",
         },
         {
-          pattern: /^[a-zA-Z\s]+$/,
+          pattern:
+            /^[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđA-ZÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÍÌỈĨỊÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ\s]+$/,
           message: "Tên đệm & tên không chứa ký tự đặc biệt",
         },
       ]}
     >
       <Input
-        placeholder="Tên đệm & tên, ví dụ VAN A"
-        style={{ textTransform: "uppercase" }}
+        placeholder="Ví dụ: VAN A"
+        styles={{
+          input: {
+            textTransform: "uppercase",
+          },
+        }}
       />
     </Form.Item>
   </div>

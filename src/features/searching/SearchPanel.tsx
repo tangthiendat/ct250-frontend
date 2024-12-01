@@ -1,37 +1,9 @@
-import { Button, ConfigProvider } from "antd";
-import { createStyles } from "antd-style";
 import React, { useState } from "react";
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { MdFlight, MdFlightTakeoff } from "react-icons/md";
-import SearchFlightsForm from "./SearchFlightsForm";
-
-const useStyle = createStyles(({ prefixCls, css }) => ({
-  linearGradientButton: css`
-    &.${prefixCls}-btn-primary:not([disabled]):not(
-        .${prefixCls}-btn-dangerous
-      ) {
-      border-width: 0;
-
-      > span {
-        position: relative;
-      }
-
-      &::before {
-        content: "";
-        background: linear-gradient(135deg, #0000d0, #04befe);
-        position: absolute;
-        inset: 0;
-        opacity: 1;
-        transition: all 0.3s;
-        border-radius: inherit;
-      }
-
-      &:hover::before {
-        opacity: 0;
-      }
-    }
-  `,
-}));
+import CheckinForm from "./checkin/CheckinForm";
+import SearchFlightsForm from "./flights/SearchFlightsForm";
+import SearchTicketForm from "./ticket/SearchTicketForm";
 
 const btnItems = [
   {
@@ -48,7 +20,7 @@ const btnItems = [
   },
   {
     key: "my-tickets",
-    label: "Vé của tôi",
+    label: "Đặt chỗ của tôi",
     icon: <BiSolidPurchaseTag />,
     children: "Vé của tôi",
   },
@@ -56,23 +28,22 @@ const btnItems = [
 
 const SearchPanel: React.FC = () => {
   const [formActive, setFormActive] = useState("booking");
-  const { styles } = useStyle();
 
   return (
     <>
-      <div
-        className={`${
-          formActive === "" ? "py-6" : "md:top-[-200px] xl:top-[-300px]"
-        } relative flex justify-center max-[768px]:hidden md:px-4`}
-      >
-        <div className="md:w-[70%]">
-          <div
-            className={`${formActive === "" && "gap-12"} flex justify-center`}
-          >
+      <div className="relative flex justify-center py-6 transition-all duration-1000 md:px-4">
+        <div className="w-[95%] transition-all duration-1000 sm:w-[90%] md:w-[70%] lg:max-w-screen-lg">
+          <div className="flex flex-col justify-center gap-1 transition-all duration-1000 sm:flex-row sm:gap-2 md:gap-6">
             {btnItems.map((item) => (
               <div className="flex-1" key={item.key}>
                 <div
-                  className={`${item.key === formActive ? "bg-blue-700 text-white" : "bg-blue-600/60"} ${formActive === "" ? "rounded-3xl bg-blue-700 p-2 text-white" : "p-4"} flex cursor-pointer items-center justify-center gap-2 text-base uppercase text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600`}
+                  className={`${
+                    formActive === ""
+                      ? "bg-blue-700 p-2 text-white"
+                      : item.key === formActive
+                        ? "bg-blue-700 text-white"
+                        : "bg-slate-300 text-black"
+                  } flex cursor-pointer items-center justify-center gap-1 rounded-md p-2 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 md:gap-2 md:rounded-3xl md:uppercase`}
                   onClick={() => {
                     if (item.key === formActive) {
                       setFormActive("");
@@ -90,29 +61,11 @@ const SearchPanel: React.FC = () => {
         </div>
       </div>
 
-      <div className="m-1 flex justify-between rounded-sm p-3 shadow min-[768px]:hidden">
-        <ConfigProvider>
-          {btnItems.map((item) => (
-            <Button
-              key={item.key}
-              type="primary"
-              className={`${styles.linearGradientButton} h-12 w-[30%]`}
-              icon={item.icon}
-              onClick={() => {
-                setFormActive(item.key);
-              }}
-            >
-              {item.children}
-            </Button>
-          ))}
-        </ConfigProvider>
-      </div>
-
-      <div className="relative md:top-[-200px] md:flex md:justify-center md:px-4 xl:top-[-300px]">
-        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl md:w-[70%]">
+      <div className="relative transition-all duration-1000 md:flex md:justify-center md:px-4">
+        <div className="rounded-bl-md rounded-br-md bg-white shadow-2xl transition-all duration-1000 md:w-[70%] lg:max-w-screen-lg">
           {formActive === "booking" && <SearchFlightsForm />}
-          {formActive === "checkin" && <div></div>}
-          {formActive === "my-tickets" && <div></div>}
+          {formActive === "checkin" && <CheckinForm />}
+          {formActive === "my-tickets" && <SearchTicketForm />}
         </div>
       </div>
     </>
